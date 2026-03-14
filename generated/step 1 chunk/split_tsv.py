@@ -6,6 +6,11 @@ Script pour diviser un fichier TSV en chunks de N lignes.
 import os
 import argparse
 
+# Valeurs par défaut
+DEFAULT_INPUT_FILE = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\step 0 source\\Sentence pairs in German-French - 2026-03-13.tsv"
+DEFAULT_OUTPUT_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\step 1 chunk\\"
+DEFAULT_CHUNK_SIZE = 1000
+
 def split_tsv(input_file, output_dir, chunk_size):
     """
     Divise un fichier TSV en chunks de taille spécifiée.
@@ -45,9 +50,15 @@ def split_tsv(input_file, output_dir, chunk_size):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Diviser un fichier TSV en chunks.')
-    parser.add_argument('input_file', type=str, help='Chemin vers le fichier TSV d\'entrée.')
-    parser.add_argument('output_dir', type=str, help='Répertoire de sortie pour les chunks.')
-    parser.add_argument('chunk_size', type=int, help='Nombre de lignes par chunk.')
+    parser.add_argument('--input_file', type=str, 
+                        default=DEFAULT_INPUT_FILE,
+                        help=f'Chemin vers le fichier TSV d\'entrée. Par défaut : {DEFAULT_INPUT_FILE}')
+    parser.add_argument('--output_dir', type=str, 
+                        default=DEFAULT_OUTPUT_DIR,
+                        help=f'Répertoire de sortie pour les chunks. Par défaut : {DEFAULT_OUTPUT_DIR}')
+    parser.add_argument('--chunk_size', type=int, 
+                        default=DEFAULT_CHUNK_SIZE,
+                        help=f'Nombre de lignes par chunk. Par défaut : {DEFAULT_CHUNK_SIZE}')
     
     args = parser.parse_args()
     split_tsv(args.input_file, args.output_dir, args.chunk_size)
