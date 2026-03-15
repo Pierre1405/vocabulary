@@ -9,8 +9,28 @@ import argparse
 
 def clean_generated():
     """
-    Supprime les fichiers générés (chunks, TSV avec IDs, base de données).
+    Supprime les fichiers générés (chunks, TSV, base de données, fichiers audio).
     """
+    # Supprimer les fichiers texte traduits
+    text_files = glob.glob("generated/step 1 translation/*_de.txt")
+    for text_file in text_files:
+        if os.path.exists(text_file):
+            print(f"Suppression du fichier : {text_file}")
+            os.remove(text_file)
+            print(f"Fichier supprimé : {text_file}")
+        else:
+            print(f"Fichier non trouvé : {text_file}")
+    
+    # Supprimer les fichiers audio
+    audio_files = glob.glob("app/src/main/res/raw/phrase_*.mp3")
+    for audio_file in audio_files:
+        if os.path.exists(audio_file):
+            print(f"Suppression du fichier : {audio_file}")
+            os.remove(audio_file)
+            print(f"Fichier supprimé : {audio_file}")
+        else:
+            print(f"Fichier non trouvé : {audio_file}")
+    
     # Supprimer les chunks
     chunk_files = glob.glob("generated/step 3 chunk/chunk_*.tsv")
     for chunk_file in chunk_files:
@@ -22,7 +42,7 @@ def clean_generated():
             print(f"Fichier non trouvé : {chunk_file}")
     
     # Supprimer le fichier TSV généré
-    tsv_file = "generated/step 2 generate_tsv/Sentence pairs with ID - 2026-03-13.tsv"
+    tsv_file = "generated/step 2 generate_tsv/Sentence pairs with ID.tsv"
     if os.path.exists(tsv_file):
         print(f"Suppression du fichier : {tsv_file}")
         os.remove(tsv_file)

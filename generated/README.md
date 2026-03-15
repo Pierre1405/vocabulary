@@ -20,8 +20,9 @@ generated/
 ### Étape 0 : Fichiers sources
 - **Répertoire** : `step 0 source/`
 - **Contenu** :
-  - Fichiers TSV contenant les paires de phrases en allemand et français.
-  - Exemple : `Sentence pairs in German-French - 2026-03-13.tsv`
+  - Fichiers texte contenant des phrases en français.
+  - Format des fichiers : `category_nom_fr.txt`.
+  - Exemple : `greetings_hello_fr.txt` contenant des phrases comme "Bonjour. Comment ça va ?"
 
 ### Étape 1 : Traduction des phrases
 - **Répertoire** : `step 1 translation/`
