@@ -7,7 +7,7 @@ import os
 import argparse
 
 # Valeurs par défaut
-DEFAULT_INPUT_FILE = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\step 0 source\\Sentence pairs in German-French - 2026-03-13.tsv"
+DEFAULT_INPUT_FILE = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\step 0.5 add_id\\Sentence pairs with ID - 2026-03-13.tsv"
 DEFAULT_OUTPUT_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\step 1 chunk\\"
 DEFAULT_CHUNK_SIZE = 1000
 

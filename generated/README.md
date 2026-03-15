@@ -21,11 +21,27 @@ generated/
   - Fichiers TSV contenant les paires de phrases en allemand et français.
   - Exemple : `Sentence pairs in German-French - 2026-03-13.tsv`
 
+### Étape 0.5 : Ajout des IDs
+- **Répertoire** : `step 0.5 add_id/`
+- **Script** : `add_id_column.py`
+- **Description** :
+  - Ajoute une colonne d'ID auto-incrémenté au fichier TSV source.
+  - Cela permet d'avoir un identifiant unique pour chaque phrase.
+- **Utilisation** :
+  ```bash
+  python add_id_column.py --input_file "chemin/vers/fichier.tsv" --output_file "chemin/vers/sortie.tsv"
+  ```
+  Ou simplement :
+  ```bash
+  python add_id_column.py
+  ```
+  (utilise les valeurs par défaut)
+
 ### Étape 1 : Division en chunks
 - **Répertoire** : `step 1 chunk/`
 - **Script** : `split_tsv.py`
 - **Description** :
-  - Divise un fichier TSV en plusieurs chunks pour faciliter le traitement.
+  - Divise le fichier TSV (avec IDs) en plusieurs chunks pour faciliter le traitement.
   - Utilise des valeurs par défaut pour les chemins et la taille des chunks.
 - **Utilisation** :
   ```bash
@@ -37,51 +53,49 @@ generated/
   ```
   (utilise les valeurs par défaut)
 
-### Étape 2 : Traitement des chunks
-- **Répertoire** : `step 2 process/`
+### Étape 2 : Génération de la base de données SQLite
+- **Répertoire** : `step 2 sqlite/`
+- **Script** : `generate_sqlite.py`
 - **Description** :
-  - Scripts pour nettoyer, valider ou transformer les chunks.
-  - Peut inclure des scripts pour ajouter des métadonnées ou normaliser les données.
-- **Exemple de scripts** :
-  - `clean_data.py` : Nettoie les données des chunks.
-  - `validate_data.py` : Valide la structure des données.
-
-### Étape 3 : Génération de la base de données SQLite
-- **Répertoire** : `step 3 generate_sqlite/`
-- **Description** :
-  - Scripts pour générer une base de données SQLite à partir des chunks traités.
-  - Crée les tables nécessaires pour l'application.
-- **Exemple de scripts** :
-  - `create_db.py` : Crée la base de données et les tables.
-  - `import_data.py` : Importe les données des chunks dans la base de données.
+  - Génère une base de données SQLite à partir des chunks TSV.
+  - Crée une table `phrases` avec les colonnes : `id`, `allemand`, `francais`, et `apprise`.
+  - Utilise les IDs présents dans les fichiers TSV pour garantir l'unicité.
+- **Utilisation** :
+  ```bash
+  python generate_sqlite.py --chunks_dir "chemin/vers/chunks" --output_db "chemin/vers/base.db"
+  ```
+  Ou simplement :
+  ```bash
+  python generate_sqlite.py
+  ```
+  (utilise les valeurs par défaut)
 
 ## Exemple de workflow complet
 
 1. **Préparer les fichiers sources** :
    - Placer les fichiers TSV dans `step 0 source/`.
 
-2. **Diviser en chunks** :
+2. **Ajouter des IDs aux phrases** :
    ```bash
-   cd generated\step 1 chunk
-   python split_tsv.py
+   cd generated\step 0.5 add_id
+   python add_id_column.py
    ```
 
-3. **Traiter les chunks** :
+3. **Diviser en chunks** :
    ```bash
-   cd ..\step 2 process
-   python clean_data.py
-   python validate_data.py
+   cd ..\step 1 chunk
+   python split_tsv.py
    ```
 
 4. **Générer la base de données SQLite** :
    ```bash
-   cd ..\step 3 generate_sqlite
-   python create_db.py
-   python import_data.py
+   cd ..\step 2 sqlite
+   python generate_sqlite.py
    ```
 
 5. **Intégrer la base de données dans l'application** :
-   - Copier le fichier SQLite généré dans le répertoire `app/src/main/assets/` de l'application Android.
+   - Le fichier `vocabulary.db` est généré dans `app/src/main/assets/`.
+   - Utiliser Room pour accéder à cette base de données dans votre application Android.
 
 ## Notes
 - Assurez-vous que les chemins dans les scripts sont corrects pour votre environnement.
