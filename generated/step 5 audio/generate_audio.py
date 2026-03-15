@@ -9,7 +9,7 @@ import argparse
 from google.cloud import texttospeech
 
 # Chemins par défaut
-DEFAULT_CHUNKS_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\step 1 chunk\\"
+DEFAULT_CHUNKS_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\step 3 chunk\\"
 DEFAULT_OUTPUT_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\app\\src\\main\\res\\raw\\"
 
 def generate_audio(chunks_dir, output_dir, language_code="de-DE", voice_name="de-DE-Wavenet-A"):
@@ -50,31 +50,48 @@ def generate_audio(chunks_dir, output_dir, language_code="de-DE", voice_name="de
             header = f.readline()  # Lire l'en-tête
             for line in f:
                 parts = line.strip().split('\t')
-                if len(parts) >= 3:
+                if len(parts) >= 5:
                     id = int(parts[0])
-                    text = parts[1]  # Texte en allemand
+                    francais = parts[1]  # Texte en français (2ème colonne)
+                    allemand = parts[2]  # Texte en allemand (3ème colonne)
                     
-                    # Générer le nom du fichier audio
-                    audio_file = os.path.join(output_dir, f"phrase_{id}_de.mp3")
+                    # Générer les noms des fichiers audio
+                    audio_file_de = os.path.join(output_dir, f"phrase_{id}_de.mp3")
+                    audio_file_fr = os.path.join(output_dir, f"phrase_{id}_fr.mp3")
                     
-                    # Vérifier si le fichier existe déjà
-                    if os.path.exists(audio_file):
-                        print(f"Fichier audio déjà existant : {audio_file}")
+                    # Vérifier si les fichiers existent déjà
+                    if os.path.exists(audio_file_de) and os.path.exists(audio_file_fr):
+                        print(f"Fichiers audio déjà existants : {audio_file_de}, {audio_file_fr}")
                         continue
                     
-                    # Synthétiser la voix
-                    synthesis_input = texttospeech.SynthesisInput(text=text)
-                    response = client.synthesize_speech(
-                        input=synthesis_input,
-                        voice=voice,
-                        audio_config=audio_config
-                    )
+                    # Générer l'audio pour l'allemand
+                    if not os.path.exists(audio_file_de):
+                        synthesis_input = texttospeech.SynthesisInput(text=allemand)
+                        response = client.synthesize_speech(
+                            input=synthesis_input,
+                            voice=voice,
+                            audio_config=audio_config
+                        )
+                        with open(audio_file_de, "wb") as out:
+                            out.write(response.audio_content)
+                        print(f"Fichier audio généré : {audio_file_de}")
                     
-                    # Sauvegarder le fichier audio
-                    with open(audio_file, "wb") as out:
-                        out.write(response.audio_content)
-                    
-                    print(f"Fichier audio généré : {audio_file}")
+                    # Générer l'audio pour le français
+                    if not os.path.exists(audio_file_fr):
+                        # Configurer la voix pour le français
+                        voice_fr = texttospeech.VoiceSelectionParams(
+                            language_code="fr-FR",
+                            name="fr-FR-Wavenet-A"
+                        )
+                        synthesis_input = texttospeech.SynthesisInput(text=francais)
+                        response = client.synthesize_speech(
+                            input=synthesis_input,
+                            voice=voice_fr,
+                            audio_config=audio_config
+                        )
+                        with open(audio_file_fr, "wb") as out:
+                            out.write(response.audio_content)
+                        print(f"Fichier audio généré : {audio_file_fr}")
     
     print(f"Génération des fichiers audio terminée. Répertoire de sortie : {output_dir}")
 

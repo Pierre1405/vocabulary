@@ -17,7 +17,8 @@ local.properties
 toto.txt
 
 # Fichiers générés par les scripts
-generated/step 0.5 add_id/
-generated/step 1 chunk/
-generated/step 2 sqlite/
+generated/step 1 translation/*.txt
+generated/step 2 generate_tsv/*.tsv
+generated/step 3 chunk/*.tsv
 app/src/main/assets/vocabulary.db
+app/src/main/res/raw/*.mp3

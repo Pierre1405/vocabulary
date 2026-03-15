@@ -12,7 +12,7 @@ def clean_generated():
     Supprime les fichiers générés (chunks, TSV avec IDs, base de données).
     """
     # Supprimer les chunks
-    chunk_files = glob.glob("generated/step 1 chunk/chunk_*.tsv")
+    chunk_files = glob.glob("generated/step 3 chunk/chunk_*.tsv")
     for chunk_file in chunk_files:
         if os.path.exists(chunk_file):
             print(f"Suppression du fichier : {chunk_file}")
@@ -21,8 +21,8 @@ def clean_generated():
         else:
             print(f"Fichier non trouvé : {chunk_file}")
     
-    # Supprimer le fichier TSV avec IDs
-    tsv_file = "generated/step 0.5 add_id/Sentence pairs with ID - 2026-03-13.tsv"
+    # Supprimer le fichier TSV généré
+    tsv_file = "generated/step 2 generate_tsv/Sentence pairs with ID - 2026-03-13.tsv"
     if os.path.exists(tsv_file):
         print(f"Suppression du fichier : {tsv_file}")
         os.remove(tsv_file)

@@ -7,9 +7,11 @@ Ce répertoire contient les outils et scripts pour générer les ressources néc
 ```
 generated/
 ├── step 0 source/                  # Fichiers sources (TSV, etc.)
-├── step 1 chunk/                  # Scripts pour diviser les fichiers en chunks
-├── step 2 process/                # Scripts pour traiter les chunks
-├── step 3 generate_sqlite/        # Scripts pour générer la base de données SQLite
+├── step 1 translation/            # Scripts pour traduire les phrases
+├── step 2 add_id/                  # Scripts pour ajouter des IDs aux phrases
+├── step 3 chunk/                  # Scripts pour diviser les fichiers en chunks
+├── step 4 sqlite/                 # Scripts pour générer la base de données SQLite
+├── step 5 audio/                  # Scripts pour générer les fichiers audio
 └── README.md                      # Ce fichier
 ```
 
@@ -21,24 +23,44 @@ generated/
   - Fichiers TSV contenant les paires de phrases en allemand et français.
   - Exemple : `Sentence pairs in German-French - 2026-03-13.tsv`
 
-### Étape 0.5 : Ajout des IDs
-- **Répertoire** : `step 0.5 add_id/`
-- **Script** : `add_id_column.py`
+### Étape 1 : Traduction des phrases
+- **Répertoire** : `step 1 translation/`
+- **Script** : `translate_text.py`
 - **Description** :
-  - Ajoute une colonne d'ID auto-incrémenté au fichier TSV source.
-  - Cela permet d'avoir un identifiant unique pour chaque phrase.
+  - Traduit les phrases de fichiers texte (format `category_nom_fr.txt`) en allemand en utilisant l'API Google Cloud Translation.
+  - Génère des fichiers texte traduits (format : `category_nom_de.txt`).
+- **Prérequis** :
+  - Activer l'API Google Cloud Translation et configurer l'authentification.
+  - Installer la bibliothèque cliente : `pip install google-cloud-translate`.
 - **Utilisation** :
   ```bash
-  python add_id_column.py --input_file "chemin/vers/fichier.tsv" --output_file "chemin/vers/sortie.tsv"
+  python translate_text.py --input_dir "chemin/vers/dossier" --output_dir "chemin/vers/sortie"
   ```
   Ou simplement :
   ```bash
-  python add_id_column.py
+  python translate_text.py
   ```
   (utilise les valeurs par défaut)
 
-### Étape 1 : Division en chunks
-- **Répertoire** : `step 1 chunk/`
+### Étape 2 : Génération du fichier TSV
+- **Répertoire** : `step 2 generate_tsv/`
+- **Script** : `generate_tsv.py`
+- **Description** :
+  - Génère un fichier TSV à partir des fichiers texte en français et en allemand.
+  - Le fichier TSV contient 5 colonnes : `id`, `francais`, `allemand`, `categorie`, et `nom`.
+  - La catégorie et le nom sont extraits du nom du fichier (format : `category_nom_fr.txt`).
+- **Utilisation** :
+  ```bash
+  python generate_tsv.py --fr_dir "chemin/vers/francais" --de_dir "chemin/vers/allemand" --output_file "chemin/vers/sortie.tsv"
+  ```
+  Ou simplement :
+  ```bash
+  python generate_tsv.py
+  ```
+  (utilise les valeurs par défaut)
+
+### Étape 3 : Division en chunks
+- **Répertoire** : `step 3 chunk/`
 - **Script** : `split_tsv.py`
 - **Description** :
   - Divise le fichier TSV (avec IDs) en plusieurs chunks pour faciliter le traitement.
@@ -53,8 +75,8 @@ generated/
   ```
   (utilise les valeurs par défaut)
 
-### Étape 2 : Génération de la base de données SQLite
-- **Répertoire** : `step 2 sqlite/`
+### Étape 4 : Génération de la base de données SQLite
+- **Répertoire** : `step 4 sqlite/`
 - **Script** : `generate_sqlite.py`
 - **Description** :
   - Génère une base de données SQLite à partir des chunks TSV.
@@ -70,13 +92,13 @@ generated/
   ```
   (utilise les valeurs par défaut)
 
-### Étape 3 : Génération des fichiers audio
-- **Répertoire** : `step 3 audio/`
+### Étape 5 : Génération des fichiers audio
+- **Répertoire** : `step 5 audio/`
 - **Script** : `generate_audio.py`
 - **Description** :
-  - Génère des fichiers audio MP3 pour chaque phrase en allemand.
+  - Génère des fichiers audio MP3 pour chaque phrase en allemand et en français.
   - Utilise l'API Google Cloud Text-to-Speech pour synthétiser la voix.
-  - Les fichiers audio sont nommés `phrase_{id}_de.mp3` et placés dans `app/src/main/res/raw/`.
+  - Les fichiers audio sont nommés `phrase_{id}_de.mp3` (allemand) et `phrase_{id}_fr.mp3` (français), et placés dans `app/src/main/res/raw/`.
 - **Prérequis** :
   - Activer l'API Google Cloud Text-to-Speech et configurer l'authentification.
   - Installer la bibliothèque cliente : `pip install google-cloud-texttospeech`.
@@ -93,33 +115,39 @@ generated/
 ## Exemple de workflow complet
 
 1. **Préparer les fichiers sources** :
-   - Placer les fichiers TSV dans `step 0 source/`.
+   - Placer les fichiers texte (format `category_nom_fr.txt`) dans `step 0 source/`.
 
-2. **Ajouter des IDs aux phrases** :
+2. **Traduire les phrases (si nécessaire)** :
    ```bash
-   cd generated\step 0.5 add_id
-   python add_id_column.py
+   cd generated\step 1 translation
+   python translate_text.py
    ```
 
-3. **Diviser en chunks** :
+3. **Générer le fichier TSV** :
    ```bash
-   cd ..\step 1 chunk
+   cd ..\step 2 generate_tsv
+   python generate_tsv.py
+   ```
+
+4. **Diviser en chunks** :
+   ```bash
+   cd ..\step 3 chunk
    python split_tsv.py
    ```
 
-4. **Générer la base de données SQLite** :
+5. **Générer la base de données SQLite** :
    ```bash
-   cd ..\step 2 sqlite
+   cd ..\step 4 sqlite
    python generate_sqlite.py
    ```
 
-5. **Générer les fichiers audio** :
+6. **Générer les fichiers audio** :
    ```bash
-   cd ..\step 3 audio
+   cd ..\step 5 audio
    python generate_audio.py
    ```
 
-6. **Intégrer les ressources dans l'application** :
+7. **Intégrer les ressources dans l'application** :
    - Le fichier `vocabulary.db` est généré dans `app/src/main/assets/`.
    - Les fichiers audio sont générés dans `app/src/main/res/raw/`.
    - Utiliser Room pour accéder à la base de données et `MediaPlayer` pour lire les fichiers audio dans votre application Android.
