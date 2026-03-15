@@ -9,7 +9,7 @@ import argparse
 # Valeurs par défaut
 DEFAULT_INPUT_FILE = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\step 0.5 add_id\\Sentence pairs with ID - 2026-03-13.tsv"
 DEFAULT_OUTPUT_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\step 1 chunk\\"
-DEFAULT_CHUNK_SIZE = 1000
+DEFAULT_CHUNK_SIZE = 100
 
 def split_tsv(input_file, output_dir, chunk_size):
     """

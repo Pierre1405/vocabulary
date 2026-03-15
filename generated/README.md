@@ -70,6 +70,26 @@ generated/
   ```
   (utilise les valeurs par défaut)
 
+### Étape 3 : Génération des fichiers audio
+- **Répertoire** : `step 3 audio/`
+- **Script** : `generate_audio.py`
+- **Description** :
+  - Génère des fichiers audio MP3 pour chaque phrase en allemand.
+  - Utilise l'API Google Cloud Text-to-Speech pour synthétiser la voix.
+  - Les fichiers audio sont nommés `phrase_{id}_de.mp3` et placés dans `app/src/main/res/raw/`.
+- **Prérequis** :
+  - Activer l'API Google Cloud Text-to-Speech et configurer l'authentification.
+  - Installer la bibliothèque cliente : `pip install google-cloud-texttospeech`.
+- **Utilisation** :
+  ```bash
+  python generate_audio.py --chunks_dir "chemin/vers/chunks" --output_dir "chemin/vers/sortie" --language_code "de-DE" --voice_name "de-DE-Wavenet-A"
+  ```
+  Ou simplement :
+  ```bash
+  python generate_audio.py
+  ```
+  (utilise les valeurs par défaut)
+
 ## Exemple de workflow complet
 
 1. **Préparer les fichiers sources** :
@@ -93,9 +113,16 @@ generated/
    python generate_sqlite.py
    ```
 
-5. **Intégrer la base de données dans l'application** :
+5. **Générer les fichiers audio** :
+   ```bash
+   cd ..\step 3 audio
+   python generate_audio.py
+   ```
+
+6. **Intégrer les ressources dans l'application** :
    - Le fichier `vocabulary.db` est généré dans `app/src/main/assets/`.
-   - Utiliser Room pour accéder à cette base de données dans votre application Android.
+   - Les fichiers audio sont générés dans `app/src/main/res/raw/`.
+   - Utiliser Room pour accéder à la base de données et `MediaPlayer` pour lire les fichiers audio dans votre application Android.
 
 ## Notes
 - Assurez-vous que les chemins dans les scripts sont corrects pour votre environnement.
