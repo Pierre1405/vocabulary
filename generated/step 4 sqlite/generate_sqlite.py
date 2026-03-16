@@ -26,8 +26,26 @@ def create_database(chunks_dir, output_db):
     conn = sqlite3.connect(output_db)
     cursor = conn.cursor()
     
-    # Supprimer la table si elle existe déjà
+    # Supprimer les tables si elles existent déjà
     cursor.execute("DROP TABLE IF EXISTS phrases")
+    cursor.execute("DROP TABLE IF EXISTS category")
+    cursor.execute("DROP TABLE IF EXISTS story")
+    
+    # Créer la table pour stocker les catégories
+    cursor.execute("""
+        CREATE TABLE category (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL UNIQUE
+        )
+    """)
+    
+    # Créer la table pour stocker les histoires
+    cursor.execute("""
+        CREATE TABLE story (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL UNIQUE
+        )
+    """)
     
     # Créer la table pour stocker les phrases
     cursor.execute("""
@@ -35,9 +53,11 @@ def create_database(chunks_dir, output_db):
             id INTEGER PRIMARY KEY,
             francais TEXT NOT NULL,
             allemand TEXT NOT NULL,
-            categorie TEXT NOT NULL,
-            nom TEXT NOT NULL,
-            apprise INTEGER DEFAULT 0
+            category_id INTEGER NOT NULL,
+            story_id INTEGER NOT NULL,
+            apprise INTEGER DEFAULT 0,
+            FOREIGN KEY (category_id) REFERENCES category(id),
+            FOREIGN KEY (story_id) REFERENCES story(id)
         )
     """)
     
@@ -45,6 +65,10 @@ def create_database(chunks_dir, output_db):
     chunk_files = [f for f in os.listdir(chunks_dir) if f.startswith("chunk_") and f.endswith(".tsv")]
     chunk_files.sort()  # Trier pour garantir l'ordre
     
+    # Dictionnaire pour mapper les noms de catégories à leurs IDs
+    category_ids = {}
+    story_ids = {}
+
     for chunk_file in chunk_files:
         chunk_path = os.path.join(chunks_dir, chunk_file)
         print(f"Traitement du chunk : {chunk_file}")
@@ -58,8 +82,24 @@ def create_database(chunks_dir, output_db):
                     francais = parts[1]
                     allemand = parts[2]
                     categorie = parts[3]
-                    nom = parts[4]
-                    cursor.execute("INSERT INTO phrases (id, francais, allemand, categorie, nom) VALUES (?, ?, ?, ?, ?)", (id, francais, allemand, categorie, nom))
+                    story = parts[4]
+
+                    # Vérifier si la catégorie existe déjà dans le dictionnaire
+                    if categorie not in category_ids:
+                        # Insérer la catégorie dans la table category et récupérer son ID
+                        cursor.execute("INSERT INTO category (name) VALUES (?)", (categorie,))
+                        category_ids[categorie] = cursor.lastrowid
+                        print(f"Catégorie ajoutée : {categorie} (ID: {category_ids[categorie]})")
+
+                    # Vérifier si la catégorie existe déjà dans le dictionnaire
+                    if story not in story_ids:
+                        # Insérer la catégorie dans la table category et récupérer son ID
+                        cursor.execute("INSERT INTO story (name) VALUES (?)", (story,))
+                        story_ids[story] = cursor.lastrowid
+                        print(f"Story ajoutée : {story} (ID: {story_ids[story]})")
+                    
+                    # Insérer la phrase avec l'ID de la catégorie
+                    cursor.execute("INSERT INTO phrases (id, francais, allemand, category_id, story_id) VALUES (?, ?, ?, ?, ?)", (id, francais, allemand, category_ids[categorie], story_ids[story]))
     
     # Valider les changements et fermer la connexion
     conn.commit()

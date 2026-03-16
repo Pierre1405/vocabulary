@@ -28,7 +28,7 @@ def generate_tsv_from_text_files(fr_dir, de_dir, output_file):
     
     with open(output_file, 'w', encoding='utf-8') as f_out:
         # Écrire l'en-tête du fichier TSV
-        f_out.write("id\tfrancais\tallemand\tcategorie\tnom\n")
+        f_out.write("id\tfrancais\tallemand\tcategorie\tstory\n")
         
         # Initialiser le compteur d'ID
         id_counter = 1
