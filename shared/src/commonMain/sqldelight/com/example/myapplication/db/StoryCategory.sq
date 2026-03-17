@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS story_category (
+    story_id INTEGER NOT NULL,
+    category_id INTEGER NOT NULL,
+    PRIMARY KEY (story_id, category_id),
+    FOREIGN KEY (story_id) REFERENCES story(id) ON DELETE CASCADE,
+    FOREIGN KEY (category_id) REFERENCES category(id) ON DELETE CASCADE
+);
+
+getAllStoryCategories:
+SELECT * FROM story_category;

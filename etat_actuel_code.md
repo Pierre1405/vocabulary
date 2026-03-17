@@ -1,49 +1,78 @@
 # État actuel du code
 
+## Architecture
+
+Le projet est une application **Kotlin Multiplatform (KMP)** ciblant Android et iOS, avec une UI partagée via **Compose Multiplatform**.
+
 ## Structure du projet
-Le projet est un projet Android de base créé avec Android Studio. Il utilise Jetpack Compose pour l'interface utilisateur.
 
-## Fichiers principaux
+```
+vocabulary/
+├── app/                                         # Module Android (point d'entrée)
+│   └── src/main/java/com/example/myapplication/
+│       └── MainActivity.kt                      # Initialise le repository et lance l'UI
+│
+├── shared/                                      # Module KMP partagé (Android + iOS)
+│   ├── commonMain/
+│   │   ├── sqldelight/com/example/myapplication/db/
+│   │   │   ├── Category.sq                      # Schéma + requêtes catégories
+│   │   │   ├── Story.sq                         # Schéma + requêtes histoires
+│   │   │   ├── Phrase.sq                        # Schéma + requêtes phrases
+│   │   │   └── StoryCategory.sq                 # Schéma + requêtes liaison
+│   │   └── kotlin/com/example/myapplication/
+│   │       ├── data/
+│   │       │   ├── DatabaseDriverFactory.kt     # expect (abstraction plateforme)
+│   │       │   └── VocabularyRepository.kt      # Accès aux données (suspend)
+│   │       └── ui/
+│   │           ├── CategoryViewModel.kt          # ViewModel KMP
+│   │           ├── CategoryListScreen.kt         # Écran Compose partagé
+│   │           └── theme/
+│   │               ├── Color.kt
+│   │               ├── Type.kt
+│   │               └── Theme.kt
+│   ├── androidMain/
+│   │   └── DatabaseDriverFactory.kt             # actual Android (copie assets)
+│   └── iosMain/
+│       └── DatabaseDriverFactory.kt             # actual iOS (copie bundle)
+│
+└── generated/                                   # Scripts de génération des ressources
+```
 
-### 1. **MainActivity.kt**
-- **Chemin** : `app/src/main/java/com/example/myapplication/MainActivity.kt`
-- **Contenu** :
-  - Activité principale utilisant Jetpack Compose.
-  - Affiche un simple message "Hello Android!" à l'écran.
-  - Utilise `Scaffold` pour la mise en page et `MyApplicationTheme` pour le thème.
+## Stack technique
 
-### 2. **strings.xml**
-- **Chemin** : `app/src/main/res/values/strings.xml`
-- **Contenu** :
-  - Contient uniquement le nom de l'application : "My Application".
+| Couche | Technologie |
+|--------|-------------|
+| Langage | Kotlin 2.2.10 |
+| UI | Compose Multiplatform 1.7.3 |
+| Base de données | SQLite via SQLDelight 2.0.2 |
+| Architecture | MVVM (ViewModel + StateFlow) |
+| Multiplateforme | Kotlin Multiplatform (KMP) |
+| Build | Gradle avec AGP 9.1.0 |
 
-### 3. **Thème et styles**
-- **Fichiers** :
-  - `app/src/main/java/com/example/myapplication/ui/theme/Theme.kt`
-  - `app/src/main/java/com/example/myapplication/ui/theme/Color.kt`
-  - `app/src/main/java/com/example/myapplication/ui/theme/Type.kt`
-- **Contenu** :
-  - Configuration du thème par défaut pour l'application (couleurs, typographie).
+## Base de données
 
-### 4. **AndroidManifest.xml**
-- **Chemin** : `app/src/main/AndroidManifest.xml`
-- **Contenu** :
-  - Configuration de base pour l'application Android.
-  - Déclare `MainActivity` comme activité principale.
+- Fichier `vocabulary.db` pré-rempli (SQLite, 28 Ko)
+- Chargé depuis les **assets** Android / **bundle** iOS au premier démarrage
+- 4 tables : `category`, `story`, `phrases`, `story_category`
+- Accès via **SQLDelight** (génération de code à la compilation)
 
-## Fonctionnalités actuelles
-- Affiche un message de base "Hello Android!" à l'écran.
-- Utilise Jetpack Compose pour l'interface utilisateur.
-- Thème de base configuré.
+## Fonctionnalités implémentées
 
-## Fonctionnalités manquantes (par rapport au plan)
-- **Base de données** : Aucune base de données ou modèle de données n'est implémenté.
-- **Interface utilisateur** : L'interface actuelle est un simple message, pas de boutons de navigation ou de quiz.
-- **Logique métier** : Aucune logique pour afficher des phrases en allemand ou leurs traductions.
-- **Fonctionnalités supplémentaires** : Aucune implémentation pour la lecture audio ou le suivi des progrès.
+- [x] Affichage de la liste des catégories
+- [x] Architecture KMP (logique + UI partagées)
+- [x] Base de données SQLite pré-remplie
+- [x] Thème Material 3 (clair/sombre)
+- [x] Fichiers audio pré-générés (`res/raw/phrase_{id}_{lang}.mp3`)
 
-## Prochaines étapes
-1. **Créer la base de données** : Implémenter Room ou SQLite pour stocker les phrases.
-2. **Concevoir l'interface utilisateur** : Ajouter des boutons pour la navigation et le quiz.
-3. **Implémenter la logique** : Afficher les phrases et leurs traductions, gérer la navigation.
-4. **Ajouter des fonctionnalités supplémentaires** : Lecture audio et suivi des progrès.
+## Fonctionnalités à implémenter
+
+- [ ] Écran liste des phrases par catégorie
+- [ ] Mode quiz (masquer/révéler la traduction)
+- [ ] Lecture audio (`expect/actual` MediaPlayer / AVAudioPlayer)
+- [ ] Suivi des progrès (marquer une phrase comme apprise)
+- [ ] Projet Xcode (`iosApp/`) pour tester sur iOS
+
+## Notes plateforme
+
+- **Android** : build et tests fonctionnels
+- **iOS** : code prêt dans `iosMain/`, build nécessite macOS + Xcode

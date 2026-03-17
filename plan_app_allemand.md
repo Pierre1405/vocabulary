@@ -1,102 +1,87 @@
-# Plan d'action pour l'application d'apprentissage de phrases en allemand
+# Plan d'action — Application d'apprentissage de phrases en allemand
 
 ## Objectif
-Créer une application Android simple pour apprendre des phrases en allemand avec leurs traductions en français.
 
-## Structure du projet
+Application **Kotlin Multiplatform (Android + iOS)** pour apprendre des phrases en allemand avec leurs traductions en français. UI partagée via Compose Multiplatform.
 
-### 1. Activités principales
-- **MainActivity** : Activité principale pour afficher les phrases et leurs traductions.
-- **SettingsActivity** : (Optionnel) Pour gérer les paramètres de l'application.
+## Architecture cible
 
-### 2. Base de données
-- Utiliser **Room** ou **SQLite** pour stocker les phrases et leurs traductions.
-- Alternative : Utiliser un fichier JSON pour stocker les phrases initialement.
+```
+shared/commonMain/     ← logique métier + UI partagées
+shared/androidMain/    ← implémentations Android spécifiques
+shared/iosMain/        ← implémentations iOS spécifiques
+app/                   ← point d'entrée Android
+iosApp/                ← point d'entrée iOS (Xcode)
+```
 
-### 3. Interface utilisateur
-- **Écran principal** :
-  - Afficher la phrase en allemand.
-  - Afficher la traduction en français (masquable pour un quiz).
-  - Boutons pour naviguer entre les phrases (suivant/précédent).
-  - Bouton pour marquer une phrase comme apprise.
+## Fonctionnalités
 
-### 4. Fonctionnalités
-- **Affichage des phrases** : Afficher une phrase en allemand et sa traduction.
-- **Navigation** : Boutons pour passer à la phrase suivante ou précédente.
-- **Quiz** : Option pour masquer la traduction et la révéler après un clic.
-- **Suivi des progrès** : Marquer les phrases comme apprises et les exclure du quiz.
+### Écrans principaux
+
+- **Liste des catégories** : point d'entrée de l'application
+- **Liste des phrases** : phrases d'une catégorie (allemand + français)
+- **Mode quiz** : masquer la traduction, la révéler après un clic
+- **Écran phrase** : affichage détaillé avec bouton audio
+
+### Fonctionnalités
+
+- Navigation entre les phrases (suivant/précédent)
+- Marquer une phrase comme apprise
+- Filtrer les phrases apprises / non apprises
+- Lecture audio pré-générée (allemand et français)
 
 ## Étapes de développement
 
-### Étape 1 : Configuration du projet
-- Créer un nouveau projet Android dans Android Studio.
-- Configurer les dépendances nécessaires (Room, ViewModel, etc.).
+### ✅ Étape 1 : Configuration du projet
+- Projet Android créé avec Kotlin + Jetpack Compose
+- Migration vers **Kotlin Multiplatform** (Android + iOS)
+- Plugin AGP `com.android.kotlin.multiplatform.library`
 
-### Étape 2 : Création de la base de données
-- Définir une entité `Phrase` avec les champs suivants :
-  - `id` : Identifiant unique.
-  - `allemand` : Phrase en allemand.
-  - `francais` : Traduction en français.
-  - `apprise` : Booléen pour indiquer si la phrase est apprise.
-- Créer un DAO (Data Access Object) pour interagir avec la base de données.
+### ✅ Étape 2 : Base de données
+- Base SQLite pré-remplie (`vocabulary.db` dans assets)
+- Migration de **Room** vers **SQLDelight** (compatible KMP)
+- 4 tables : `category`, `story`, `phrases`, `story_category`
+- `DatabaseDriverFactory` en `expect/actual` par plateforme
 
-### Étape 3 : Création de l'interface utilisateur
-- Concevoir l'interface dans `activity_main.xml`.
-- Ajouter des boutons pour la navigation et un texte pour afficher les phrases.
+### ✅ Étape 3 : UI partagée
+- Thème Material 3 dans `shared/commonMain`
+- `CategoryViewModel` KMP avec `StateFlow`
+- `CategoryListScreen` en Compose Multiplatform
+- `MainActivity` simplifié (point d'entrée uniquement)
 
-### Étape 4 : Logique de l'application
-- Implémenter la logique pour afficher les phrases.
-- Ajouter des listeners pour les boutons de navigation.
-- Implémenter la fonctionnalité de quiz (masquer/révéler la traduction).
+### 🔲 Étape 4 : Écran phrases
+- `PhraseListScreen` dans `shared/commonMain`
+- `PhraseViewModel` avec filtrage par catégorie
+- Navigation entre écrans
 
-### Étape 5 : Tests
-- Tester l'application sur un émulateur ou un appareil physique.
-- Vérifier que toutes les fonctionnalités fonctionnent correctement.
+### 🔲 Étape 5 : Mode quiz
+- Masquer/révéler la traduction
+- Marquer comme apprise (mise à jour BDD via SQLDelight)
 
-## Ressources nécessaires
-- Android Studio
-- Kotlin ou Java
-- Connaissances de base en développement Android
-- Liste de phrases en allemand avec leurs traductions en français
+### 🔲 Étape 6 : Lecture audio
+- `expect/actual` pour le lecteur audio
+  - Android : `MediaPlayer`
+  - iOS : `AVAudioPlayer`
+- Bouton "Écouter" sur chaque phrase
 
-## Fonctionnalités supplémentaires
+### 🔲 Étape 7 : Projet iOS
+- Créer `iosApp/` (projet Xcode)
+- Tester sur simulateur iOS (nécessite macOS)
 
-### Lecture audio préenregistrée
-Étant donné que les phrases sont prédéfini, il est préférable de pré-générer des fichiers audio pour garantir une qualité constante et une utilisation hors ligne.
+### 🔲 Étape 8 : Tests
+- Tests unitaires dans `shared/commonTest`
+- Tests sur émulateur Android
+- Tests sur simulateur iOS
 
-### Étapes pour implémenter la lecture audio
-1. **Générer les fichiers audio** :
-   - Utiliser un outil comme **Amazon Polly** ou **Google Text-to-Speech** pour générer des fichiers audio (MP3 ou WAV) pour chaque phrase.
-   - **Coûts estimés** :
-     - Amazon Polly : ~4 $ pour 1000 phrases (0,004 $ par phrase de 100 caractères).
-     - Google Text-to-Speech : ~4 $ pour 1000 phrases (0,004 $ par phrase de 100 caractères).
-   - Enregistrer les fichiers dans le dossier `res/raw/` du projet Android.
+## Ressources audio
 
-2. **Stocker les fichiers audio** :
-   - Placer les fichiers audio dans `res/raw/` (par exemple, `phrase1_de.mp3` pour l'allemand et `phrase1_fr.mp3` pour le français).
+Les fichiers audio sont pré-générés via Google Cloud Text-to-Speech :
+- Nommage : `phrase_{id}_de.mp3` et `phrase_{id}_fr.mp3`
+- Stockage Android : `app/src/main/res/raw/`
+- Stockage iOS : à intégrer dans le bundle Xcode
 
-3. **Lire les fichiers audio** :
-   - Utiliser `MediaPlayer` pour lire les fichiers audio :
-     ```kotlin
-     val mediaPlayer = MediaPlayer.create(this, R.raw.phrase1_de)
-     mediaPlayer.start()
-     ```
+## Notes techniques
 
-4. **Mettre à jour la base de données** :
-   - Ajouter des champs `audio_file_de` et `audio_file_fr` dans l'entité `Phrase` pour stocker les noms des fichiers audio.
-
-5. **Ajouter un bouton "Écouter" dans l'interface utilisateur** :
-   - Permettre à l'utilisateur de déclencher la lecture audio.
-
-### Avantages de cette approche
-- **Qualité audio** : Contrôle total sur la prononciation et la qualité.
-- **Performance** : Pas besoin d'attendre la synthèse vocale à chaque fois.
-- **Hors ligne** : L'application fonctionne sans connexion internet.
-
-## Prochaines étapes
-- [ ] Créer le projet dans Android Studio.
-- [ ] Configurer la base de données.
-- [ ] Concevoir l'interface utilisateur.
-- [ ] Implémenter la logique de l'application.
-- [ ] Ajouter la synthèse vocale.
-- [ ] Tester l'application.
+- `Dispatchers.Default` utilisé dans `commonMain` (pas de `Dispatchers.IO` en KMP)
+- Les classes SQLDelight sont nommées d'après les tables SQL (`Phrases`, `Story_category`)
+- Build iOS nécessite macOS — code KMP prêt mais non testable sur Windows

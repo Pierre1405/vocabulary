@@ -1,0 +1,19 @@
+CREATE TABLE IF NOT EXISTS phrases (
+    id INTEGER NOT NULL PRIMARY KEY,
+    francais TEXT NOT NULL,
+    allemand TEXT NOT NULL,
+    category_id INTEGER NOT NULL,
+    story_id INTEGER NOT NULL,
+    apprise INTEGER NOT NULL,
+    FOREIGN KEY (category_id) REFERENCES category(id) ON DELETE CASCADE,
+    FOREIGN KEY (story_id) REFERENCES story(id) ON DELETE CASCADE
+);
+
+getAllPhrases:
+SELECT * FROM phrases;
+
+getPhrasesByCategory:
+SELECT * FROM phrases WHERE category_id = :categoryId;
+
+getPhrasesByStory:
+SELECT * FROM phrases WHERE story_id = :storyId;
