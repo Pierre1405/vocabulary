@@ -1,0 +1,7 @@
+[ ] Wireframe draft
+[ ] Some graphique try
+[ ] Youtube kotlin multiplatform
+[ ] Translate french technical word to english
+[ ] Manage more than one language
+[ ] Create Mode Screen
+

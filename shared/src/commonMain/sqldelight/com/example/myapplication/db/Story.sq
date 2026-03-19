@@ -5,3 +5,6 @@ CREATE TABLE IF NOT EXISTS story (
 
 getAllStories:
 SELECT * FROM story;
+
+getStoryById:
+SELECT * FROM story WHERE id = :id;

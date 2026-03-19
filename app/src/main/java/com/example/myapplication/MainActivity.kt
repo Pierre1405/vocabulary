@@ -8,12 +8,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import com.example.myapplication.data.AudioPlayer
 import com.example.myapplication.data.DatabaseDriverFactory
 import com.example.myapplication.data.VocabularyRepository
-import com.example.myapplication.ui.CategoryListScreen
+import com.example.myapplication.ui.AppNavigation
 import com.example.myapplication.ui.theme.MyApplicationTheme
 
 class MainActivity : ComponentActivity() {
+    private val audioPlayer by lazy { AudioPlayer(applicationContext) }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -23,12 +26,18 @@ class MainActivity : ComponentActivity() {
         setContent {
             MyApplicationTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    CategoryListScreen(
+                    AppNavigation(
                         repository = repository,
+                        audioPlayer = audioPlayer,
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        audioPlayer.release()
     }
 }

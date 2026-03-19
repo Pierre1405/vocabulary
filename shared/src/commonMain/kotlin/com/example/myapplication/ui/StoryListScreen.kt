@@ -1,5 +1,6 @@
 package com.example.myapplication.ui
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,15 +19,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.data.VocabularyRepository
-import com.example.myapplication.db.Category
+import com.example.myapplication.db.Story
 
 @Composable
-fun CategoryListScreen(
+fun StoryListScreen(
     repository: VocabularyRepository,
+    onStoryClick: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val viewModel: CategoryViewModel = viewModel { CategoryViewModel(repository) }
-    val categories by viewModel.categories.collectAsState()
+    val viewModel: StoryViewModel = viewModel { StoryViewModel(repository) }
+    val stories by viewModel.stories.collectAsState()
 
     Column(
         modifier = modifier
@@ -35,16 +37,19 @@ fun CategoryListScreen(
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Text(
-            text = "Catégories",
+            text = "Histoires",
             style = MaterialTheme.typography.headlineMedium
         )
 
-        if (categories.isEmpty()) {
-            Text(text = "Aucune catégorie trouvée.")
+        if (stories.isEmpty()) {
+            Text(text = "Aucune histoire trouvée.")
         } else {
             LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                items(categories) { category ->
-                    CategoryCard(category = category)
+                items(stories) { story ->
+                    StoryCard(
+                        story = story,
+                        onClick = { onStoryClick(story.id) }
+                    )
                 }
             }
         }
@@ -52,14 +57,16 @@ fun CategoryListScreen(
 }
 
 @Composable
-fun CategoryCard(category: Category) {
+fun StoryCard(story: Story, onClick: () -> Unit) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() },
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = category.name,
+                text = story.name,
                 style = MaterialTheme.typography.bodyLarge
             )
         }

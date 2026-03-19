@@ -51,11 +51,11 @@ def create_database(chunks_dir, output_db):
     cursor.execute("""
         CREATE TABLE phrases (
             id INTEGER  NOT NULL PRIMARY KEY,
-            francais TEXT NOT NULL,
-            allemand TEXT NOT NULL,
+            french TEXT NOT NULL,
+            german TEXT NOT NULL,
             category_id INTEGER NOT NULL,
             story_id INTEGER NOT NULL,
-            apprise INTEGER NOT NULL,
+            learned INTEGER NOT NULL,
             FOREIGN KEY (story_id) REFERENCES story(id) ON DELETE CASCADE,
             FOREIGN KEY (category_id) REFERENCES category(id) ON DELETE CASCADE
         )
@@ -99,7 +99,7 @@ def create_database(chunks_dir, output_db):
                         print(f"Story ajoutée : {story} (ID: {story_ids[story]})")
                     
                     # Insérer la phrase avec l'ID de la catégorie
-                    cursor.execute("INSERT INTO phrases (id, francais, allemand, category_id, story_id, apprise) VALUES (?, ?, ?, ?, ?, ?)", (id, francais, allemand, category_ids[categorie], story_ids[story], 0))
+                    cursor.execute("INSERT INTO phrases (id, french, german, category_id, story_id, learned) VALUES (?, ?, ?, ?, ?, ?)", (id, francais, allemand, category_ids[categorie], story_ids[story], 0))
     
     # Valider les changements et fermer la connexion
     conn.commit()

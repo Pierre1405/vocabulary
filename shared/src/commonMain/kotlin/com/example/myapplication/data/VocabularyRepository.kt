@@ -20,6 +20,10 @@ class VocabularyRepository(driverFactory: DatabaseDriverFactory) {
         database.storyQueries.getAllStories().executeAsList()
     }
 
+    suspend fun getStoryById(id: Long): Story? = withContext(Dispatchers.Default) {
+        database.storyQueries.getStoryById(id).executeAsOneOrNull()
+    }
+
     suspend fun getAllPhrases(): List<Phrases> = withContext(Dispatchers.Default) {
         database.phraseQueries.getAllPhrases().executeAsList()
     }
