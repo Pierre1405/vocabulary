@@ -29,7 +29,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.data.AudioPlayer
 import com.example.myapplication.data.VocabularyRepository
-import com.example.myapplication.db.Phrases
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -88,7 +87,7 @@ fun PhraseListScreen(
 }
 
 @Composable
-fun PhraseCard(phrase: Phrases, audioPlayer: AudioPlayer) {
+fun PhraseCard(phrase: PhraseWithTranslations, audioPlayer: AudioPlayer) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
@@ -101,11 +100,11 @@ fun PhraseCard(phrase: Phrases, audioPlayer: AudioPlayer) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = phrase.french,
+                text = phrase.getTranslation("fr"),
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.weight(1f)
             )
-            IconButton(onClick = { audioPlayer.play(phrase.id, "fr") }) {
+            IconButton(onClick = { audioPlayer.play(phrase.phraseId, "fr") }) {
                 Text("▶", style = MaterialTheme.typography.bodyLarge)
             }
         }
@@ -120,12 +119,12 @@ fun PhraseCard(phrase: Phrases, audioPlayer: AudioPlayer) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = phrase.german,
+                text = phrase.getTranslation("de"),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.weight(1f)
             )
-            IconButton(onClick = { audioPlayer.play(phrase.id, "de") }) {
+            IconButton(onClick = { audioPlayer.play(phrase.phraseId, "de") }) {
                 Text("▶", color = MaterialTheme.colorScheme.primary, style = MaterialTheme.typography.bodyLarge)
             }
         }

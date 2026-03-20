@@ -40,8 +40,8 @@ def main():
         ("generated/step 1 translation/translate_text.py", "Traduction des phrases"),
         ("generated/step 2 generate_tsv/generate_tsv.py", "Génération du fichier TSV"),
         ("generated/step 3 chunk/split_tsv.py", "Division en chunks"),
-        ("generated/step 4 sqlite/generate_sqlite.py", "Génération de la base de données SQLite"),
-        ("generated/step 5 audio/generate_audio.py", "Génération des fichiers audio")
+        ("generated/step 4 sqlite/generate_sqlite.py", "Génération de la base de données SQLite")#,
+        #("generated/step 5 audio/generate_audio.py", "Génération des fichiers audio")
     ]
     
     # Exécuter chaque script

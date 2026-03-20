@@ -4,6 +4,7 @@ import com.example.myapplication.db.Category
 import com.example.myapplication.db.Phrases
 import com.example.myapplication.db.Story
 import com.example.myapplication.db.Story_category
+import com.example.myapplication.db.Translation
 import com.example.myapplication.db.VocabularyDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -34,6 +35,10 @@ class VocabularyRepository(driverFactory: DatabaseDriverFactory) {
 
     suspend fun getPhrasesByStory(storyId: Long): List<Phrases> = withContext(Dispatchers.Default) {
         database.phraseQueries.getPhrasesByStory(storyId).executeAsList()
+    }
+
+    suspend fun getTranslationsForStory(storyId: Long): List<Translation> = withContext(Dispatchers.Default) {
+        database.translationQueries.getTranslationsForStory(storyId).executeAsList()
     }
 
     suspend fun getAllStoryCategories(): List<Story_category> = withContext(Dispatchers.Default) {

@@ -1,7 +1,5 @@
 CREATE TABLE IF NOT EXISTS phrases (
     id INTEGER NOT NULL PRIMARY KEY,
-    french TEXT NOT NULL,
-    german TEXT NOT NULL,
     category_id INTEGER NOT NULL,
     story_id INTEGER NOT NULL,
     learned INTEGER NOT NULL,
