@@ -4,4 +4,4 @@
 [ ] Translate french technical word to english
 [ ] Manage more than one language
 [ ] Create Mode Screen
-
+[ ] auto increment db version

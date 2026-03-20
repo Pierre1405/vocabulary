@@ -4,8 +4,11 @@ Script pour nettoyer les fichiers générés dans le répertoire `generated`.
 """
 
 import os
+import sys
 import glob
 import argparse
+
+sys.stdout.reconfigure(line_buffering=True)
 
 def clean_generated():
     """

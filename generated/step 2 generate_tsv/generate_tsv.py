@@ -4,96 +4,100 @@ Script pour générer un fichier TSV à partir de fichiers texte.
 """
 
 import os
+import sys
 import argparse
+import configparser
+
+sys.stdout.reconfigure(line_buffering=True)
 
 # Chemins par défaut
-DEFAULT_FR_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\step 0 source\\"
-DEFAULT_DE_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\step 1 translation\\"
+DEFAULT_SOURCE_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\step 0 source\\"
+DEFAULT_TRANSLATION_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\step 1 translation\\"
 DEFAULT_OUTPUT_FILE = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\step 2 generate_tsv\\Sentence pairs with ID.tsv"
 
-def generate_tsv_from_text_files(fr_dir, de_dir, output_file):
-    """
-    Génère un fichier TSV à partir de fichiers texte en français et en allemand.
-    
-    Args:
-        fr_dir (str): Répertoire contenant les fichiers texte en français.
-        de_dir (str): Répertoire contenant les fichiers texte en allemand.
-        output_file (str): Chemin vers le fichier TSV de sortie.
-    """
-    # Créer le répertoire de sortie si nécessaire
+def load_config(source_dir):
+    config = configparser.ConfigParser()
+    config.read(os.path.join(source_dir, "config.properties"), encoding='utf-8')
+    source_locale = config.get('languages', 'source_locale').strip()
+    target_locales = [l.strip() for l in config.get('languages', 'target_locales').split(',')]
+    return source_locale, target_locales
+
+def generate_tsv_from_text_files(source_dir, translation_dir, output_file):
+    source_locale, target_locales = load_config(source_dir)
+    all_locales = [source_locale] + target_locales
+    print(f"Locales : source={source_locale}, cibles={target_locales}")
+
     os.makedirs(os.path.dirname(output_file), exist_ok=True)
-    
-    # Lister les fichiers texte en français
-    fr_files = [f for f in os.listdir(fr_dir) if f.endswith('_fr.txt')]
-    
+
+    source_files = sorted([f for f in os.listdir(source_dir) if f.endswith(f'_{source_locale}.txt')])
+
     with open(output_file, 'w', encoding='utf-8') as f_out:
-        # Écrire l'en-tête du fichier TSV
-        f_out.write("id\tfrancais\tallemand\tcategorie\tstory\n")
-        
-        # Initialiser le compteur d'ID
+        f_out.write("id\t" + "\t".join(all_locales) + "\tcategorie\tstory\n")
+
         id_counter = 1
-        
-        # Parcourir les fichiers texte en français
-        for fr_file in fr_files:
-            # Extraire la catégorie et le nom du fichier
-            # Format attendu : category_nom_fr.txt
-            parts = fr_file.replace('_fr.txt', '').split('_')
+
+        for source_file in source_files:
+            base = source_file.replace(f'_{source_locale}.txt', '')
+            parts = base.split('_')
             if len(parts) >= 2:
                 categorie = parts[0]
                 nom = '_'.join(parts[1:])
             else:
                 categorie = "inconnu"
-                nom = fr_file.replace('_fr.txt', '')
-            
-            # Chemin des fichiers en français et en allemand
-            fr_path = os.path.join(fr_dir, fr_file)
-            de_file = fr_file.replace('_fr.txt', '_de.txt')
-            de_path = os.path.join(de_dir, de_file)
-            
-            print(f"Traitement du fichier : {fr_file}")
-            
-            # Lire les fichiers en français et en allemand
-            with open(fr_path, 'r', encoding='utf-8') as f_fr, open(de_path, 'r', encoding='utf-8') as f_de:
-                fr_lines = f_fr.readlines()
-                de_lines = f_de.readlines()
-                
-                # Parcourir les lignes
-                for fr_line, de_line in zip(fr_lines, de_lines):
-                    fr_text = fr_line.strip()
-                    de_text = de_line.strip()
-                    
-                    if fr_text and de_text:  # Ignorer les lignes vides
-                        # Diviser les lignes en phrases en utilisant .!? comme séparateurs
-                        import re
-                        fr_phrases = [p.strip() for p in re.split(r'(?<=[.!?])\s*', fr_text) if p.strip()]
-                        de_phrases = [p.strip() for p in re.split(r'(?<=[.!?])\s*', de_text) if p.strip()]
-                        
-                        # Vérifier que le nombre de phrases correspond
-                        if len(fr_phrases) == len(de_phrases):
-                            for fr_phrase, de_phrase in zip(fr_phrases, de_phrases):
-                                # Écrire la ligne dans le fichier TSV
-                                f_out.write(f"{id_counter}\t{fr_phrase}\t{de_phrase}\t{categorie}\t{nom}\n")
-                                id_counter += 1
-                                print(f"Ligne ajoutée : {fr_phrase} -> {de_phrase}")
-                        else:
-                            # Si le nombre de phrases ne correspond pas, écrire la ligne complète
-                            f_out.write(f"{id_counter}\t{fr_text}\t{de_text}\t{categorie}\t{nom}\n")
-                            id_counter += 1
-                            print(f"Ligne ajoutée : {fr_text} -> {de_text}")
-    
+                nom = base
+
+            source_path = os.path.join(source_dir, source_file)
+
+            # Trouver les fichiers pour chaque locale cible
+            target_paths = []
+            missing = False
+            for locale in target_locales:
+                target_file = base + f'_{locale}.txt'
+                target_path = os.path.join(translation_dir, target_file)
+                if not os.path.exists(target_path):
+                    print(f"Fichier manquant, ignoré : {target_path}")
+                    missing = True
+                    break
+                target_paths.append(target_path)
+
+            if missing:
+                continue
+
+            print(f"Traitement du fichier : {source_file}")
+
+            with open(source_path, 'r', encoding='utf-8') as f:
+                source_lines = [l.strip() for l in f.readlines() if l.strip()]
+
+            target_lines_list = []
+            for target_path in target_paths:
+                with open(target_path, 'r', encoding='utf-8') as f:
+                    target_lines_list.append([l.strip() for l in f.readlines() if l.strip()])
+
+            for i, source_text in enumerate(source_lines):
+                target_texts = []
+                valid = True
+                for target_lines in target_lines_list:
+                    if i < len(target_lines):
+                        target_texts.append(target_lines[i])
+                    else:
+                        valid = False
+                        break
+
+                if not valid:
+                    continue
+
+                row = [str(id_counter), source_text] + target_texts + [categorie, nom]
+                f_out.write("\t".join(row) + "\n")
+                id_counter += 1
+                print(f"Ligne ajoutée : {source_text}")
+
     print(f"Fichier TSV généré avec succès. Fichier de sortie : {output_file}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Générer un fichier TSV à partir de fichiers texte.')
-    parser.add_argument('--fr_dir', type=str, 
-                        default=DEFAULT_FR_DIR,
-                        help=f'Répertoire contenant les fichiers texte en français. Par défaut : {DEFAULT_FR_DIR}')
-    parser.add_argument('--de_dir', type=str, 
-                        default=DEFAULT_DE_DIR,
-                        help=f'Répertoire contenant les fichiers texte en allemand. Par défaut : {DEFAULT_DE_DIR}')
-    parser.add_argument('--output_file', type=str, 
-                        default=DEFAULT_OUTPUT_FILE,
-                        help=f'Chemin vers le fichier TSV de sortie. Par défaut : {DEFAULT_OUTPUT_FILE}')
-    
+    parser.add_argument('--source_dir', type=str, default=DEFAULT_SOURCE_DIR)
+    parser.add_argument('--translation_dir', type=str, default=DEFAULT_TRANSLATION_DIR)
+    parser.add_argument('--output_file', type=str, default=DEFAULT_OUTPUT_FILE)
+
     args = parser.parse_args()
-    generate_tsv_from_text_files(args.fr_dir, args.de_dir, args.output_file)
+    generate_tsv_from_text_files(args.source_dir, args.translation_dir, args.output_file)

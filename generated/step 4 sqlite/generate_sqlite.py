@@ -4,8 +4,11 @@ Script pour générer une base de données SQLite à partir des chunks TSV.
 """
 
 import os
+import sys
 import sqlite3
 import argparse
+
+sys.stdout.reconfigure(line_buffering=True)
 
 # Chemins par défaut
 DEFAULT_CHUNKS_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\step 3 chunk\\"
@@ -58,8 +61,7 @@ def create_database(chunks_dir, output_db):
         )
     """)
 
-    chunk_files = [f for f in os.listdir(chunks_dir) if f.startswith("chunk_") and f.endswith(".tsv")]
-    chunk_files.sort()
+    chunk_files = sorted([f for f in os.listdir(chunks_dir) if f.startswith("chunk_") and f.endswith(".tsv")])
 
     category_ids = {}
     story_ids = {}
@@ -69,37 +71,42 @@ def create_database(chunks_dir, output_db):
         print(f"Traitement du chunk : {chunk_file}")
 
         with open(chunk_path, 'r', encoding='utf-8') as f:
-            f.readline()  # skip header
+            header = f.readline().strip().split('\t')
+            # Header format: id, {locale1}, {locale2}, ..., categorie, story
+            categorie_idx = header.index('categorie')
+            story_idx = header.index('story')
+            locale_columns = header[1:categorie_idx]
+            print(f"Locales détectées : {locale_columns}")
+
             for line in f:
                 parts = line.strip().split('\t')
-                if len(parts) >= 5:
-                    phrase_id = int(parts[0])
-                    french    = parts[1]
-                    german    = parts[2]
-                    categorie = parts[3]
-                    story     = parts[4]
+                if len(parts) < len(header):
+                    continue
 
-                    if categorie not in category_ids:
-                        cursor.execute("INSERT INTO category (name) VALUES (?)", (categorie,))
-                        category_ids[categorie] = cursor.lastrowid
-                        print(f"Catégorie ajoutée : {categorie} (ID: {category_ids[categorie]})")
+                phrase_id = int(parts[0])
+                categorie = parts[categorie_idx]
+                story = parts[story_idx]
 
-                    if story not in story_ids:
-                        cursor.execute("INSERT INTO story (name) VALUES (?)", (story,))
-                        story_ids[story] = cursor.lastrowid
-                        print(f"Story ajoutée : {story} (ID: {story_ids[story]})")
+                if categorie not in category_ids:
+                    cursor.execute("INSERT INTO category (name) VALUES (?)", (categorie,))
+                    category_ids[categorie] = cursor.lastrowid
+                    print(f"Catégorie ajoutée : {categorie} (ID: {category_ids[categorie]})")
 
-                    cursor.execute(
-                        "INSERT INTO phrases (id, category_id, story_id, learned) VALUES (?, ?, ?, ?)",
-                        (phrase_id, category_ids[categorie], story_ids[story], 0)
-                    )
+                if story not in story_ids:
+                    cursor.execute("INSERT INTO story (name) VALUES (?)", (story,))
+                    story_ids[story] = cursor.lastrowid
+                    print(f"Story ajoutée : {story} (ID: {story_ids[story]})")
+
+                cursor.execute(
+                    "INSERT INTO phrases (id, category_id, story_id, learned) VALUES (?, ?, ?, ?)",
+                    (phrase_id, category_ids[categorie], story_ids[story], 0)
+                )
+
+                for i, locale in enumerate(locale_columns):
+                    translation = parts[1 + i]
                     cursor.execute(
                         "INSERT INTO translation (phrase_id, locale, translation) VALUES (?, ?, ?)",
-                        (phrase_id, "fr", french)
-                    )
-                    cursor.execute(
-                        "INSERT INTO translation (phrase_id, locale, translation) VALUES (?, ?, ?)",
-                        (phrase_id, "de", german)
+                        (phrase_id, locale, translation)
                     )
 
     conn.commit()

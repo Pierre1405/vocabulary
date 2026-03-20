@@ -5,110 +5,97 @@ Utilise l'API Google Cloud Text-to-Speech.
 """
 
 import os
+import sys
 import argparse
+import configparser
 from google.cloud import texttospeech
+
+sys.stdout.reconfigure(line_buffering=True)
 
 # Chemins par défaut
 DEFAULT_CHUNKS_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\step 3 chunk\\"
 DEFAULT_OUTPUT_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\app\\src\\main\\res\\raw\\"
+DEFAULT_CONFIG_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\step 0 source\\"
 
-def generate_audio(chunks_dir, output_dir, language_code="de-DE", voice_name="de-DE-Wavenet-A"):
-    """
-    Génère des fichiers audio à partir des chunks TSV.
-    
-    Args:
-        chunks_dir (str): Répertoire contenant les chunks TSV.
-        output_dir (str): Répertoire de sortie pour les fichiers audio.
-        language_code (str): Code de la langue (par défaut : "de-DE" pour l'allemand).
-        voice_name (str): Nom de la voix à utiliser (par défaut : "de-DE-Wavenet-A").
-    """
-    # Créer le répertoire de sortie si nécessaire
+def load_voices(config_dir):
+    config = configparser.ConfigParser()
+    config.read(os.path.join(config_dir, "config.properties"), encoding='utf-8')
+    source_locale = config.get('languages', 'source_locale').strip()
+    target_locales = [l.strip() for l in config.get('languages', 'target_locales').split(',')]
+    all_locales = [source_locale] + target_locales
+
+    voices = {}
+    for locale in all_locales:
+        voice_str = config.get('voices', locale).strip()
+        language_code, voice_name = voice_str.split(':')
+        voices[locale] = (language_code, voice_name)
+
+    return voices
+
+def generate_audio(chunks_dir, output_dir, config_dir):
+    voices = load_voices(config_dir)
+    print(f"Voix configurées : {voices}")
+
     os.makedirs(output_dir, exist_ok=True)
-    
-    # Initialiser le client Google Cloud Text-to-Speech
+
     client = texttospeech.TextToSpeechClient()
-    
-    # Configurer la voix
-    voice = texttospeech.VoiceSelectionParams(
-        language_code=language_code,
-        name=voice_name
-    )
-    
+
     audio_config = texttospeech.AudioConfig(
         audio_encoding=texttospeech.AudioEncoding.MP3
     )
-    
-    # Parcourir les chunks et générer les fichiers audio
-    chunk_files = [f for f in os.listdir(chunks_dir) if f.startswith("chunk_") and f.endswith(".tsv")]
-    chunk_files.sort()
-    
+
+    chunk_files = sorted([f for f in os.listdir(chunks_dir) if f.startswith("chunk_") and f.endswith(".tsv")])
+
     for chunk_file in chunk_files:
         chunk_path = os.path.join(chunks_dir, chunk_file)
         print(f"Traitement du chunk : {chunk_file}")
-        
+
         with open(chunk_path, 'r', encoding='utf-8') as f:
-            header = f.readline()  # Lire l'en-tête
+            header = f.readline().strip().split('\t')
+            categorie_idx = header.index('categorie')
+            locale_columns = header[1:categorie_idx]
+
             for line in f:
                 parts = line.strip().split('\t')
-                if len(parts) >= 5:
-                    id = int(parts[0])
-                    francais = parts[1]  # Texte en français (2ème colonne)
-                    allemand = parts[2]  # Texte en allemand (3ème colonne)
-                    
-                    # Générer les noms des fichiers audio
-                    audio_file_de = os.path.join(output_dir, f"phrase_{id}_de.mp3")
-                    audio_file_fr = os.path.join(output_dir, f"phrase_{id}_fr.mp3")
-                    
-                    # Vérifier si les fichiers existent déjà
-                    if os.path.exists(audio_file_de) and os.path.exists(audio_file_fr):
-                        print(f"Fichiers audio déjà existants : {audio_file_de}, {audio_file_fr}")
+                if len(parts) < len(header):
+                    continue
+
+                phrase_id = int(parts[0])
+
+                for i, locale in enumerate(locale_columns):
+                    text = parts[1 + i]
+                    audio_file = os.path.join(output_dir, f"phrase_{phrase_id}_{locale}.mp3")
+
+                    if os.path.exists(audio_file):
+                        print(f"Fichier audio déjà existant : {audio_file}")
                         continue
-                    
-                    # Générer l'audio pour l'allemand
-                    if not os.path.exists(audio_file_de):
-                        synthesis_input = texttospeech.SynthesisInput(text=allemand)
-                        response = client.synthesize_speech(
-                            input=synthesis_input,
-                            voice=voice,
-                            audio_config=audio_config
-                        )
-                        with open(audio_file_de, "wb") as out:
-                            out.write(response.audio_content)
-                        print(f"Fichier audio généré : {audio_file_de}")
-                    
-                    # Générer l'audio pour le français
-                    if not os.path.exists(audio_file_fr):
-                        # Configurer la voix pour le français
-                        voice_fr = texttospeech.VoiceSelectionParams(
-                            language_code="fr-FR",
-                            name="fr-FR-Wavenet-A"
-                        )
-                        synthesis_input = texttospeech.SynthesisInput(text=francais)
-                        response = client.synthesize_speech(
-                            input=synthesis_input,
-                            voice=voice_fr,
-                            audio_config=audio_config
-                        )
-                        with open(audio_file_fr, "wb") as out:
-                            out.write(response.audio_content)
-                        print(f"Fichier audio généré : {audio_file_fr}")
-    
+
+                    if locale not in voices:
+                        print(f"Aucune voix configurée pour la locale : {locale}, ignoré")
+                        continue
+
+                    language_code, voice_name = voices[locale]
+                    voice_params = texttospeech.VoiceSelectionParams(
+                        language_code=language_code,
+                        name=voice_name
+                    )
+                    synthesis_input = texttospeech.SynthesisInput(text=text)
+                    response = client.synthesize_speech(
+                        input=synthesis_input,
+                        voice=voice_params,
+                        audio_config=audio_config
+                    )
+                    with open(audio_file, "wb") as out:
+                        out.write(response.audio_content)
+                    print(f"Fichier audio généré : {audio_file}")
+
     print(f"Génération des fichiers audio terminée. Répertoire de sortie : {output_dir}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Générer des fichiers audio à partir des chunks TSV.')
-    parser.add_argument('--chunks_dir', type=str, 
-                        default=DEFAULT_CHUNKS_DIR,
-                        help=f'Répertoire contenant les chunks TSV. Par défaut : {DEFAULT_CHUNKS_DIR}')
-    parser.add_argument('--output_dir', type=str, 
-                        default=DEFAULT_OUTPUT_DIR,
-                        help=f'Répertoire de sortie pour les fichiers audio. Par défaut : {DEFAULT_OUTPUT_DIR}')
-    parser.add_argument('--language_code', type=str, 
-                        default="de-DE",
-                        help='Code de la langue (par défaut : "de-DE" pour l\'allemand).')
-    parser.add_argument('--voice_name', type=str, 
-                        default="de-DE-Wavenet-A",
-                        help='Nom de la voix à utiliser (par défaut : "de-DE-Wavenet-A").')
-    
+    parser.add_argument('--chunks_dir', type=str, default=DEFAULT_CHUNKS_DIR)
+    parser.add_argument('--output_dir', type=str, default=DEFAULT_OUTPUT_DIR)
+    parser.add_argument('--config_dir', type=str, default=DEFAULT_CONFIG_DIR)
+
     args = parser.parse_args()
-    generate_audio(args.chunks_dir, args.output_dir, args.language_code, args.voice_name)
+    generate_audio(args.chunks_dir, args.output_dir, args.config_dir)

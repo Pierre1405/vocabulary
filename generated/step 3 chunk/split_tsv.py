@@ -4,7 +4,10 @@ Script pour diviser un fichier TSV en chunks de N lignes.
 """
 
 import os
+import sys
 import argparse
+
+sys.stdout.reconfigure(line_buffering=True)
 
 # Valeurs par défaut
 DEFAULT_INPUT_FILE = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\step 2 generate_tsv\\Sentence pairs with ID.tsv"
