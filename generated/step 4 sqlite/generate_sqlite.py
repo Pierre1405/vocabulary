@@ -20,6 +20,8 @@ def create_database(chunks_dir, output_db):
     conn = sqlite3.connect(output_db)
     cursor = conn.cursor()
 
+    cursor.execute("DROP TABLE IF EXISTS configuration")
+    cursor.execute("DROP TABLE IF EXISTS learning")
     cursor.execute("DROP TABLE IF EXISTS translation")
     cursor.execute("DROP TABLE IF EXISTS sentence")
     cursor.execute("DROP TABLE IF EXISTS story_category")
@@ -45,7 +47,6 @@ def create_database(chunks_dir, output_db):
             id INTEGER NOT NULL PRIMARY KEY,
             category_id INTEGER NOT NULL,
             story_id INTEGER NOT NULL,
-            learned INTEGER NOT NULL,
             FOREIGN KEY (story_id) REFERENCES story(id) ON DELETE CASCADE,
             FOREIGN KEY (category_id) REFERENCES category(id) ON DELETE CASCADE
         )
@@ -57,6 +58,26 @@ def create_database(chunks_dir, output_db):
             locale TEXT NOT NULL,
             translation TEXT NOT NULL,
             PRIMARY KEY (sentence_id, locale),
+            FOREIGN KEY (sentence_id) REFERENCES sentence(id) ON DELETE CASCADE
+        )
+    """)
+
+    cursor.execute("""
+        CREATE TABLE configuration (
+            key TEXT NOT NULL PRIMARY KEY,
+            value TEXT NOT NULL
+        )
+    """)
+    cursor.execute("INSERT INTO configuration (key, value) VALUES ('native_language', 'fr')")
+    cursor.execute("INSERT INTO configuration (key, value) VALUES ('learned_language', 'de')")
+
+    cursor.execute("""
+        CREATE TABLE learning (
+            sentence_id INTEGER NOT NULL,
+            source_locale TEXT NOT NULL,
+            target_locale TEXT NOT NULL,
+            grade INTEGER NOT NULL,
+            PRIMARY KEY (sentence_id, source_locale, target_locale),
             FOREIGN KEY (sentence_id) REFERENCES sentence(id) ON DELETE CASCADE
         )
     """)
@@ -98,8 +119,8 @@ def create_database(chunks_dir, output_db):
                     print(f"Story ajoutée : {story} (ID: {story_ids[story]})")
 
                 cursor.execute(
-                    "INSERT INTO sentence (id, category_id, story_id, learned) VALUES (?, ?, ?, ?)",
-                    (sentence_id, category_ids[categorie], story_ids[story], 0)
+                    "INSERT INTO sentence (id, category_id, story_id) VALUES (?, ?, ?)",
+                    (sentence_id, category_ids[categorie], story_ids[story])
                 )
 
                 for i, locale in enumerate(locale_columns):

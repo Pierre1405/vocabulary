@@ -19,8 +19,17 @@ class PhraseViewModel(
     private val _phrases = MutableStateFlow<List<PhraseWithTranslations>>(emptyList())
     val phrases: StateFlow<List<PhraseWithTranslations>> = _phrases
 
+    private val _nativeLanguage = MutableStateFlow("fr")
+    val nativeLanguage: StateFlow<String> = _nativeLanguage
+
+    private val _learnedLanguage = MutableStateFlow("de")
+    val learnedLanguage: StateFlow<String> = _learnedLanguage
+
     init {
         viewModelScope.launch {
+            _nativeLanguage.value = repository.getConfiguration("native_language") ?: "fr"
+            _learnedLanguage.value = repository.getConfiguration("learned_language") ?: "de"
+
             _story.value = repository.getStoryById(storyId)
 
             val phrases = repository.getPhrasesByStory(storyId)

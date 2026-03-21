@@ -44,4 +44,8 @@ class VocabularyRepository(driverFactory: DatabaseDriverFactory) {
     suspend fun getAllStoryCategories(): List<Story_category> = withContext(Dispatchers.Default) {
         database.storyCategoryQueries.getAllStoryCategories().executeAsList()
     }
+
+    suspend fun getConfiguration(key: String): String? = withContext(Dispatchers.Default) {
+        database.configurationQueries.getValue(key).executeAsOneOrNull()
+    }
 }

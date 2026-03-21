@@ -1,0 +1,19 @@
+CREATE TABLE IF NOT EXISTS learning (
+    sentence_id INTEGER NOT NULL,
+    source_locale TEXT NOT NULL,
+    target_locale TEXT NOT NULL,
+    grade INTEGER NOT NULL,
+    PRIMARY KEY (sentence_id, source_locale, target_locale),
+    FOREIGN KEY (sentence_id) REFERENCES sentence(id) ON DELETE CASCADE
+);
+
+getGrade:
+SELECT * FROM learning
+WHERE sentence_id = :sentenceId AND source_locale = :sourceLocale AND target_locale = :targetLocale;
+
+upsertGrade:
+INSERT OR REPLACE INTO learning (sentence_id, source_locale, target_locale, grade)
+VALUES (:sentenceId, :sourceLocale, :targetLocale, :grade);
+
+getAllLearning:
+SELECT * FROM learning;

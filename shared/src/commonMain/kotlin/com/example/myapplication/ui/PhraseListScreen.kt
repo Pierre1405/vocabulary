@@ -44,6 +44,8 @@ fun PhraseListScreen(
     }
     val story by viewModel.story.collectAsState()
     val phrases by viewModel.phrases.collectAsState()
+    val nativeLanguage by viewModel.nativeLanguage.collectAsState()
+    val learnedLanguage by viewModel.learnedLanguage.collectAsState()
 
     DisposableEffect(Unit) {
         onDispose { audioPlayer.release() }
@@ -79,7 +81,7 @@ fun PhraseListScreen(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(phrases) { phrase ->
-                    PhraseCard(phrase = phrase, audioPlayer = audioPlayer)
+                    PhraseCard(phrase = phrase, audioPlayer = audioPlayer, nativeLanguage = nativeLanguage, learnedLanguage = learnedLanguage)
                 }
             }
         }
@@ -87,7 +89,7 @@ fun PhraseListScreen(
 }
 
 @Composable
-fun PhraseCard(phrase: PhraseWithTranslations, audioPlayer: AudioPlayer) {
+fun PhraseCard(phrase: PhraseWithTranslations, audioPlayer: AudioPlayer, nativeLanguage: String, learnedLanguage: String) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
@@ -100,11 +102,11 @@ fun PhraseCard(phrase: PhraseWithTranslations, audioPlayer: AudioPlayer) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = phrase.getTranslation("fr"),
+                text = phrase.getTranslation(nativeLanguage),
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.weight(1f)
             )
-            IconButton(onClick = { audioPlayer.play(phrase.phraseId, "fr") }) {
+            IconButton(onClick = { audioPlayer.play(phrase.phraseId, nativeLanguage) }) {
                 Text("▶", style = MaterialTheme.typography.bodyLarge)
             }
         }
@@ -119,12 +121,12 @@ fun PhraseCard(phrase: PhraseWithTranslations, audioPlayer: AudioPlayer) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = phrase.getTranslation("de"),
+                text = phrase.getTranslation(learnedLanguage),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.weight(1f)
             )
-            IconButton(onClick = { audioPlayer.play(phrase.phraseId, "de") }) {
+            IconButton(onClick = { audioPlayer.play(phrase.phraseId, learnedLanguage) }) {
                 Text("▶", color = MaterialTheme.colorScheme.primary, style = MaterialTheme.typography.bodyLarge)
             }
         }

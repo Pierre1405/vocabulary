@@ -1,0 +1,13 @@
+CREATE TABLE IF NOT EXISTS configuration (
+    key TEXT NOT NULL PRIMARY KEY,
+    value TEXT NOT NULL
+);
+
+INSERT OR IGNORE INTO configuration (key, value) VALUES ('native_language', 'fr');
+INSERT OR IGNORE INTO configuration (key, value) VALUES ('learned_language', 'de');
+
+getValue:
+SELECT value FROM configuration WHERE key = :key;
+
+upsertValue:
+INSERT OR REPLACE INTO configuration (key, value) VALUES (:key, :value);
