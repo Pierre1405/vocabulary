@@ -5,6 +5,7 @@ Script pour générer une base de données SQLite à partir des chunks TSV.
 
 import os
 import sys
+import re
 import sqlite3
 import argparse
 
@@ -13,6 +14,21 @@ sys.stdout.reconfigure(line_buffering=True)
 # Chemins par défaut
 DEFAULT_CHUNKS_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\step 3 chunk\\"
 DEFAULT_OUTPUT_DB = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\app\\src\\main\\assets\\vocabulary.db"
+DEFAULT_VERSION_FILE = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\shared\\src\\commonMain\\kotlin\\com\\example\\myapplication\\data\\DatabaseVersion.kt"
+
+def increment_db_version(version_file):
+    with open(version_file, 'r', encoding='utf-8') as f:
+        content = f.read()
+    match = re.search(r'DB_VERSION\s*=\s*(\d+)', content)
+    if not match:
+        print("Impossible de trouver DB_VERSION dans le fichier.")
+        return
+    current = int(match.group(1))
+    new_version = current + 1
+    content = re.sub(r'(DB_VERSION\s*=\s*)\d+', f'\\g<1>{new_version}', content)
+    with open(version_file, 'w', encoding='utf-8') as f:
+        f.write(content)
+    print(f"DB_VERSION incrémentée : {current} → {new_version}")
 
 def create_database(chunks_dir, output_db):
     os.makedirs(os.path.dirname(output_db), exist_ok=True)
