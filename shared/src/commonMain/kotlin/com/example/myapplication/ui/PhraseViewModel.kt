@@ -25,7 +25,7 @@ class PhraseViewModel(
 
             val phrases = repository.getPhrasesByStory(storyId)
             val translations = repository.getTranslationsForStory(storyId)
-            val translationsByPhraseId = translations.groupBy { it.phrase_id }
+            val translationsByPhraseId = translations.groupBy { it.sentence_id }
 
             _phrases.value = phrases.map { phrase ->
                 PhraseWithTranslations(

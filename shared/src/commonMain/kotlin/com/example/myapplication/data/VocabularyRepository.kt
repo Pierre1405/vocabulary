@@ -1,7 +1,7 @@
 package com.example.myapplication.data
 
 import com.example.myapplication.db.Category
-import com.example.myapplication.db.Phrases
+import com.example.myapplication.db.Sentence
 import com.example.myapplication.db.Story
 import com.example.myapplication.db.Story_category
 import com.example.myapplication.db.Translation
@@ -25,16 +25,16 @@ class VocabularyRepository(driverFactory: DatabaseDriverFactory) {
         database.storyQueries.getStoryById(id).executeAsOneOrNull()
     }
 
-    suspend fun getAllPhrases(): List<Phrases> = withContext(Dispatchers.Default) {
-        database.phraseQueries.getAllPhrases().executeAsList()
+    suspend fun getAllPhrases(): List<Sentence> = withContext(Dispatchers.Default) {
+        database.sentenceQueries.getAllPhrases().executeAsList()
     }
 
-    suspend fun getPhrasesByCategory(categoryId: Long): List<Phrases> = withContext(Dispatchers.Default) {
-        database.phraseQueries.getPhrasesByCategory(categoryId).executeAsList()
+    suspend fun getPhrasesByCategory(categoryId: Long): List<Sentence> = withContext(Dispatchers.Default) {
+        database.sentenceQueries.getPhrasesByCategory(categoryId).executeAsList()
     }
 
-    suspend fun getPhrasesByStory(storyId: Long): List<Phrases> = withContext(Dispatchers.Default) {
-        database.phraseQueries.getPhrasesByStory(storyId).executeAsList()
+    suspend fun getPhrasesByStory(storyId: Long): List<Sentence> = withContext(Dispatchers.Default) {
+        database.sentenceQueries.getPhrasesByStory(storyId).executeAsList()
     }
 
     suspend fun getTranslationsForStory(storyId: Long): List<Translation> = withContext(Dispatchers.Default) {

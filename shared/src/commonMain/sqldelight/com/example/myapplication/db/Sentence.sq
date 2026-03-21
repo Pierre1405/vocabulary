@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS phrases (
+CREATE TABLE IF NOT EXISTS sentence (
     id INTEGER NOT NULL PRIMARY KEY,
     category_id INTEGER NOT NULL,
     story_id INTEGER NOT NULL,
@@ -8,10 +8,10 @@ CREATE TABLE IF NOT EXISTS phrases (
 );
 
 getAllPhrases:
-SELECT * FROM phrases;
+SELECT * FROM sentence;
 
 getPhrasesByCategory:
-SELECT * FROM phrases WHERE category_id = :categoryId;
+SELECT * FROM sentence WHERE category_id = :categoryId;
 
 getPhrasesByStory:
-SELECT * FROM phrases WHERE story_id = :storyId;
+SELECT * FROM sentence WHERE story_id = :storyId;

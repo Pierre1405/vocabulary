@@ -21,7 +21,7 @@ def create_database(chunks_dir, output_db):
     cursor = conn.cursor()
 
     cursor.execute("DROP TABLE IF EXISTS translation")
-    cursor.execute("DROP TABLE IF EXISTS phrases")
+    cursor.execute("DROP TABLE IF EXISTS sentence")
     cursor.execute("DROP TABLE IF EXISTS story_category")
     cursor.execute("DROP TABLE IF EXISTS category")
     cursor.execute("DROP TABLE IF EXISTS story")
@@ -41,7 +41,7 @@ def create_database(chunks_dir, output_db):
     """)
 
     cursor.execute("""
-        CREATE TABLE phrases (
+        CREATE TABLE sentence (
             id INTEGER NOT NULL PRIMARY KEY,
             category_id INTEGER NOT NULL,
             story_id INTEGER NOT NULL,
@@ -53,11 +53,11 @@ def create_database(chunks_dir, output_db):
 
     cursor.execute("""
         CREATE TABLE translation (
-            phrase_id INTEGER NOT NULL,
+            sentence_id INTEGER NOT NULL,
             locale TEXT NOT NULL,
             translation TEXT NOT NULL,
-            PRIMARY KEY (phrase_id, locale),
-            FOREIGN KEY (phrase_id) REFERENCES phrases(id) ON DELETE CASCADE
+            PRIMARY KEY (sentence_id, locale),
+            FOREIGN KEY (sentence_id) REFERENCES sentence(id) ON DELETE CASCADE
         )
     """)
 
@@ -83,7 +83,7 @@ def create_database(chunks_dir, output_db):
                 if len(parts) < len(header):
                     continue
 
-                phrase_id = int(parts[0])
+                sentence_id = int(parts[0])
                 categorie = parts[categorie_idx]
                 story = parts[story_idx]
 
@@ -98,15 +98,15 @@ def create_database(chunks_dir, output_db):
                     print(f"Story ajoutée : {story} (ID: {story_ids[story]})")
 
                 cursor.execute(
-                    "INSERT INTO phrases (id, category_id, story_id, learned) VALUES (?, ?, ?, ?)",
-                    (phrase_id, category_ids[categorie], story_ids[story], 0)
+                    "INSERT INTO sentence (id, category_id, story_id, learned) VALUES (?, ?, ?, ?)",
+                    (sentence_id, category_ids[categorie], story_ids[story], 0)
                 )
 
                 for i, locale in enumerate(locale_columns):
                     translation = parts[1 + i]
                     cursor.execute(
-                        "INSERT INTO translation (phrase_id, locale, translation) VALUES (?, ?, ?)",
-                        (phrase_id, locale, translation)
+                        "INSERT INTO translation (sentence_id, locale, translation) VALUES (?, ?, ?)",
+                        (sentence_id, locale, translation)
                     )
 
     conn.commit()
