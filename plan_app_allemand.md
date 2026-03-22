@@ -2,7 +2,7 @@
 
 ## Objectif
 
-Application **Kotlin Multiplatform (Android + iOS)** pour apprendre des phrases en allemand avec leurs traductions en français. UI partagée via Compose Multiplatform.
+Application **Kotlin Multiplatform (Android + iOS)** pour apprendre des phrases en plusieurs langues. UI partagée via Compose Multiplatform. Les langues source et cible sont configurables dynamiquement.
 
 ## Architecture cible
 
@@ -18,17 +18,17 @@ iosApp/                ← point d'entrée iOS (Xcode)
 
 ### Écrans principaux
 
-- **Liste des catégories** : point d'entrée de l'application
-- **Liste des phrases** : phrases d'une catégorie (allemand + français)
+- **Liste des histoires** : point d'entrée, titres en langue native + apprise
+- **Liste des phrases** : phrases d'une histoire (langue native + apprise)
 - **Mode quiz** : masquer la traduction, la révéler après un clic
-- **Écran phrase** : affichage détaillé avec bouton audio
+- **Écran de configuration** : choisir les langues native et apprise
 
 ### Fonctionnalités
 
-- Navigation entre les phrases (suivant/précédent)
-- Marquer une phrase comme apprise
+- Lecture audio par phrase et par locale
+- Suivi de progression par phrase (grade dans table `learning`)
 - Filtrer les phrases apprises / non apprises
-- Lecture audio pré-générée (allemand et français)
+- Langues entièrement configurables (plus de hardcoding fr/de)
 
 ## Étapes de développement
 
@@ -40,48 +40,75 @@ iosApp/                ← point d'entrée iOS (Xcode)
 ### ✅ Étape 2 : Base de données
 - Base SQLite pré-remplie (`vocabulary.db` dans assets)
 - Migration de **Room** vers **SQLDelight** (compatible KMP)
-- 4 tables : `category`, `story`, `phrases`, `story_category`
 - `DatabaseDriverFactory` en `expect/actual` par plateforme
+- Versionning automatique (DB_VERSION auto-incrémentée à la génération)
+- Tables : `category`, `category_translation`, `story`, `story_translation`, `sentence`, `translation`, `learning`, `configuration`
 
 ### ✅ Étape 3 : UI partagée
 - Thème Material 3 dans `shared/commonMain`
-- `CategoryViewModel` KMP avec `StateFlow`
-- `CategoryListScreen` en Compose Multiplatform
-- `MainActivity` simplifié (point d'entrée uniquement)
+- Navigation Compose entre écrans
+- `StoryListScreen` : liste des histoires avec titres traduits
+- `PhraseListScreen` : liste des phrases avec traductions et boutons audio
 
-### 🔲 Étape 4 : Écran phrases
-- `PhraseListScreen` dans `shared/commonMain`
-- `PhraseViewModel` avec filtrage par catégorie
-- Navigation entre écrans
+### ✅ Étape 4 : Multi-langues
+- `config.properties` pilote la génération (source_locale, target_locales, voix)
+- Plus de hardcoding fr/de dans l'app : langues lues depuis la table `configuration`
+- Pipeline de génération entièrement dynamique
 
-### 🔲 Étape 5 : Mode quiz
-- Masquer/révéler la traduction
-- Marquer comme apprise (mise à jour BDD via SQLDelight)
-
-### 🔲 Étape 6 : Lecture audio
+### ✅ Étape 5 : Lecture audio
 - `expect/actual` pour le lecteur audio
   - Android : `MediaPlayer`
   - iOS : `AVAudioPlayer`
-- Bouton "Écouter" sur chaque phrase
+- Bouton "▶" sur chaque phrase pour chaque locale
 
-### 🔲 Étape 7 : Projet iOS
+### 🔲 Étape 6 : Mode quiz
+- Masquer/révéler la traduction
+- Enregistrer le grade dans la table `learning`
+
+### 🔲 Étape 7 : Catégories
+- Afficher les catégories avec leurs traductions
+- Navigation catégorie → histoires → phrases
+
+### 🔲 Étape 8 : Projet iOS
 - Créer `iosApp/` (projet Xcode)
 - Tester sur simulateur iOS (nécessite macOS)
 
-### 🔲 Étape 8 : Tests
+### 🔲 Étape 9 : Tests
 - Tests unitaires dans `shared/commonTest`
 - Tests sur émulateur Android
 - Tests sur simulateur iOS
 
+## Pipeline de génération
+
+```
+step 0 source/        → fichiers texte sources (2 premières lignes = catégorie + titre)
+step 1 translation/   → traduction via Google Cloud Translation (toutes les locales)
+step 2 generate_tsv/  → TSV : id | locale1 | locale2 | ... | file_name
+step 3 chunk/         → découpage en chunks
+step 4 sqlite/        → vocabulary.db (DB_VERSION auto-incrémentée)
+step 5 audio/         → phrase_{id}_{locale}.mp3 via Google Cloud TTS
+```
+
+Tout est piloté par `config.properties` :
+```properties
+[languages]
+source_locale = fr
+target_locales = de,en
+
+[voices]
+fr = fr-FR:fr-FR-Wavenet-A
+de = de-DE:de-DE-Wavenet-A
+en = en-US:en-US-Wavenet-A
+```
+
 ## Ressources audio
 
-Les fichiers audio sont pré-générés via Google Cloud Text-to-Speech :
-- Nommage : `phrase_{id}_de.mp3` et `phrase_{id}_fr.mp3`
+- Nommage : `phrase_{id}_{locale}.mp3`
 - Stockage Android : `app/src/main/res/raw/`
 - Stockage iOS : à intégrer dans le bundle Xcode
 
 ## Notes techniques
 
 - `Dispatchers.Default` utilisé dans `commonMain` (pas de `Dispatchers.IO` en KMP)
-- Les classes SQLDelight sont nommées d'après les tables SQL (`Phrases`, `Story_category`)
+- SQLDelight : table à 1 colonne → retourne `Long` directement (pas de data class)
 - Build iOS nécessite macOS — code KMP prêt mais non testable sur Windows

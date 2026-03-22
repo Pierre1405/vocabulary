@@ -16,24 +16,38 @@ vocabulary/
 │   ├── commonMain/
 │   │   ├── sqldelight/com/example/myapplication/db/
 │   │   │   ├── Category.sq                      # Schéma + requêtes catégories
+│   │   │   ├── CategoryTranslation.sq           # Traductions des noms de catégories
 │   │   │   ├── Story.sq                         # Schéma + requêtes histoires
-│   │   │   ├── Phrase.sq                        # Schéma + requêtes phrases
-│   │   │   └── StoryCategory.sq                 # Schéma + requêtes liaison
+│   │   │   ├── StoryTranslation.sq              # Traductions des titres d'histoires
+│   │   │   ├── StoryCategory.sq                 # Liaison story ↔ category
+│   │   │   ├── Sentence.sq                      # Schéma + requêtes phrases
+│   │   │   ├── Translation.sq                   # Traductions des phrases (multi-locale)
+│   │   │   ├── Learning.sq                      # Suivi de progression par phrase/locale
+│   │   │   └── Configuration.sq                 # Paramètres app (native_language, learned_language)
 │   │   └── kotlin/com/example/myapplication/
 │   │       ├── data/
 │   │       │   ├── DatabaseDriverFactory.kt     # expect (abstraction plateforme)
+│   │       │   ├── DatabaseVersion.kt           # Constante DB_VERSION (auto-incrémentée)
+│   │       │   ├── AudioPlayer.kt               # expect (abstraction plateforme)
 │   │       │   └── VocabularyRepository.kt      # Accès aux données (suspend)
 │   │       └── ui/
-│   │           ├── CategoryViewModel.kt          # ViewModel KMP
-│   │           ├── CategoryListScreen.kt         # Écran Compose partagé
+│   │           ├── AppNavigation.kt             # Navigation entre écrans
+│   │           ├── StoryListScreen.kt           # Liste des histoires
+│   │           ├── StoryViewModel.kt            # ViewModel histoires
+│   │           ├── StoryWithTranslations.kt     # Data class histoire + traductions
+│   │           ├── PhraseListScreen.kt          # Liste des phrases
+│   │           ├── PhraseViewModel.kt           # ViewModel phrases
+│   │           ├── PhraseWithTranslations.kt    # Data class phrase + traductions
 │   │           └── theme/
 │   │               ├── Color.kt
 │   │               ├── Type.kt
 │   │               └── Theme.kt
 │   ├── androidMain/
-│   │   └── DatabaseDriverFactory.kt             # actual Android (copie assets)
+│   │   ├── DatabaseDriverFactory.kt             # actual Android (copie assets avec versionning)
+│   │   └── AudioPlayer.kt                       # actual Android (MediaPlayer)
 │   └── iosMain/
-│       └── DatabaseDriverFactory.kt             # actual iOS (copie bundle)
+│       ├── DatabaseDriverFactory.kt             # actual iOS (copie bundle avec versionning)
+│       └── AudioPlayer.kt                       # actual iOS (AVAudioPlayer)
 │
 └── generated/                                   # Scripts de génération des ressources
 ```
@@ -51,25 +65,40 @@ vocabulary/
 
 ## Base de données
 
-- Fichier `vocabulary.db` pré-rempli (SQLite, 28 Ko)
-- Chargé depuis les **assets** Android / **bundle** iOS au premier démarrage
-- 4 tables : `category`, `story`, `phrases`, `story_category`
-- Accès via **SQLDelight** (génération de code à la compilation)
+- Fichier `vocabulary.db` pré-rempli (SQLite)
+- Chargé depuis les **assets** Android / **bundle** iOS au démarrage
+- Recopié automatiquement si `DB_VERSION` a changé (SharedPreferences / NSUserDefaults)
+- Tables :
+
+| Table | Description |
+|-------|-------------|
+| `category` | Catégories (id uniquement) |
+| `category_translation` | Noms de catégorie par locale |
+| `story` | Histoires (id uniquement) |
+| `story_translation` | Titres d'histoire par locale |
+| `story_category` | Liaison story ↔ category |
+| `sentence` | Phrases (id, category_id, story_id) |
+| `translation` | Traductions des phrases (sentence_id, locale, text) |
+| `learning` | Progression (sentence_id, source_locale, target_locale, grade) |
+| `configuration` | Paramètres app (native_language=fr, learned_language=de) |
 
 ## Fonctionnalités implémentées
 
-- [x] Affichage de la liste des catégories
-- [x] Architecture KMP (logique + UI partagées)
-- [x] Base de données SQLite pré-remplie
+- [x] Liste des histoires avec titres traduits (langue native + apprise)
+- [x] Liste des phrases par histoire avec traductions
+- [x] Lecture audio (`expect/actual` MediaPlayer / AVAudioPlayer)
+- [x] Navigation entre écrans (Navigation Compose)
+- [x] Langues configurables via table `configuration` (plus de hardcoding fr/de)
+- [x] Architecture KMP (logique + UI partagées Android + iOS)
 - [x] Thème Material 3 (clair/sombre)
-- [x] Fichiers audio pré-générés (`res/raw/phrase_{id}_{lang}.mp3`)
+- [x] Pipeline de génération multi-langues (config.properties)
 
 ## Fonctionnalités à implémenter
 
-- [ ] Écran liste des phrases par catégorie
 - [ ] Mode quiz (masquer/révéler la traduction)
-- [ ] Lecture audio (`expect/actual` MediaPlayer / AVAudioPlayer)
-- [ ] Suivi des progrès (marquer une phrase comme apprise)
+- [ ] Suivi de progression via table `learning`
+- [ ] Affichage des catégories avec traductions
+- [ ] Filtrer les phrases apprises / non apprises
 - [ ] Projet Xcode (`iosApp/`) pour tester sur iOS
 
 ## Notes plateforme

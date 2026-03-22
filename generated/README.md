@@ -1,17 +1,39 @@
 # Génération des ressources pour l'application
 
-Ce répertoire contient les outils et scripts pour générer les ressources nécessaires à l'application d'apprentissage de phrases en allemand.
+Ce répertoire contient les scripts pour générer les ressources nécessaires à l'application. Tout est piloté par `step 0 source/config.properties`.
+
+## Configuration (`step 0 source/config.properties`)
+
+```properties
+[languages]
+source_locale = fr
+target_locales = de,en
+
+[voices]
+fr = fr-FR:fr-FR-Wavenet-A
+de = de-DE:de-DE-Wavenet-A
+en = en-US:en-US-Wavenet-A
+```
+
+## Format des fichiers sources
+
+Chaque fichier source suit le format `{categorie}_{nom}_{source_locale}.txt` :
+- **Ligne 1** : nom de la catégorie (dans la langue source)
+- **Ligne 2** : titre de l'histoire (dans la langue source)
+- **Lignes suivantes** : une phrase par ligne
+
+Les fichiers traduits (step 1) suivent le même format avec le suffixe `_{locale}.txt`.
 
 ## Structure du répertoire
 
 ```
 generated/
-├── step 0 source/          # Fichiers texte sources (français)
-├── step 1 translation/     # Scripts de traduction (Google Cloud Translation)
-├── step 2 generate_tsv/    # Génération du fichier TSV
-├── step 3 chunk/           # Division en chunks
-├── step 4 sqlite/          # Génération de la base de données SQLite
-├── step 5 audio/           # Génération des fichiers audio
+├── step 0 source/          # Fichiers texte sources + config.properties
+├── step 1 translation/     # Fichiers traduits (Google Cloud Translation)
+├── step 2 generate_tsv/    # Fichier TSV généré
+├── step 3 chunk/           # TSV découpé en chunks
+├── step 4 sqlite/          # Base de données SQLite générée
+├── step 5 audio/           # Fichiers audio MP3 générés
 └── README.md               # Ce fichier
 ```
 
@@ -19,82 +41,76 @@ generated/
 
 ### Étape 0 : Fichiers sources
 - **Répertoire** : `step 0 source/`
-- Fichiers texte contenant des phrases en français
-- Format : `category_nom_fr.txt`
+- Fichiers texte contenant les phrases dans la langue source (`source_locale`)
+- Format fichier : `{categorie}_{nom}_{locale}.txt`
+- Ligne 1 = nom catégorie, ligne 2 = titre histoire, reste = phrases
 
 ### Étape 1 : Traduction des phrases
-- **Répertoire** : `step 1 translation/`
-- **Script** : `translate_text.py`
-- Traduit les phrases du français vers l'allemand via l'API Google Cloud Translation
+- **Script** : `step 1 translation/translate_text.py`
+- Traduit vers toutes les `target_locales` définies dans `config.properties`
 - **Prérequis** : `pip install google-cloud-translate`
-- **Utilisation** :
-  ```bash
-  cd "step 1 translation"
-  python translate_text.py
-  ```
 
 ### Étape 2 : Génération du fichier TSV
-- **Répertoire** : `step 2 generate_tsv/`
-- **Script** : `generate_tsv.py`
-- Génère un TSV avec les colonnes : `id`, `francais`, `allemand`, `categorie`, `nom`
-- **Utilisation** :
-  ```bash
-  cd "step 2 generate_tsv"
-  python generate_tsv.py
-  ```
+- **Script** : `step 2 generate_tsv/generate_tsv.py`
+- Colonnes générées : `id | {locale1} | {locale2} | ... | file_name`
+- Découpage par saut de ligne (les 2 premières lignes de chaque fichier sont ignorées)
 
 ### Étape 3 : Division en chunks
-- **Répertoire** : `step 3 chunk/`
-- **Script** : `split_tsv.py`
-- **Utilisation** :
-  ```bash
-  cd "step 3 chunk"
-  python split_tsv.py
-  ```
+- **Script** : `step 3 chunk/split_tsv.py`
+- Divise le TSV en fichiers de 50 lignes max
 
 ### Étape 4 : Génération de la base de données SQLite
-- **Répertoire** : `step 4 sqlite/`
-- **Script** : `generate_sqlite.py`
-- Génère `vocabulary.db` avec les tables : `category`, `story`, `phrases`, `story_category`
+- **Script** : `step 4 sqlite/generate_sqlite.py`
+- Génère `vocabulary.db` avec toutes les tables
+- **DB_VERSION** incrémentée automatiquement dans `DatabaseVersion.kt`
 - **Destination** : `app/src/main/assets/vocabulary.db`
-- **Utilisation** :
-  ```bash
-  cd "step 4 sqlite"
-  python generate_sqlite.py
-  ```
+- Lit les 2 premières lignes de chaque fichier pour peupler `category_translation` et `story_translation`
 
 ### Étape 5 : Génération des fichiers audio
-- **Répertoire** : `step 5 audio/`
-- **Script** : `generate_audio.py`
-- Génère des fichiers MP3 via Google Cloud Text-to-Speech
-- Nommage : `phrase_{id}_de.mp3` (allemand) et `phrase_{id}_fr.mp3` (français)
+- **Script** : `step 5 audio/generate_audio.py`
+- Génère des MP3 via Google Cloud Text-to-Speech pour toutes les locales
+- Nommage : `phrase_{id}_{locale}.mp3`
 - **Destination** : `app/src/main/res/raw/`
 - **Prérequis** : `pip install google-cloud-texttospeech`
-- **Utilisation** :
-  ```bash
-  cd "step 5 audio"
-  python generate_audio.py
-  ```
 
 ## Workflow complet
 
+Lancer depuis la racine du projet :
 ```bash
-cd "step 1 translation" && python translate_text.py
-cd "../step 2 generate_tsv" && python generate_tsv.py
-cd "../step 3 chunk" && python split_tsv.py
-cd "../step 4 sqlite" && python generate_sqlite.py
-cd "../step 5 audio" && python generate_audio.py
+python run_all.py
 ```
+
+Ou étape par étape :
+```bash
+python "generated/step 1 translation/translate_text.py"
+python "generated/step 2 generate_tsv/generate_tsv.py"
+python "generated/step 3 chunk/split_tsv.py"
+python "generated/step 4 sqlite/generate_sqlite.py"
+python "generated/step 5 audio/generate_audio.py"
+```
+
+## Tables de la base de données
+
+| Table | Description |
+|-------|-------------|
+| `category` | Catégories (id uniquement) |
+| `category_translation` | Noms de catégorie par locale (peuplé depuis ligne 1 des fichiers) |
+| `story` | Histoires (id uniquement) |
+| `story_translation` | Titres d'histoire par locale (peuplé depuis ligne 2 des fichiers) |
+| `sentence` | Phrases (id, category_id, story_id) |
+| `translation` | Traductions des phrases (sentence_id, locale, texte) |
+| `learning` | Progression (sentence_id, source_locale, target_locale, grade) |
+| `configuration` | Paramètres app (native_language=fr, learned_language=de) |
 
 ## Intégration dans l'application
 
 | Ressource | Destination | Accès dans l'app |
 |-----------|-------------|-----------------|
 | `vocabulary.db` | `app/src/main/assets/` | SQLDelight via `DatabaseDriverFactory` |
-| `phrase_{id}_*.mp3` | `app/src/main/res/raw/` | `MediaPlayer` (Android) / `AVAudioPlayer` (iOS) |
+| `phrase_{id}_{locale}.mp3` | `app/src/main/res/raw/` | `AudioPlayer` (expect/actual) |
 
 ## Notes
 
 - Le schéma SQLite doit correspondre exactement aux fichiers `.sq` dans `shared/commonMain/sqldelight/`
-- Tables attendues : `category`, `story`, `phrases`, `story_category`
-- Sur iOS, `vocabulary.db` doit également être ajouté au bundle Xcode
+- Sur iOS, `vocabulary.db` doit être ajouté au bundle Xcode
+- La `DB_VERSION` est auto-incrémentée à chaque génération — l'app recopie automatiquement la nouvelle base au démarrage
