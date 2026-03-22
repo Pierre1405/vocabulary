@@ -1,6 +1,7 @@
 package com.example.myapplication.ui
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -54,7 +55,19 @@ fun PhraseListScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = story?.name ?: "") },
+                title = {
+                    Column {
+                        Text(
+                            text = story?.getTranslation(nativeLanguage) ?: "",
+                            style = MaterialTheme.typography.titleMedium
+                        )
+                        Text(
+                            text = story?.getTranslation(learnedLanguage) ?: "",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(

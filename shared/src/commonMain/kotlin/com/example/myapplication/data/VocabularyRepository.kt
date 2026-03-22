@@ -1,8 +1,6 @@
 package com.example.myapplication.data
 
-import com.example.myapplication.db.Category
 import com.example.myapplication.db.Sentence
-import com.example.myapplication.db.Story
 import com.example.myapplication.db.Story_category
 import com.example.myapplication.db.Translation
 import com.example.myapplication.db.VocabularyDatabase
@@ -13,15 +11,15 @@ class VocabularyRepository(driverFactory: DatabaseDriverFactory) {
 
     private val database = VocabularyDatabase(driverFactory.createDriver())
 
-    suspend fun getAllCategories(): List<Category> = withContext(Dispatchers.Default) {
+    suspend fun getAllCategories(): List<Long> = withContext(Dispatchers.Default) {
         database.categoryQueries.getAllCategories().executeAsList()
     }
 
-    suspend fun getAllStories(): List<Story> = withContext(Dispatchers.Default) {
+    suspend fun getAllStories(): List<Long> = withContext(Dispatchers.Default) {
         database.storyQueries.getAllStories().executeAsList()
     }
 
-    suspend fun getStoryById(id: Long): Story? = withContext(Dispatchers.Default) {
+    suspend fun getStoryById(id: Long): Long? = withContext(Dispatchers.Default) {
         database.storyQueries.getStoryById(id).executeAsOneOrNull()
     }
 
@@ -43,6 +41,14 @@ class VocabularyRepository(driverFactory: DatabaseDriverFactory) {
 
     suspend fun getAllStoryCategories(): List<Story_category> = withContext(Dispatchers.Default) {
         database.storyCategoryQueries.getAllStoryCategories().executeAsList()
+    }
+
+    suspend fun getAllStoryTranslations() = withContext(Dispatchers.Default) {
+        database.storyTranslationQueries.getAllStoryTranslations().executeAsList()
+    }
+
+    suspend fun getStoryTranslation(storyId: Long, locale: String): String? = withContext(Dispatchers.Default) {
+        database.storyTranslationQueries.getStoryTranslation(storyId, locale).executeAsOneOrNull()
     }
 
     suspend fun getConfiguration(key: String): String? = withContext(Dispatchers.Default) {

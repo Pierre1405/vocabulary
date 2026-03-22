@@ -32,20 +32,12 @@ def generate_tsv_from_text_files(source_dir, translation_dir, output_file):
     source_files = sorted([f for f in os.listdir(source_dir) if f.endswith(f'_{source_locale}.txt')])
 
     with open(output_file, 'w', encoding='utf-8') as f_out:
-        f_out.write("id\t" + "\t".join(all_locales) + "\tcategorie\tstory\n")
+        f_out.write("id\t" + "\t".join(all_locales) + "\tfile_name\n")
 
         id_counter = 1
 
         for source_file in source_files:
             base = source_file.replace(f'_{source_locale}.txt', '')
-            parts = base.split('_')
-            if len(parts) >= 2:
-                categorie = parts[0]
-                nom = '_'.join(parts[1:])
-            else:
-                categorie = "inconnu"
-                nom = base
-
             source_path = os.path.join(source_dir, source_file)
 
             # Trouver les fichiers pour chaque locale cible
@@ -66,12 +58,13 @@ def generate_tsv_from_text_files(source_dir, translation_dir, output_file):
             print(f"Traitement du fichier : {source_file}")
 
             with open(source_path, 'r', encoding='utf-8') as f:
-                source_lines = [l.strip() for l in f.readlines() if l.strip()]
+                source_lines = [l.strip() for l in f.readlines() if l.strip()][2:]
 
             target_lines_list = []
             for target_path in target_paths:
                 with open(target_path, 'r', encoding='utf-8') as f:
-                    target_lines_list.append([l.strip() for l in f.readlines() if l.strip()])
+                    lines = [l.strip() for l in f.readlines() if l.strip()]
+                    target_lines_list.append(lines[2:])
 
             for i, source_text in enumerate(source_lines):
                 target_texts = []
@@ -86,7 +79,7 @@ def generate_tsv_from_text_files(source_dir, translation_dir, output_file):
                 if not valid:
                     continue
 
-                row = [str(id_counter), source_text] + target_texts + [categorie, nom]
+                row = [str(id_counter), source_text] + target_texts + [base]
                 f_out.write("\t".join(row) + "\n")
                 id_counter += 1
                 print(f"Ligne ajoutée : {source_text}")

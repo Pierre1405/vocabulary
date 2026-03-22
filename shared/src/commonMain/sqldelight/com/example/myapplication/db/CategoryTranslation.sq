@@ -1,0 +1,14 @@
+CREATE TABLE IF NOT EXISTS category_translation (
+    category_id INTEGER NOT NULL,
+    locale TEXT NOT NULL,
+    translation TEXT NOT NULL,
+    PRIMARY KEY (category_id, locale),
+    FOREIGN KEY (category_id) REFERENCES category(id) ON DELETE CASCADE
+);
+
+getCategoryTranslation:
+SELECT translation FROM category_translation
+WHERE category_id = :categoryId AND locale = :locale;
+
+getAllCategoryTranslations:
+SELECT * FROM category_translation;

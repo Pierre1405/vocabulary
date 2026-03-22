@@ -7,4 +7,7 @@
 [ ] Add header for categories and title in source file
 [X] rename phrase into sentence
 [X] remove the apprise column, instead create a table to remember the grade on a sentence from local source to target source
-[ ] auto increment db version
+[X] auto increment db version
+[ ] traduction incrémental
+[ ] génération des mp3 incrémental
+[ ] traduction et source dans le même répertoire, modification du script de clean pour tenir compte de la local source, modification du git ignore

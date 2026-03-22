@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -19,7 +20,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.data.VocabularyRepository
-import com.example.myapplication.db.Story
 
 @Composable
 fun StoryListScreen(
@@ -29,6 +29,8 @@ fun StoryListScreen(
 ) {
     val viewModel: StoryViewModel = viewModel { StoryViewModel(repository) }
     val stories by viewModel.stories.collectAsState()
+    val nativeLanguage by viewModel.nativeLanguage.collectAsState()
+    val learnedLanguage by viewModel.learnedLanguage.collectAsState()
 
     Column(
         modifier = modifier
@@ -48,7 +50,9 @@ fun StoryListScreen(
                 items(stories) { story ->
                     StoryCard(
                         story = story,
-                        onClick = { onStoryClick(story.id) }
+                        nativeLanguage = nativeLanguage,
+                        learnedLanguage = learnedLanguage,
+                        onClick = { onStoryClick(story.storyId) }
                     )
                 }
             }
@@ -57,7 +61,7 @@ fun StoryListScreen(
 }
 
 @Composable
-fun StoryCard(story: Story, onClick: () -> Unit) {
+fun StoryCard(story: StoryWithTranslations, nativeLanguage: String, learnedLanguage: String, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -66,8 +70,14 @@ fun StoryCard(story: Story, onClick: () -> Unit) {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = story.name,
+                text = story.getTranslation(nativeLanguage),
                 style = MaterialTheme.typography.bodyLarge
+            )
+            HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
+            Text(
+                text = story.getTranslation(learnedLanguage),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.primary
             )
         }
     }

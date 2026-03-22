@@ -52,8 +52,8 @@ def generate_audio(chunks_dir, output_dir, config_dir):
 
         with open(chunk_path, 'r', encoding='utf-8') as f:
             header = f.readline().strip().split('\t')
-            categorie_idx = header.index('categorie')
-            locale_columns = header[1:categorie_idx]
+            file_name_idx = header.index('file_name')
+            locale_columns = header[1:file_name_idx]
 
             for line in f:
                 parts = line.strip().split('\t')
