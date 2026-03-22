@@ -1,5 +1,7 @@
 package com.example.myapplication.ui
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -8,9 +10,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Loop
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material.icons.filled.Stop
+import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -24,6 +31,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -53,9 +61,20 @@ fun PhraseListScreen(
     val phrases by viewModel.phrases.collectAsState()
     val nativeLanguage by viewModel.nativeLanguage.collectAsState()
     val learnedLanguage by viewModel.learnedLanguage.collectAsState()
+    val isPlayingAll by viewModel.isPlayingAll.collectAsState()
+    val isLooping by viewModel.isLooping.collectAsState()
+    val currentPlayingIndex by viewModel.currentPlayingIndex.collectAsState()
 
     var showNative by remember { mutableStateOf(false) }
     var showLearned by remember { mutableStateOf(true) }
+
+    val listState = rememberLazyListState()
+
+    LaunchedEffect(currentPlayingIndex) {
+        if (currentPlayingIndex >= 0) {
+            listState.animateScrollToItem(currentPlayingIndex)
+        }
+    }
 
     DisposableEffect(Unit) {
         onDispose { audioPlayer.release() }
@@ -86,6 +105,22 @@ fun PhraseListScreen(
                     }
                 },
                 actions = {
+                    IconButton(onClick = { viewModel.toggleLoop() }) {
+                        Icon(
+                            imageVector = Icons.Filled.Loop,
+                            contentDescription = "Loop",
+                            tint = if (isLooping) MaterialTheme.colorScheme.primary else LocalContentColor.current
+                        )
+                    }
+                    IconButton(onClick = {
+                        if (isPlayingAll) viewModel.stopPlayAll(audioPlayer)
+                        else viewModel.playAll(audioPlayer)
+                    }) {
+                        Icon(
+                            imageVector = if (isPlayingAll) Icons.Filled.Stop else Icons.Filled.PlayArrow,
+                            contentDescription = if (isPlayingAll) "Stop" else "Play all"
+                        )
+                    }
                     FilterChip(
                         selected = showNative,
                         onClick = { showNative = !showNative },
@@ -109,20 +144,24 @@ fun PhraseListScreen(
             )
         } else {
             LazyColumn(
+                state = listState,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(innerPadding)
                     .padding(horizontal = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                items(phrases) { phrase ->
+                itemsIndexed(phrases) { index, phrase ->
                     PhraseCard(
                         phrase = phrase,
                         audioPlayer = audioPlayer,
                         nativeLanguage = nativeLanguage,
                         learnedLanguage = learnedLanguage,
                         showNative = showNative,
-                        showLearned = showLearned
+                        showLearned = showLearned,
+                        onToggleNative = { showNative = !showNative },
+                        onToggleLearned = { showLearned = !showLearned },
+                        isPlaying = index == currentPlayingIndex
                     )
                 }
             }
@@ -137,11 +176,15 @@ fun PhraseCard(
     nativeLanguage: String,
     learnedLanguage: String,
     showNative: Boolean,
-    showLearned: Boolean
+    showLearned: Boolean,
+    onToggleNative: () -> Unit,
+    onToggleLearned: () -> Unit,
+    isPlaying: Boolean = false
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        border = if (isPlaying) BorderStroke(2.dp, MaterialTheme.colorScheme.primary) else null
     ) {
 
         Row(
@@ -151,7 +194,12 @@ fun PhraseCard(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Box(modifier = Modifier.weight(1f).then(if (!showLearned) Modifier.blur(8.dp) else Modifier)) {
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable { onToggleLearned() }
+                    .then(if (!showLearned) Modifier.blur(8.dp) else Modifier)
+            ) {
                 Text(
                     text = phrase.getTranslation(learnedLanguage),
                     style = MaterialTheme.typography.bodyMedium,
@@ -172,7 +220,12 @@ fun PhraseCard(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Box(modifier = Modifier.weight(1f).then(if (!showNative) Modifier.blur(8.dp) else Modifier)) {
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable { onToggleNative() }
+                    .then(if (!showNative) Modifier.blur(8.dp) else Modifier)
+            ) {
                 Text(
                     text = phrase.getTranslation(nativeLanguage),
                     style = MaterialTheme.typography.bodyLarge
