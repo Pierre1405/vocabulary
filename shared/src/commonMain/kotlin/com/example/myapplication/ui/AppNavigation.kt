@@ -5,8 +5,16 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.example.myapplication.data.AudioPlayer
 import com.example.myapplication.data.VocabularyRepository
+import kotlinx.serialization.Serializable
+
+@Serializable
+object StoriesRoute
+
+@Serializable
+data class PhrasesRoute(val storyId: Long)
 
 @Composable
 fun AppNavigation(
@@ -18,21 +26,21 @@ fun AppNavigation(
 
     NavHost(
         navController = navController,
-        startDestination = "stories",
+        startDestination = StoriesRoute,
         modifier = modifier
     ) {
-        composable("stories") {
+        composable<StoriesRoute> {
             StoryListScreen(
                 repository = repository,
-                onStoryClick = { storyId -> navController.navigate("phrases/$storyId") }
+                onStoryClick = { storyId -> navController.navigate(PhrasesRoute(storyId)) }
             )
         }
-        composable("phrases/{storyId}") { backStackEntry ->
-            val storyId = backStackEntry.arguments?.getString("storyId")?.toLong() ?: return@composable
+        composable<PhrasesRoute> { backStackEntry ->
+            val route = backStackEntry.toRoute<PhrasesRoute>()
             PhraseListScreen(
                 repository = repository,
                 audioPlayer = audioPlayer,
-                storyId = storyId,
+                storyId = route.storyId,
                 onBack = { navController.popBackStack() }
             )
         }

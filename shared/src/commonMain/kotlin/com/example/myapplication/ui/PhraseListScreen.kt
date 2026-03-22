@@ -1,6 +1,7 @@
 package com.example.myapplication.ui
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +14,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -24,8 +26,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.data.AudioPlayer
@@ -47,6 +53,9 @@ fun PhraseListScreen(
     val phrases by viewModel.phrases.collectAsState()
     val nativeLanguage by viewModel.nativeLanguage.collectAsState()
     val learnedLanguage by viewModel.learnedLanguage.collectAsState()
+
+    var showNative by remember { mutableStateOf(false) }
+    var showLearned by remember { mutableStateOf(true) }
 
     DisposableEffect(Unit) {
         onDispose { audioPlayer.release() }
@@ -75,6 +84,19 @@ fun PhraseListScreen(
                             contentDescription = "Retour"
                         )
                     }
+                },
+                actions = {
+                    FilterChip(
+                        selected = showNative,
+                        onClick = { showNative = !showNative },
+                        label = { Text(localeToFlag(nativeLanguage)) }
+                    )
+                    FilterChip(
+                        selected = showLearned,
+                        onClick = { showLearned = !showLearned },
+                        label = { Text(localeToFlag(learnedLanguage)) },
+                        modifier = Modifier.padding(end = 8.dp)
+                    )
                 }
             )
         },
@@ -94,7 +116,14 @@ fun PhraseListScreen(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 items(phrases) { phrase ->
-                    PhraseCard(phrase = phrase, audioPlayer = audioPlayer, nativeLanguage = nativeLanguage, learnedLanguage = learnedLanguage)
+                    PhraseCard(
+                        phrase = phrase,
+                        audioPlayer = audioPlayer,
+                        nativeLanguage = nativeLanguage,
+                        learnedLanguage = learnedLanguage,
+                        showNative = showNative,
+                        showLearned = showLearned
+                    )
                 }
             }
         }
@@ -102,29 +131,18 @@ fun PhraseListScreen(
 }
 
 @Composable
-fun PhraseCard(phrase: PhraseWithTranslations, audioPlayer: AudioPlayer, nativeLanguage: String, learnedLanguage: String) {
+fun PhraseCard(
+    phrase: PhraseWithTranslations,
+    audioPlayer: AudioPlayer,
+    nativeLanguage: String,
+    learnedLanguage: String,
+    showNative: Boolean,
+    showLearned: Boolean
+) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp, top = 12.dp, end = 4.dp, bottom = 4.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(
-                text = phrase.getTranslation(nativeLanguage),
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.weight(1f)
-            )
-            IconButton(onClick = { audioPlayer.play(phrase.phraseId, nativeLanguage) }) {
-                Text("▶", style = MaterialTheme.typography.bodyLarge)
-            }
-        }
-
-        HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
 
         Row(
             modifier = Modifier
@@ -133,14 +151,32 @@ fun PhraseCard(phrase: PhraseWithTranslations, audioPlayer: AudioPlayer, nativeL
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = phrase.getTranslation(learnedLanguage),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.weight(1f)
-            )
+            Box(modifier = Modifier.weight(1f).then(if (!showLearned) Modifier.blur(8.dp) else Modifier)) {
+                Text(
+                    text = phrase.getTranslation(learnedLanguage),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
             IconButton(onClick = { audioPlayer.play(phrase.phraseId, learnedLanguage) }) {
                 Text("▶", color = MaterialTheme.colorScheme.primary, style = MaterialTheme.typography.bodyLarge)
+            }
+        }
+
+        HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, top = 12.dp, end = 4.dp, bottom = 4.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Box(modifier = Modifier.weight(1f).then(if (!showNative) Modifier.blur(8.dp) else Modifier)) {
+                Text(
+                    text = phrase.getTranslation(nativeLanguage),
+                    style = MaterialTheme.typography.bodyLarge
+                )
             }
         }
     }
