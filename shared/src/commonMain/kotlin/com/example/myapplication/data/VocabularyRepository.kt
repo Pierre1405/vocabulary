@@ -23,16 +23,16 @@ class VocabularyRepository(driverFactory: DatabaseDriverFactory) {
         database.storyQueries.getStoryById(id).executeAsOneOrNull()
     }
 
-    suspend fun getAllPhrases(): List<Sentence> = withContext(Dispatchers.Default) {
-        database.sentenceQueries.getAllPhrases().executeAsList()
+    suspend fun getAllSentences(): List<Sentence> = withContext(Dispatchers.Default) {
+        database.sentenceQueries.getAllSentences().executeAsList()
     }
 
-    suspend fun getPhrasesByCategory(categoryId: Long): List<Sentence> = withContext(Dispatchers.Default) {
-        database.sentenceQueries.getPhrasesByCategory(categoryId).executeAsList()
+    suspend fun getSentencesByCategory(categoryId: Long): List<Sentence> = withContext(Dispatchers.Default) {
+        database.sentenceQueries.getSentencesByCategory(categoryId).executeAsList()
     }
 
-    suspend fun getPhrasesByStory(storyId: Long): List<Sentence> = withContext(Dispatchers.Default) {
-        database.sentenceQueries.getPhrasesByStory(storyId).executeAsList()
+    suspend fun getSentencesByStory(storyId: Long): List<Sentence> = withContext(Dispatchers.Default) {
+        database.sentenceQueries.getSentencesByStory(storyId).executeAsList()
     }
 
     suspend fun getTranslationsForStory(storyId: Long): List<Translation> = withContext(Dispatchers.Default) {

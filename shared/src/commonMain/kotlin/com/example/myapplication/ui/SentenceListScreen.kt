@@ -47,18 +47,18 @@ import com.example.myapplication.data.VocabularyRepository
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PhraseListScreen(
+fun SentenceListScreen(
     repository: VocabularyRepository,
     audioPlayer: AudioPlayer,
     storyId: Long,
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val viewModel: PhraseViewModel = viewModel(key = storyId.toString()) {
-        PhraseViewModel(repository, storyId)
+    val viewModel: SentenceListViewModel = viewModel(key = storyId.toString()) {
+        SentenceListViewModel(repository, storyId)
     }
     val story by viewModel.story.collectAsState()
-    val phrases by viewModel.phrases.collectAsState()
+    val sentences by viewModel.sentences.collectAsState()
     val nativeLanguage by viewModel.nativeLanguage.collectAsState()
     val learnedLanguage by viewModel.learnedLanguage.collectAsState()
     val isPlayingAll by viewModel.isPlayingAll.collectAsState()
@@ -137,9 +137,9 @@ fun PhraseListScreen(
         },
         modifier = modifier
     ) { innerPadding ->
-        if (phrases.isEmpty()) {
+        if (sentences.isEmpty()) {
             Text(
-                text = "Aucune phrase trouvée.",
+                text = "Aucune sentence trouvée.",
                 modifier = Modifier.padding(innerPadding).padding(16.dp)
             )
         } else {
@@ -151,9 +151,9 @@ fun PhraseListScreen(
                     .padding(horizontal = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                itemsIndexed(phrases) { index, phrase ->
-                    PhraseCard(
-                        phrase = phrase,
+                itemsIndexed(sentences) { index, sentence ->
+                    SentenceCard(
+                        sentence = sentence,
                         audioPlayer = audioPlayer,
                         nativeLanguage = nativeLanguage,
                         learnedLanguage = learnedLanguage,
@@ -170,8 +170,8 @@ fun PhraseListScreen(
 }
 
 @Composable
-fun PhraseCard(
-    phrase: PhraseWithTranslations,
+fun SentenceCard(
+    sentence: SentenceWithTranslations,
     audioPlayer: AudioPlayer,
     nativeLanguage: String,
     learnedLanguage: String,
@@ -201,12 +201,12 @@ fun PhraseCard(
                     .then(if (!showLearned) Modifier.blur(8.dp) else Modifier)
             ) {
                 Text(
-                    text = phrase.getTranslation(learnedLanguage),
+                    text = sentence.getTranslation(learnedLanguage),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.primary
                 )
             }
-            IconButton(onClick = { audioPlayer.play(phrase.phraseId, learnedLanguage) }) {
+            IconButton(onClick = { audioPlayer.play(sentence.sentenceId, learnedLanguage) }) {
                 Text("▶", color = MaterialTheme.colorScheme.primary, style = MaterialTheme.typography.bodyLarge)
             }
         }
@@ -227,7 +227,7 @@ fun PhraseCard(
                     .then(if (!showNative) Modifier.blur(8.dp) else Modifier)
             ) {
                 Text(
-                    text = phrase.getTranslation(nativeLanguage),
+                    text = sentence.getTranslation(nativeLanguage),
                     style = MaterialTheme.typography.bodyLarge
                 )
             }

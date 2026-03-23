@@ -1,13 +1,16 @@
 [X] Wireframe draft
-[ ] Some graphique try
+[X] Some graphique try
 [X] Youtube kotlin multiplatform
-[ ] Translate french technical word to english
+[X] Translate french technical word to english
 [X] Manage more than one language
-[ ] Add config database with fr en as default values
-[ ] Add header for categories and title in source file
+[X] Add config database with fr en as default values
+[X] Add header for categories and title in source file
 [X] rename phrase into sentence
 [X] remove the apprise column, instead create a table to remember the grade on a sentence from local source to target source
 [X] auto increment db version
+[ ] detail view
+[ ] study algorithm
 [ ] traduction incrémental
 [ ] génération des mp3 incrémental
 [ ] traduction et source dans le même répertoire, modification du script de clean pour tenir compte de la local source, modification du git ignore
+[ ] Remove category from phrase table

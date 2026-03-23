@@ -9,9 +9,9 @@ actual class AudioPlayer {
     private var audioPlayer: AVAudioPlayer? = null
     private var delegate: AudioPlayerDelegate? = null
 
-    actual fun play(phraseId: Long, language: String, onComplete: () -> Unit) {
+    actual fun play(sentenceId: Long, language: String, onComplete: () -> Unit) {
         audioPlayer?.stop()
-        val fileName = "phrase_${phraseId}_$language"
+        val fileName = "sentence_${sentenceId}_$language"
         val url = NSBundle.mainBundle.URLForResource(fileName, withExtension = "mp3")
         if (url != null) {
             val d = AudioPlayerDelegate(onComplete)

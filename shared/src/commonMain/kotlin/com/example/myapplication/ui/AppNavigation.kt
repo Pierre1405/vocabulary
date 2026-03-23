@@ -14,7 +14,7 @@ import kotlinx.serialization.Serializable
 object StoriesRoute
 
 @Serializable
-data class PhrasesRoute(val storyId: Long)
+data class SentencesRoute(val storyId: Long)
 
 @Composable
 fun AppNavigation(
@@ -32,12 +32,12 @@ fun AppNavigation(
         composable<StoriesRoute> {
             StoryListScreen(
                 repository = repository,
-                onStoryClick = { storyId -> navController.navigate(PhrasesRoute(storyId)) }
+                onStoryClick = { storyId -> navController.navigate(SentencesRoute(storyId)) }
             )
         }
-        composable<PhrasesRoute> { backStackEntry ->
-            val route = backStackEntry.toRoute<PhrasesRoute>()
-            PhraseListScreen(
+        composable<SentencesRoute> { backStackEntry ->
+            val route = backStackEntry.toRoute<SentencesRoute>()
+            SentenceListScreen(
                 repository = repository,
                 audioPlayer = audioPlayer,
                 storyId = route.storyId,

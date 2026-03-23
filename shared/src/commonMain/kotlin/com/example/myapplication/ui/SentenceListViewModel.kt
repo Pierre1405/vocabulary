@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class PhraseViewModel(
+class SentenceListViewModel(
     private val repository: VocabularyRepository,
     private val storyId: Long
 ) : ViewModel() {
@@ -16,8 +16,8 @@ class PhraseViewModel(
     private val _story = MutableStateFlow<StoryWithTranslations?>(null)
     val story: StateFlow<StoryWithTranslations?> = _story
 
-    private val _phrases = MutableStateFlow<List<PhraseWithTranslations>>(emptyList())
-    val phrases: StateFlow<List<PhraseWithTranslations>> = _phrases
+    private val _sentences = MutableStateFlow<List<SentenceWithTranslations>>(emptyList())
+    val sentences: StateFlow<List<SentenceWithTranslations>> = _sentences
 
     private val _nativeLanguage = MutableStateFlow("fr")
     val nativeLanguage: StateFlow<String> = _nativeLanguage
@@ -41,17 +41,17 @@ class PhraseViewModel(
     fun playAll(audioPlayer: AudioPlayer) {
         if (_isPlayingAll.value) return
         _isPlayingAll.value = true
-        playNext(audioPlayer, _phrases.value, 0)
+        playNext(audioPlayer, _sentences.value, 0)
     }
 
-    private fun playNext(audioPlayer: AudioPlayer, phrases: List<PhraseWithTranslations>, index: Int) {
+    private fun playNext(audioPlayer: AudioPlayer, sentences: List<SentenceWithTranslations>, index: Int) {
         if (!_isPlayingAll.value) {
             _currentPlayingIndex.value = -1
             return
         }
-        if (index >= phrases.size) {
+        if (index >= sentences.size) {
             if (_isLooping.value) {
-                playNext(audioPlayer, phrases, 0)
+                playNext(audioPlayer, sentences, 0)
             } else {
                 _isPlayingAll.value = false
                 _currentPlayingIndex.value = -1
@@ -59,8 +59,8 @@ class PhraseViewModel(
             return
         }
         _currentPlayingIndex.value = index
-        audioPlayer.play(phrases[index].phraseId, _learnedLanguage.value) {
-            playNext(audioPlayer, phrases, index + 1)
+        audioPlayer.play(sentences[index].sentenceId, _learnedLanguage.value) {
+            playNext(audioPlayer, sentences, index + 1)
         }
     }
 
@@ -88,14 +88,14 @@ class PhraseViewModel(
                 )
             }
 
-            val phrases = repository.getPhrasesByStory(storyId)
+            val sentences = repository.getSentencesByStory(storyId)
             val translations = repository.getTranslationsForStory(storyId)
-            val translationsByPhraseId = translations.groupBy { it.sentence_id }
+            val translationsBySentenceId = translations.groupBy { it.sentence_id }
 
-            _phrases.value = phrases.map { phrase ->
-                PhraseWithTranslations(
-                    phraseId = phrase.id,
-                    translations = translationsByPhraseId[phrase.id]
+            _sentences.value = sentences.map { sentence ->
+                SentenceWithTranslations(
+                    sentenceId = sentence.id,
+                    translations = translationsBySentenceId[sentence.id]
                         ?.associate { it.locale to it.translation }
                         ?: emptyMap()
                 )
