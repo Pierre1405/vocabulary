@@ -4,6 +4,7 @@ Script pour traduire les phrases de fichiers texte vers les langues définies da
 Utilise l'API Google Cloud Translation.
 """
 
+import html
 import os
 import sys
 import configparser
@@ -29,7 +30,7 @@ def load_config(config_path):
 def translate_line(text, target_locale):
     client = translate.Client()
     result = client.translate(text, target_language=target_locale)
-    return result["translatedText"]
+    return html.unescape(result["translatedText"])
 
 
 def translate_files(input_dir, output_dir, config_path):
