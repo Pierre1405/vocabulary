@@ -37,7 +37,7 @@ fun AppNavigation(
         }
         composable<SentencesRoute> { backStackEntry ->
             val route = backStackEntry.toRoute<SentencesRoute>()
-            SentenceListScreen(
+            SentenceScreen(
                 repository = repository,
                 audioPlayer = audioPlayer,
                 storyId = route.storyId,

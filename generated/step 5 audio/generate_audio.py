@@ -64,7 +64,7 @@ def generate_audio(chunks_dir, output_dir, config_dir):
 
                 for i, locale in enumerate(locale_columns):
                     text = parts[1 + i]
-                    audio_file = os.path.join(output_dir, f"phrase_{sentence_id}_{locale}.mp3")
+                    audio_file = os.path.join(output_dir, f"sentence_{sentence_id}_{locale}.mp3")
 
                     if os.path.exists(audio_file):
                         print(f"Fichier audio déjà existant : {audio_file}")

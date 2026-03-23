@@ -60,7 +60,9 @@ class SentenceListViewModel(
         }
         _currentPlayingIndex.value = index
         audioPlayer.play(sentences[index].sentenceId, _learnedLanguage.value) {
-            playNext(audioPlayer, sentences, index + 1)
+            viewModelScope.launch {
+                playNext(audioPlayer, sentences, index + 1)
+            }
         }
     }
 
