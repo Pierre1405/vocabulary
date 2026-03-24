@@ -41,22 +41,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.data.AudioPlayer
-import com.example.myapplication.data.VocabularyRepository
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SentenceListScreen(
-    repository: VocabularyRepository,
+    viewModel: SentenceViewModel,
     audioPlayer: AudioPlayer,
-    storyId: Long,
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val viewModel: SentenceListViewModel = viewModel(key = storyId.toString()) {
-        SentenceListViewModel(repository, storyId)
-    }
     val story by viewModel.story.collectAsState()
     val sentences by viewModel.sentences.collectAsState()
     val nativeLanguage by viewModel.nativeLanguage.collectAsState()

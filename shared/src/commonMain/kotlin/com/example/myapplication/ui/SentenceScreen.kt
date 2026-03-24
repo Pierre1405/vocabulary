@@ -16,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.data.AudioPlayer
 import com.example.myapplication.data.VocabularyRepository
 
@@ -29,6 +30,10 @@ fun SentenceScreen(
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val viewModel: SentenceViewModel = viewModel(key = storyId.toString()) {
+        SentenceViewModel(repository, storyId)
+    }
+
     var currentTab by remember { mutableStateOf(SentenceTab.ALL) }
 
     Scaffold(
@@ -68,14 +73,13 @@ fun SentenceScreen(
     ) { innerPadding ->
         when (currentTab) {
             SentenceTab.ALL -> SentenceListScreen(
-                repository = repository,
+                viewModel = viewModel,
                 audioPlayer = audioPlayer,
-                storyId = storyId,
                 onBack = onBack,
                 modifier = Modifier.padding(innerPadding)
             )
             SentenceTab.DETAIL -> SentenceDetailScreen(
-                storyId = storyId,
+                viewModel = viewModel,
                 modifier = Modifier.padding(innerPadding)
             )
         }

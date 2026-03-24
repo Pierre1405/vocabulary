@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class SentenceListViewModel(
+class SentenceViewModel(
     private val repository: VocabularyRepository,
     private val storyId: Long
 ) : ViewModel() {

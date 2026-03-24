@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun SentenceDetailScreen(
-    storyId: Long,
+    viewModel: SentenceViewModel,
     modifier: Modifier = Modifier
 ) {
     Box(
