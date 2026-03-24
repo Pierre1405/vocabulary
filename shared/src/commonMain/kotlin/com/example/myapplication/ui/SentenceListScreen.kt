@@ -1,14 +1,21 @@
 package com.example.myapplication.ui
 
+import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.draggable
+import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -36,11 +43,16 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.IntOffset
+import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 import com.example.myapplication.data.AudioPlayer
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -146,17 +158,21 @@ fun SentenceListScreen(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 itemsIndexed(sentences) { index, sentence ->
-                    SentenceCard(
-                        sentence = sentence,
-                        audioPlayer = audioPlayer,
-                        nativeLanguage = nativeLanguage,
-                        learnedLanguage = learnedLanguage,
-                        showNative = showNative,
-                        showLearned = showLearned,
-                        onToggleNative = { showNative = !showNative },
-                        onToggleLearned = { showLearned = !showLearned },
-                        isPlaying = index == currentPlayingIndex
-                    )
+                    SwipeableGradeCard(
+                        onGradeSelected = { grade -> viewModel.saveGrade(sentence.sentenceId, grade) }
+                    ) {
+                        SentenceCard(
+                            sentence = sentence,
+                            audioPlayer = audioPlayer,
+                            nativeLanguage = nativeLanguage,
+                            learnedLanguage = learnedLanguage,
+                            showNative = showNative,
+                            showLearned = showLearned,
+                            onToggleNative = { showNative = !showNative },
+                            onToggleLearned = { showLearned = !showLearned },
+                            isPlaying = index == currentPlayingIndex
+                        )
+                    }
                 }
             }
         }
@@ -227,4 +243,82 @@ fun SentenceCard(
             }
         }
     }
+}
+
+@Composable
+fun SwipeableGradeCard(
+    onGradeSelected: (Int) -> Unit,
+    content: @Composable () -> Unit
+) {
+    val revealWidthDp = 200.dp
+    val revealWidthPx = with(LocalDensity.current) { revealWidthDp.toPx() }
+    val offsetX = remember { Animatable(0f) }
+    val scope = rememberCoroutineScope()
+
+    Box(modifier = Modifier.fillMaxWidth()) {
+        // Boutons de note révélés derrière la carte
+        Row(
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+                .width(revealWidthDp)
+                .fillMaxHeight(),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            (1..5).forEach { grade ->
+                Box(
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .clickable {
+                            onGradeSelected(grade)
+                            scope.launch { offsetX.animateTo(0f) }
+                        },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "$grade",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = gradeColor(grade)
+                    )
+                }
+            }
+        }
+
+        // Carte glissante
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .offset { IntOffset(offsetX.value.roundToInt(), 0) }
+                .draggable(
+                    orientation = Orientation.Horizontal,
+                    state = rememberDraggableState { delta ->
+                        scope.launch {
+                            val newValue = (offsetX.value + delta).coerceIn(-revealWidthPx, 0f)
+                            offsetX.snapTo(newValue)
+                        }
+                    },
+                    onDragStopped = {
+                        scope.launch {
+                            if (offsetX.value < -revealWidthPx / 2) {
+                                offsetX.animateTo(-revealWidthPx)
+                            } else {
+                                offsetX.animateTo(0f)
+                            }
+                        }
+                    }
+                )
+        ) {
+            content()
+        }
+    }
+}
+
+fun gradeColor(grade: Int) = when (grade) {
+    1 -> androidx.compose.ui.graphics.Color(0xFFE53935)
+    2 -> androidx.compose.ui.graphics.Color(0xFFFF7043)
+    3 -> androidx.compose.ui.graphics.Color(0xFFFFB300)
+    4 -> androidx.compose.ui.graphics.Color(0xFF7CB342)
+    5 -> androidx.compose.ui.graphics.Color(0xFF43A047)
+    else -> androidx.compose.ui.graphics.Color.Gray
 }

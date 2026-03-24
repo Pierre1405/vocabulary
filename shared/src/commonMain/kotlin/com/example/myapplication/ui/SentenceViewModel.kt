@@ -66,6 +66,15 @@ class SentenceViewModel(
         }
     }
 
+    fun saveGrade(sentenceId: Long, grade: Int) {
+        viewModelScope.launch {
+            val nativeLang = _nativeLanguage.value
+            val learnedLang = _learnedLanguage.value
+            repository.saveGrade(sentenceId, nativeLang, learnedLang, grade)
+            repository.saveGrade(sentenceId, learnedLang, nativeLang, grade)
+        }
+    }
+
     fun stopPlayAll(audioPlayer: AudioPlayer) {
         _isPlayingAll.value = false
         _currentPlayingIndex.value = -1

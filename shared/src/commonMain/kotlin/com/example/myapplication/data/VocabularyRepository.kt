@@ -54,4 +54,9 @@ class VocabularyRepository(driverFactory: DatabaseDriverFactory) {
     suspend fun getConfiguration(key: String): String? = withContext(Dispatchers.Default) {
         database.configurationQueries.getValue(key).executeAsOneOrNull()
     }
+
+    suspend fun saveGrade(sentenceId: Long, sourceLocale: String, targetLocale: String, grade: Int) =
+        withContext(Dispatchers.Default) {
+            database.learningQueries.upsertGrade(sentenceId, sourceLocale, targetLocale, grade.toLong())
+        }
 }
