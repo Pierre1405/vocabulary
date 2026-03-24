@@ -17,3 +17,7 @@ VALUES (:sentenceId, :sourceLocale, :targetLocale, :grade);
 
 getAllLearning:
 SELECT * FROM learning;
+
+countByDirection:
+SELECT COUNT(*) FROM learning
+WHERE source_locale = :sourceLocale AND target_locale = :targetLocale;

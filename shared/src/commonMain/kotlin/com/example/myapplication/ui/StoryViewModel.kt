@@ -18,10 +18,18 @@ class StoryViewModel(private val repository: VocabularyRepository) : ViewModel()
     private val _learnedLanguage = MutableStateFlow("de")
     val learnedLanguage: StateFlow<String> = _learnedLanguage
 
+    private val _countNativeToLearned = MutableStateFlow(0L)
+    val countNativeToLearned: StateFlow<Long> = _countNativeToLearned
+
+    private val _countLearnedToNative = MutableStateFlow(0L)
+    val countLearnedToNative: StateFlow<Long> = _countLearnedToNative
+
     init {
         viewModelScope.launch {
-            _nativeLanguage.value = repository.getConfiguration("native_language") ?: "fr"
-            _learnedLanguage.value = repository.getConfiguration("learned_language") ?: "de"
+            val nativeLang = repository.getConfiguration("native_language") ?: "fr"
+            val learnedLang = repository.getConfiguration("learned_language") ?: "de"
+            _nativeLanguage.value = nativeLang
+            _learnedLanguage.value = learnedLang
 
             val stories = repository.getAllStories()
             val allTranslations = repository.getAllStoryTranslations()
@@ -34,6 +42,9 @@ class StoryViewModel(private val repository: VocabularyRepository) : ViewModel()
                         ?.associate { it.locale to it.translation } ?: emptyMap()
                 )
             }
+
+            _countNativeToLearned.value = repository.countLearningByDirection(nativeLang, learnedLang)
+            _countLearnedToNative.value = repository.countLearningByDirection(learnedLang, nativeLang)
         }
     }
 }

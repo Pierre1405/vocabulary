@@ -3,11 +3,13 @@ package com.example.myapplication.ui
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -25,12 +27,15 @@ import com.example.myapplication.data.VocabularyRepository
 fun StoryListScreen(
     repository: VocabularyRepository,
     onStoryClick: (Long) -> Unit,
+    onReviewClick: (sourceLocale: String, targetLocale: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val viewModel: StoryViewModel = viewModel { StoryViewModel(repository) }
     val stories by viewModel.stories.collectAsState()
     val nativeLanguage by viewModel.nativeLanguage.collectAsState()
     val learnedLanguage by viewModel.learnedLanguage.collectAsState()
+    val countNativeToLearned by viewModel.countNativeToLearned.collectAsState()
+    val countLearnedToNative by viewModel.countLearnedToNative.collectAsState()
 
     Column(
         modifier = modifier
@@ -42,6 +47,24 @@ fun StoryListScreen(
             text = "Histoires",
             style = MaterialTheme.typography.headlineMedium
         )
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Button(
+                onClick = { onReviewClick(nativeLanguage, learnedLanguage) },
+                modifier = Modifier.weight(1f)
+            ) {
+                Text("Réviser ${localeToFlag(nativeLanguage)} → ${localeToFlag(learnedLanguage)} ($countNativeToLearned)")
+            }
+            Button(
+                onClick = { onReviewClick(learnedLanguage, nativeLanguage) },
+                modifier = Modifier.weight(1f)
+            ) {
+                Text("Réviser ${localeToFlag(learnedLanguage)} → ${localeToFlag(nativeLanguage)} ($countLearnedToNative)")
+            }
+        }
 
         if (stories.isEmpty()) {
             Text(text = "Aucune histoire trouvée.")

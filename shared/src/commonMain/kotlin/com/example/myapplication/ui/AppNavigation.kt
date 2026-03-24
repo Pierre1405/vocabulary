@@ -16,6 +16,9 @@ object StoriesRoute
 @Serializable
 data class SentencesRoute(val storyId: Long)
 
+@Serializable
+data class ReviewRoute(val sourceLocale: String, val targetLocale: String)
+
 @Composable
 fun AppNavigation(
     repository: VocabularyRepository,
@@ -32,7 +35,8 @@ fun AppNavigation(
         composable<StoriesRoute> {
             StoryListScreen(
                 repository = repository,
-                onStoryClick = { storyId -> navController.navigate(SentencesRoute(storyId)) }
+                onStoryClick = { storyId -> navController.navigate(SentencesRoute(storyId)) },
+                onReviewClick = { source, target -> navController.navigate(ReviewRoute(source, target)) }
             )
         }
         composable<SentencesRoute> { backStackEntry ->
@@ -41,6 +45,16 @@ fun AppNavigation(
                 repository = repository,
                 audioPlayer = audioPlayer,
                 storyId = route.storyId,
+                onBack = { navController.popBackStack() }
+            )
+        }
+        composable<ReviewRoute> { backStackEntry ->
+            val route = backStackEntry.toRoute<ReviewRoute>()
+            ReviewScreen(
+                repository = repository,
+                audioPlayer = audioPlayer,
+                sourceLocale = route.sourceLocale,
+                targetLocale = route.targetLocale,
                 onBack = { navController.popBackStack() }
             )
         }

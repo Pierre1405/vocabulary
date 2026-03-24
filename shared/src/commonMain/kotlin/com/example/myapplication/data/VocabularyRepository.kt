@@ -59,4 +59,9 @@ class VocabularyRepository(driverFactory: DatabaseDriverFactory) {
         withContext(Dispatchers.Default) {
             database.learningQueries.upsertGrade(sentenceId, sourceLocale, targetLocale, grade.toLong())
         }
+
+    suspend fun countLearningByDirection(sourceLocale: String, targetLocale: String): Long =
+        withContext(Dispatchers.Default) {
+            database.learningQueries.countByDirection(sourceLocale, targetLocale).executeAsOne()
+        }
 }
