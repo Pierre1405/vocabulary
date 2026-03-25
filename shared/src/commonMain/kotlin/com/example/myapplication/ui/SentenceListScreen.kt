@@ -314,11 +314,3 @@ fun SwipeableGradeCard(
     }
 }
 
-fun gradeColor(grade: Int) = when (grade) {
-    1 -> androidx.compose.ui.graphics.Color(0xFFE53935)
-    2 -> androidx.compose.ui.graphics.Color(0xFFFF7043)
-    3 -> androidx.compose.ui.graphics.Color(0xFFFFB300)
-    4 -> androidx.compose.ui.graphics.Color(0xFF7CB342)
-    5 -> androidx.compose.ui.graphics.Color(0xFF43A047)
-    else -> androidx.compose.ui.graphics.Color.Gray
-}

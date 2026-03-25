@@ -45,6 +45,7 @@ kotlin {
             implementation(libs.sqldelight.coroutines)
             implementation(libs.lifecycle.viewmodel)
             implementation(libs.lifecycle.viewmodel.compose)
+            implementation(libs.lifecycle.runtime.compose)
             implementation(libs.navigation.compose)
             implementation(libs.kotlinx.serialization)
         }

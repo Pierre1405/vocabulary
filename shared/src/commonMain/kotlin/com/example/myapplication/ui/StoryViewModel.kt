@@ -43,6 +43,14 @@ class StoryViewModel(private val repository: VocabularyRepository) : ViewModel()
                 )
             }
 
+            refreshCounts()
+        }
+    }
+
+    fun refreshCounts() {
+        viewModelScope.launch {
+            val nativeLang = _nativeLanguage.value
+            val learnedLang = _learnedLanguage.value
             _countNativeToLearned.value = repository.countLearningByDirection(nativeLang, learnedLang)
             _countLearnedToNative.value = repository.countLearningByDirection(learnedLang, nativeLang)
         }

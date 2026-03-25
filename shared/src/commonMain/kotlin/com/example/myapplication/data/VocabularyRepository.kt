@@ -74,4 +74,11 @@ class VocabularyRepository(driverFactory: DatabaseDriverFactory) {
         withContext(Dispatchers.Default) {
             database.learningQueries.getSentenceIdsByDirection(sourceLocale, targetLocale).executeAsList()
         }
+
+    suspend fun getGradesByDirection(sourceLocale: String, targetLocale: String): Map<Long, Long> =
+        withContext(Dispatchers.Default) {
+            database.learningQueries.getGradesByDirection(sourceLocale, targetLocale)
+                .executeAsList()
+                .associate { it.sentence_id to it.grade }
+        }
 }

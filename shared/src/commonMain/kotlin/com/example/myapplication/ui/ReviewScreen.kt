@@ -58,6 +58,7 @@ fun ReviewScreen(
 
     val sentences by viewModel.sentences.collectAsState()
     val currentIndex by viewModel.currentIndex.collectAsState()
+    val currentGrade by viewModel.currentGrade.collectAsState()
 
     DisposableEffect(Unit) {
         onDispose { speechRecognizer.release() }
@@ -97,7 +98,9 @@ fun ReviewScreen(
                 sentence = sentence,
                 sourceLocale = sourceLocale,
                 targetLocale = targetLocale,
+                currentGrade = currentGrade,
                 speechRecognizer = speechRecognizer,
+                onGradeSelected = { grade -> viewModel.saveGrade(sentence.sentenceId, grade) },
                 onNext = { viewModel.moveToNext() },
                 onPrevious = { viewModel.moveToPrevious() },
                 modifier = Modifier
@@ -114,7 +117,9 @@ fun ReviewCard(
     sentence: SentenceWithTranslations,
     sourceLocale: String,
     targetLocale: String,
+    currentGrade: Int?,
     speechRecognizer: SpeechRecognizer,
+    onGradeSelected: (Int) -> Unit,
     onNext: () -> Unit,
     onPrevious: () -> Unit,
     modifier: Modifier = Modifier
@@ -199,6 +204,32 @@ fun ReviewCard(
                     tint = if (isListening) MaterialTheme.colorScheme.error
                            else MaterialTheme.colorScheme.primary
                 )
+            }
+        }
+
+        // Boutons de note 1-5
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            (1..5).forEach { grade ->
+                val isSelected = grade == currentGrade
+                Button(
+                    onClick = { onGradeSelected(grade) },
+                    modifier = Modifier.weight(if (isSelected) 1.3f else 1f),
+                    colors = androidx.compose.material3.ButtonDefaults.buttonColors(
+                        containerColor = gradeColor(grade).copy(alpha = if (isSelected) 1f else 0.45f)
+                    ),
+                    border = if (isSelected) androidx.compose.foundation.BorderStroke(
+                        2.dp, gradeColor(grade)
+                    ) else null
+                ) {
+                    Text(
+                        text = "$grade",
+                        style = if (isSelected) MaterialTheme.typography.titleMedium
+                                else MaterialTheme.typography.bodyMedium
+                    )
+                }
             }
         }
 

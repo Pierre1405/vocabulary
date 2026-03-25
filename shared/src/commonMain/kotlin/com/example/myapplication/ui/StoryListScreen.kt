@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -36,6 +37,11 @@ fun StoryListScreen(
     val learnedLanguage by viewModel.learnedLanguage.collectAsState()
     val countNativeToLearned by viewModel.countNativeToLearned.collectAsState()
     val countLearnedToNative by viewModel.countLearnedToNative.collectAsState()
+
+    LifecycleResumeEffect(Unit) {
+        viewModel.refreshCounts()
+        onPauseOrDispose { }
+    }
 
     Column(
         modifier = modifier
