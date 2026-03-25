@@ -14,3 +14,4 @@
 [ ] génération des mp3 incrémental
 [ ] traduction et source dans le même répertoire, modification du script de clean pour tenir compte de la local source, modification du git ignore
 [ ] Remove category from phrase table
+[ ] mode main libre

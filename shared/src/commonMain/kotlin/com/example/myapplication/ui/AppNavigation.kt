@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.myapplication.data.AudioPlayer
+import com.example.myapplication.data.SpeechRecognizer
 import com.example.myapplication.data.VocabularyRepository
 import kotlinx.serialization.Serializable
 
@@ -23,6 +24,7 @@ data class ReviewRoute(val sourceLocale: String, val targetLocale: String)
 fun AppNavigation(
     repository: VocabularyRepository,
     audioPlayer: AudioPlayer,
+    speechRecognizer: SpeechRecognizer,
     modifier: Modifier = Modifier
 ) {
     val navController = rememberNavController()
@@ -53,6 +55,7 @@ fun AppNavigation(
             ReviewScreen(
                 repository = repository,
                 audioPlayer = audioPlayer,
+                speechRecognizer = speechRecognizer,
                 sourceLocale = route.sourceLocale,
                 targetLocale = route.targetLocale,
                 onBack = { navController.popBackStack() }
