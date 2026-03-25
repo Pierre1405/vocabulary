@@ -9,8 +9,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Headphones
+import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -28,7 +32,7 @@ import com.example.myapplication.data.VocabularyRepository
 fun StoryListScreen(
     repository: VocabularyRepository,
     onStoryClick: (Long) -> Unit,
-    onReviewClick: (sourceLocale: String, targetLocale: String) -> Unit,
+    onReviewClick: (sourceLocale: String, targetLocale: String, sourceBlurred: Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val viewModel: StoryViewModel = viewModel { StoryViewModel(repository) }
@@ -59,16 +63,24 @@ fun StoryListScreen(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Button(
-                onClick = { onReviewClick(nativeLanguage, learnedLanguage) },
+                onClick = { onReviewClick(nativeLanguage, learnedLanguage, false) },
                 modifier = Modifier.weight(1f)
             ) {
                 Text("Réviser ${localeToFlag(nativeLanguage)} → ${localeToFlag(learnedLanguage)} ($countNativeToLearned)")
             }
             Button(
-                onClick = { onReviewClick(learnedLanguage, nativeLanguage) },
+                onClick = { onReviewClick(learnedLanguage, nativeLanguage, false) },
                 modifier = Modifier.weight(1f)
             ) {
-                Text("Réviser ${localeToFlag(learnedLanguage)} → ${localeToFlag(nativeLanguage)} ($countLearnedToNative)")
+                Icon(Icons.Filled.Visibility, contentDescription = null)
+                Text(" ${localeToFlag(learnedLanguage)} → ${localeToFlag(nativeLanguage)} ($countLearnedToNative)")
+            }
+            Button(
+                onClick = { onReviewClick(learnedLanguage, nativeLanguage, true) },
+                modifier = Modifier.weight(1f)
+            ) {
+                Icon(Icons.Filled.Headphones, contentDescription = null)
+                Text(" ${localeToFlag(learnedLanguage)} → ${localeToFlag(nativeLanguage)} ($countLearnedToNative)")
             }
         }
 

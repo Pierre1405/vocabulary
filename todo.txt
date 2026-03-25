@@ -15,4 +15,4 @@
 [ ] traduction et source dans le même répertoire, modification du script de clean pour tenir compte de la local source, modification du git ignore
 [ ] Remove category from phrase table
 [ ] mode main libre dans review
-[ ] mise en place d'un vrai algo pour la selection des révision.
+[ ] mise en place d'un vrai algo pour la selection des révision en tenant compte de la note et de la date du dernier affichage

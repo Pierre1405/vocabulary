@@ -51,6 +51,7 @@ fun ReviewScreen(
     speechRecognizer: SpeechRecognizer,
     sourceLocale: String,
     targetLocale: String,
+    sourceBlurred: Boolean = false,
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -124,6 +125,8 @@ fun ReviewScreen(
                 sourceLocale = sourceLocale,
                 targetLocale = targetLocale,
                 currentGrade = currentGrade,
+                forceShowTarget = isPlayingAll,
+                sourceBlurred = sourceBlurred,
                 audioPlayer = audioPlayer,
                 speechRecognizer = speechRecognizer,
                 onGradeSelected = { grade -> viewModel.saveGrade(sentence.sentenceId, grade) },
@@ -144,6 +147,8 @@ fun ReviewCard(
     sourceLocale: String,
     targetLocale: String,
     currentGrade: Int?,
+    forceShowTarget: Boolean = false,
+    sourceBlurred: Boolean = false,
     audioPlayer: AudioPlayer,
     speechRecognizer: SpeechRecognizer,
     onGradeSelected: (Int) -> Unit,
@@ -151,7 +156,10 @@ fun ReviewCard(
     onPrevious: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    var showSource by remember(sentence.sentenceId) { mutableStateOf(false) }
+    val sourceVisible = !sourceBlurred || showSource
     var showTarget by remember(sentence.sentenceId) { mutableStateOf(false) }
+    val targetVisible = showTarget || forceShowTarget
     var spokenText by remember(sentence.sentenceId) { mutableStateOf("") }
     var isListening by remember { mutableStateOf(false) }
 
@@ -171,17 +179,23 @@ fun ReviewCard(
                     .padding(24.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically)
             ) {
-                // Phrase source (toujours visible)
+                // Phrase source
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween,
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(
-                        text = sentence.getTranslation(sourceLocale),
-                        style = MaterialTheme.typography.bodyLarge,
-                        modifier = Modifier.weight(1f)
-                    )
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .then(if (sourceBlurred) Modifier.clickable { showSource = !showSource } else Modifier)
+                            .then(if (!sourceVisible) Modifier.blur(8.dp) else Modifier)
+                    ) {
+                        Text(
+                            text = sentence.getTranslation(sourceLocale),
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                    }
                     IconButton(onClick = { audioPlayer.play(sentence.sentenceId, sourceLocale) }) {
                         Text("▶", style = MaterialTheme.typography.bodyLarge)
                     }
@@ -199,7 +213,7 @@ fun ReviewCard(
                         modifier = Modifier
                             .weight(1f)
                             .clickable { showTarget = !showTarget }
-                            .then(if (!showTarget) Modifier.blur(8.dp) else Modifier)
+                            .then(if (!targetVisible) Modifier.blur(8.dp) else Modifier)
                     ) {
                         Text(
                             text = sentence.getTranslation(targetLocale),
