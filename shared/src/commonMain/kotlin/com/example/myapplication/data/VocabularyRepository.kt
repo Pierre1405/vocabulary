@@ -64,4 +64,14 @@ class VocabularyRepository(driverFactory: DatabaseDriverFactory) {
         withContext(Dispatchers.Default) {
             database.learningQueries.countByDirection(sourceLocale, targetLocale).executeAsOne()
         }
+
+    suspend fun getTranslationsForSentences(sentenceIds: List<Long>): List<Translation> =
+        withContext(Dispatchers.Default) {
+            database.translationQueries.getTranslationsForSentences(sentenceIds).executeAsList()
+        }
+
+    suspend fun getSentenceIdsByDirection(sourceLocale: String, targetLocale: String): List<Long> =
+        withContext(Dispatchers.Default) {
+            database.learningQueries.getSentenceIdsByDirection(sourceLocale, targetLocale).executeAsList()
+        }
 }

@@ -12,3 +12,6 @@ WHERE sentence_id IN (SELECT id FROM sentence WHERE story_id = :storyId);
 
 getTranslationsByPhraseId:
 SELECT * FROM translation WHERE sentence_id = :phraseId;
+
+getTranslationsForSentences:
+SELECT * FROM translation WHERE sentence_id IN :sentenceIds;

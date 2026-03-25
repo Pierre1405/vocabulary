@@ -21,3 +21,7 @@ SELECT * FROM learning;
 countByDirection:
 SELECT COUNT(*) FROM learning
 WHERE source_locale = :sourceLocale AND target_locale = :targetLocale;
+
+getSentenceIdsByDirection:
+SELECT sentence_id FROM learning
+WHERE source_locale = :sourceLocale AND target_locale = :targetLocale;
