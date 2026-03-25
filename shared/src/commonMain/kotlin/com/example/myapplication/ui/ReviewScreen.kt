@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Mic
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Stop
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -31,6 +32,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -60,8 +62,15 @@ fun ReviewScreen(
     val currentIndex by viewModel.currentIndex.collectAsState()
     val currentGrade by viewModel.currentGrade.collectAsState()
 
+    val scope = rememberCoroutineScope()
+    val reviewPlayer = remember { ReviewPlayer(audioPlayer, scope) }
+    val isPlayingAll by reviewPlayer.isPlaying.collectAsState()
+
     DisposableEffect(Unit) {
-        onDispose { speechRecognizer.release() }
+        onDispose {
+            reviewPlayer.release()
+            speechRecognizer.release()
+        }
     }
 
     Scaffold(
@@ -78,6 +87,22 @@ fun ReviewScreen(
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Retour"
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(onClick = {
+                        reviewPlayer.toggle(
+                            sentences = sentences,
+                            startIndex = currentIndex,
+                            sourceLocale = sourceLocale,
+                            targetLocale = targetLocale,
+                            onIndexChanged = { viewModel.navigateTo(it) }
+                        )
+                    }) {
+                        Icon(
+                            imageVector = if (isPlayingAll) Icons.Filled.Stop else Icons.Filled.PlayArrow,
+                            contentDescription = if (isPlayingAll) "Stop" else "Lire tout"
                         )
                     }
                 }

@@ -73,6 +73,11 @@ class ReviewViewModel(
         }
     }
 
+    fun navigateTo(index: Int) {
+        _currentIndex.value = index
+        updateCurrentGrade()
+    }
+
     fun moveToNext() {
         val size = _sentences.value.size
         if (size == 0) return
