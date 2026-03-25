@@ -99,6 +99,7 @@ fun ReviewScreen(
                 sourceLocale = sourceLocale,
                 targetLocale = targetLocale,
                 currentGrade = currentGrade,
+                audioPlayer = audioPlayer,
                 speechRecognizer = speechRecognizer,
                 onGradeSelected = { grade -> viewModel.saveGrade(sentence.sentenceId, grade) },
                 onNext = { viewModel.moveToNext() },
@@ -118,6 +119,7 @@ fun ReviewCard(
     sourceLocale: String,
     targetLocale: String,
     currentGrade: Int?,
+    audioPlayer: AudioPlayer,
     speechRecognizer: SpeechRecognizer,
     onGradeSelected: (Int) -> Unit,
     onNext: () -> Unit,
@@ -145,25 +147,44 @@ fun ReviewCard(
                 verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically)
             ) {
                 // Phrase source (toujours visible)
-                Text(
-                    text = sentence.getTranslation(sourceLocale),
-                    style = MaterialTheme.typography.bodyLarge
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = sentence.getTranslation(sourceLocale),
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.weight(1f)
+                    )
+                    IconButton(onClick = { audioPlayer.play(sentence.sentenceId, sourceLocale) }) {
+                        Text("▶", style = MaterialTheme.typography.bodyLarge)
+                    }
+                }
 
                 HorizontalDivider()
 
                 // Phrase cible (floue, clic pour révéler)
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { showTarget = !showTarget }
-                        .then(if (!showTarget) Modifier.blur(8.dp) else Modifier)
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text(
-                        text = sentence.getTranslation(targetLocale),
-                        style = MaterialTheme.typography.bodyLarge,
-                        color = MaterialTheme.colorScheme.primary
-                    )
+                    Box(
+                        modifier = Modifier
+                            .weight(1f)
+                            .clickable { showTarget = !showTarget }
+                            .then(if (!showTarget) Modifier.blur(8.dp) else Modifier)
+                    ) {
+                        Text(
+                            text = sentence.getTranslation(targetLocale),
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                    IconButton(onClick = { audioPlayer.play(sentence.sentenceId, targetLocale) }) {
+                        Text("▶", color = MaterialTheme.colorScheme.primary, style = MaterialTheme.typography.bodyLarge)
+                    }
                 }
             }
         }
