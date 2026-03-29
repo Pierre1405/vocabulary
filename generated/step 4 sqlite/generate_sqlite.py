@@ -46,19 +46,14 @@ def read_first_two_lines(file_path):
 
 def load_file_metadata(file_name, locale_columns, source_dir, translation_dir):
     """Retourne {locale: (category_name, story_name)} pour un file_name donné."""
-    source_locale = locale_columns[0]
-    target_locales = locale_columns[1:]
     metadata = {}
-
-    source_path = os.path.join(source_dir, f"{file_name}_{source_locale}.txt")
-    if os.path.exists(source_path):
-        metadata[source_locale] = read_first_two_lines(source_path)
-
-    for locale in target_locales:
-        target_path = os.path.join(translation_dir, f"{file_name}_{locale}.txt")
-        if os.path.exists(target_path):
-            metadata[locale] = read_first_two_lines(target_path)
-
+    for locale in locale_columns:
+        # Cherche d'abord dans source_dir, puis dans translation_dir
+        path = os.path.join(source_dir, f"{file_name}_{locale}.txt")
+        if not os.path.exists(path):
+            path = os.path.join(translation_dir, f"{file_name}_{locale}.txt")
+        if os.path.exists(path):
+            metadata[locale] = read_first_two_lines(path)
     return metadata
 
 def create_database(chunks_dir, output_db, source_dir, translation_dir):

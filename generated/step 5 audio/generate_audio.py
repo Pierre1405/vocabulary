@@ -20,12 +20,10 @@ DEFAULT_CONFIG_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\voca
 def load_voices(config_dir):
     config = configparser.ConfigParser()
     config.read(os.path.join(config_dir, "config.properties"), encoding='utf-8')
-    source_locale = config.get('languages', 'source_locale').strip()
-    target_locales = [l.strip() for l in config.get('languages', 'target_locales').split(',')]
-    all_locales = [source_locale] + target_locales
+    locales = [l.strip() for l in config.get('languages', 'locales').split(',')]
 
     voices = {}
-    for locale in all_locales:
+    for locale in locales:
         voice_str = config.get('voices', locale).strip()
         language_code, voice_name = voice_str.split(':')
         voices[locale] = (language_code, voice_name)

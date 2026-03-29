@@ -22,9 +22,13 @@ DEFAULT_CONFIG     = os.path.join(DEFAULT_INPUT_DIR, "config.properties")
 def load_config(config_path):
     config = configparser.ConfigParser()
     config.read(config_path, encoding="utf-8")
-    source_locale  = config["languages"]["source_locale"].strip()
-    target_locales = [l.strip() for l in config["languages"]["target_locales"].split(",")]
-    return source_locale, target_locales
+    locales = [l.strip() for l in config["languages"]["locales"].split(",")]
+    return locales
+
+
+def extract_locale(filename):
+    """Extrait la locale depuis un nom de fichier de la forme 'nom_XX.txt'."""
+    return filename[:-4].rsplit("_", 1)[-1]
 
 
 def translate_line(text, target_locale):
@@ -34,18 +38,23 @@ def translate_line(text, target_locale):
 
 
 def translate_files(input_dir, output_dir, config_path):
-    source_locale, target_locales = load_config(config_path)
-    print(f"Langue source : {source_locale}")
-    print(f"Langues cibles : {', '.join(target_locales)}")
+    locales = load_config(config_path)
+    print(f"Locales : {', '.join(locales)}")
 
     os.makedirs(output_dir, exist_ok=True)
 
-    source_files = [f for f in os.listdir(input_dir) if f.endswith(f"_{source_locale}.txt")]
+    source_files = [f for f in os.listdir(input_dir) if f.endswith(".txt")]
 
     for source_file in source_files:
+        source_locale = extract_locale(source_file)
+        if source_locale not in locales:
+            print(f"Locale inconnue pour {source_file}, ignoré.")
+            continue
+
+        target_locales = [l for l in locales if l != source_locale]
         input_path = os.path.join(input_dir, source_file)
 
-        print(f"\nStart translate {input_path}")
+        print(f"\nStart translate {input_path} (source: {source_locale})")
 
         for target_locale in target_locales:
             output_file = source_file.replace(f"_{source_locale}.txt", f"_{target_locale}.txt")

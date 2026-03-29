@@ -18,60 +18,68 @@ DEFAULT_OUTPUT_FILE = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\voc
 def load_config(source_dir):
     config = configparser.ConfigParser()
     config.read(os.path.join(source_dir, "config.properties"), encoding='utf-8')
-    source_locale = config.get('languages', 'source_locale').strip()
-    target_locales = [l.strip() for l in config.get('languages', 'target_locales').split(',')]
-    return source_locale, target_locales
+    locales = [l.strip() for l in config.get('languages', 'locales').split(',')]
+    return locales
+
+
+def extract_locale(filename):
+    """Extrait la locale depuis un nom de fichier de la forme 'nom_XX.txt'."""
+    return filename[:-4].rsplit("_", 1)[-1]
+
 
 def generate_tsv_from_text_files(source_dir, translation_dir, output_file):
-    source_locale, target_locales = load_config(source_dir)
-    all_locales = [source_locale] + target_locales
-    print(f"Locales : source={source_locale}, cibles={target_locales}")
+    locales = load_config(source_dir)
+    print(f"Locales : {locales}")
 
     os.makedirs(os.path.dirname(output_file), exist_ok=True)
 
-    source_files = sorted([f for f in os.listdir(source_dir) if f.endswith(f'_{source_locale}.txt')])
+    source_files = sorted([f for f in os.listdir(source_dir) if f.endswith(".txt")])
 
     with open(output_file, 'w', encoding='utf-8') as f_out:
-        f_out.write("id\t" + "\t".join(all_locales) + "\tfile_name\n")
+        f_out.write("id\t" + "\t".join(locales) + "\tfile_name\n")
 
         id_counter = 1
 
         for source_file in source_files:
-            base = source_file.replace(f'_{source_locale}.txt', '')
-            source_path = os.path.join(source_dir, source_file)
+            source_locale = extract_locale(source_file)
+            if source_locale not in locales:
+                print(f"Locale inconnue pour {source_file}, ignoré.")
+                continue
 
-            # Trouver les fichiers pour chaque locale cible
-            target_paths = []
+            base = source_file[: -(len(source_locale) + 5)]  # retire _XX.txt
+            other_locales = [l for l in locales if l != source_locale]
+
+            # Vérifier que les fichiers de traduction existent
+            translation_paths = {}
             missing = False
-            for locale in target_locales:
-                target_file = base + f'_{locale}.txt'
-                target_path = os.path.join(translation_dir, target_file)
-                if not os.path.exists(target_path):
-                    print(f"Fichier manquant, ignoré : {target_path}")
+            for locale in other_locales:
+                path = os.path.join(translation_dir, f"{base}_{locale}.txt")
+                if not os.path.exists(path):
+                    print(f"Fichier manquant, ignoré : {path}")
                     missing = True
                     break
-                target_paths.append(target_path)
+                translation_paths[locale] = path
 
             if missing:
                 continue
 
-            print(f"Traitement du fichier : {source_file}")
+            print(f"Traitement du fichier : {source_file} (source: {source_locale})")
 
-            with open(source_path, 'r', encoding='utf-8') as f:
+            with open(os.path.join(source_dir, source_file), 'r', encoding='utf-8') as f:
                 source_lines = [l.strip() for l in f.readlines() if l.strip()][2:]
 
-            target_lines_list = []
-            for target_path in target_paths:
-                with open(target_path, 'r', encoding='utf-8') as f:
+            translation_lines = {}
+            for locale, path in translation_paths.items():
+                with open(path, 'r', encoding='utf-8') as f:
                     lines = [l.strip() for l in f.readlines() if l.strip()]
-                    target_lines_list.append(lines[2:])
+                    translation_lines[locale] = lines[2:]
 
             for i, source_text in enumerate(source_lines):
-                target_texts = []
+                row_data = {source_locale: source_text}
                 valid = True
-                for target_lines in target_lines_list:
-                    if i < len(target_lines):
-                        target_texts.append(target_lines[i])
+                for locale, lines in translation_lines.items():
+                    if i < len(lines):
+                        row_data[locale] = lines[i]
                     else:
                         valid = False
                         break
@@ -79,7 +87,7 @@ def generate_tsv_from_text_files(source_dir, translation_dir, output_file):
                 if not valid:
                     continue
 
-                row = [str(id_counter), source_text] + target_texts + [base]
+                row = [str(id_counter)] + [row_data[l] for l in locales] + [base]
                 f_out.write("\t".join(row) + "\n")
                 id_counter += 1
                 print(f"Ligne ajoutée : {source_text}")

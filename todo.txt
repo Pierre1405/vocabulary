@@ -16,3 +16,13 @@
 [ ] Remove category from phrase table
 [ ] mode main libre dans review
 [ ] mise en place d'un vrai algo pour la selection des révision en tenant compte de la note et de la date du dernier affichage
+[ ] image to text
+[ ] ponctuation to breakline
+[ ] ressource par langue apprise
+[ ] ajout de note d'explication
+[ ] Pouvoir choisir les voix pour chaque texte
+[ ] Pouvoir choisir des voix différentes dans un dailogue
+[ ] Pouvoir ajouter des paragraphes
+[ ] Slow read
+[ ] dictionnaire embarqué
+[ ] conjugaison embarqué
