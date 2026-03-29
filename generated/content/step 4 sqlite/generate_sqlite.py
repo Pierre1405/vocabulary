@@ -12,11 +12,11 @@ import argparse
 sys.stdout.reconfigure(line_buffering=True)
 
 # Chemins par défaut
-DEFAULT_CHUNKS_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\step 3 chunk\\"
+DEFAULT_CHUNKS_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\content\\step 3 chunk\\"
 DEFAULT_OUTPUT_DB = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\app\\src\\main\\assets\\vocabulary.db"
 DEFAULT_VERSION_FILE = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\shared\\src\\commonMain\\kotlin\\com\\example\\myapplication\\data\\DatabaseVersion.kt"
-DEFAULT_SOURCE_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\step 0 source\\"
-DEFAULT_TRANSLATION_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\step 1 translation\\"
+DEFAULT_SOURCE_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\content\\step 0 source\\"
+DEFAULT_TRANSLATION_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\content\\step 1 translation\\"
 
 def increment_db_version(version_file):
     with open(version_file, 'r', encoding='utf-8') as f:

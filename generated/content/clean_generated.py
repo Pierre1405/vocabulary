@@ -15,7 +15,7 @@ def clean_generated():
     Supprime les fichiers générés (chunks, TSV, base de données, fichiers audio).
     """
     # Supprimer les fichiers texte traduits
-    text_files = glob.glob("generated/step 1 translation/*.txt")
+    text_files = glob.glob("generated/content/step 1 translation/*.txt")
     for text_file in text_files:
         if os.path.exists(text_file):
             print(f"Suppression du fichier : {text_file}")
@@ -35,7 +35,7 @@ def clean_generated():
             print(f"Fichier non trouvé : {audio_file}")
     
     # Supprimer les chunks
-    chunk_files = glob.glob("generated/step 3 chunk/chunk_*.tsv")
+    chunk_files = glob.glob("generated/content/step 3 chunk/chunk_*.tsv")
     for chunk_file in chunk_files:
         if os.path.exists(chunk_file):
             print(f"Suppression du fichier : {chunk_file}")
@@ -45,7 +45,7 @@ def clean_generated():
             print(f"Fichier non trouvé : {chunk_file}")
     
     # Supprimer le fichier TSV généré
-    tsv_file = "generated/step 2 generate_tsv/Sentence pairs with ID.tsv"
+    tsv_file = "generated/content/step 2 generate_tsv/Sentence pairs with ID.tsv"
     if os.path.exists(tsv_file):
         print(f"Suppression du fichier : {tsv_file}")
         os.remove(tsv_file)

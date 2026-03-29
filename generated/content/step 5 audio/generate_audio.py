@@ -13,9 +13,9 @@ from google.cloud import texttospeech
 sys.stdout.reconfigure(line_buffering=True)
 
 # Chemins par défaut
-DEFAULT_CHUNKS_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\step 3 chunk\\"
+DEFAULT_CHUNKS_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\content\\step 3 chunk\\"
 DEFAULT_OUTPUT_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\app\\src\\main\\res\\raw\\"
-DEFAULT_CONFIG_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\step 0 source\\"
+DEFAULT_CONFIG_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\content\\step 0 source\\"
 
 def load_voices(config_dir):
     config = configparser.ConfigParser()

@@ -14,8 +14,8 @@ from google.cloud import translate_v2 as translate
 sys.stdout.reconfigure(line_buffering=True)
 
 # Chemins par défaut
-DEFAULT_INPUT_DIR  = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\step 0 source\\"
-DEFAULT_OUTPUT_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\step 1 translation\\"
+DEFAULT_INPUT_DIR  = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\content\\step 0 source\\"
+DEFAULT_OUTPUT_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\content\\step 1 translation\\"
 DEFAULT_CONFIG     = os.path.join(DEFAULT_INPUT_DIR, "config.properties")
 
 

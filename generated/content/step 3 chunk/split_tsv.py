@@ -10,8 +10,8 @@ import argparse
 sys.stdout.reconfigure(line_buffering=True)
 
 # Valeurs par défaut
-DEFAULT_INPUT_FILE = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\step 2 generate_tsv\\Sentence pairs with ID.tsv"
-DEFAULT_OUTPUT_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\step 3 chunk\\"
+DEFAULT_INPUT_FILE = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\content\\step 2 generate_tsv\\Sentence pairs with ID.tsv"
+DEFAULT_OUTPUT_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\content\\step 3 chunk\\"
 DEFAULT_CHUNK_SIZE = 50
 
 def split_tsv(input_file, output_dir, chunk_size):
