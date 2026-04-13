@@ -12,6 +12,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import com.example.myapplication.data.AudioPlayer
 import com.example.myapplication.data.DatabaseDriverFactory
+import com.example.myapplication.data.DictionaryDriverFactory
+import com.example.myapplication.data.DictionaryRepository
 import com.example.myapplication.data.SpeechRecognizer
 import com.example.myapplication.data.VocabularyRepository
 import com.example.myapplication.ui.AppNavigation
@@ -31,6 +33,7 @@ class MainActivity : ComponentActivity() {
         requestMicPermission.launch(Manifest.permission.RECORD_AUDIO)
 
         val repository = VocabularyRepository(DatabaseDriverFactory(applicationContext))
+        val dictionaryRepository = DictionaryRepository(DictionaryDriverFactory(applicationContext).createDriver())
 
         setContent {
             MyApplicationTheme {

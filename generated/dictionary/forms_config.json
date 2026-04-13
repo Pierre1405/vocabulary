@@ -1,0 +1,55 @@
+{
+  "_comment": "Une forme est conservée si ses tags contiennent TOUS les tags d'au moins une entrée de la liste. Les formes contenant 'processual-passive' (voix passive DE) ou 'multiword-construction' (FR) sont exclues dans extract.py.",
+  "de": {
+    "noun": [
+      ["nominative", "singular"],
+      ["nominative", "plural"],
+      ["genitive",   "singular"],
+      ["genitive",   "plural"],
+      ["dative",     "singular"],
+      ["dative",     "plural"],
+      ["accusative", "singular"],
+      ["accusative", "plural"]
+    ],
+    "verb": [
+      ["infinitive", "present"],
+      ["present"],
+      ["past"],
+      ["participle-2", "perfect"],
+      ["auxiliary", "perfect"],
+      ["subjunctive-ii"],
+      ["imperative", "singular"],
+      ["imperative", "plural"]
+    ],
+    "adj": [
+      ["positive"],
+      ["comparative"],
+      ["superlative"]
+    ]
+  },
+  "fr": {
+    "_comment_noun": "Le français n'a pas de déclinaison — seul le pluriel est une forme fléchie.",
+    "noun": [
+      ["plural"]
+    ],
+    "_comment_verb": "Tags observés sur fr-extract. Le pronom est inclus dans la forme (ex: 'je lis'). Les formes 'multiword-construction' sont exclues dans extract.py.",
+    "verb": [
+      ["infinitive", "present"],
+      ["participle", "present"],
+      ["participle", "past"],
+      ["indicative", "present"],
+      ["indicative", "imperfect"],
+      ["indicative", "past"],
+      ["future", "indicative"],
+      ["conditional", "present"],
+      ["present", "subjunctive"],
+      ["imperative", "present"]
+    ],
+    "adj": [
+      ["masculine", "singular"],
+      ["masculine", "plural"],
+      ["feminine",  "singular"],
+      ["feminine",  "plural"]
+    ]
+  }
+}

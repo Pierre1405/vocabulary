@@ -1,0 +1,31 @@
+CREATE TABLE IF NOT EXISTS dict_features (
+    id       INTEGER PRIMARY KEY AUTOINCREMENT,
+    features TEXT NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS dict_form (
+    id          INTEGER PRIMARY KEY AUTOINCREMENT,
+    entry_id    INTEGER NOT NULL REFERENCES dict_entry(id),
+    form        TEXT NOT NULL,
+    features_id INTEGER REFERENCES dict_features(id),
+    pronouns    TEXT
+);
+
+CREATE INDEX IF NOT EXISTS idx_form_form ON dict_form(form);
+
+-- Lookup : trouve l'entrée depuis une forme fléchie
+lookupByForm:
+SELECT e.id, e.lemma, e.locale, e.pos, e.gender, e.example,
+       ft.features, f.pronouns
+FROM dict_form f
+JOIN dict_entry e ON e.id = f.entry_id
+LEFT JOIN dict_features ft ON ft.id = f.features_id
+WHERE f.form = ?;
+
+-- Toutes les formes d'une entrée (pour tableau de conjugaison)
+getFormsByEntryId:
+SELECT f.form, ft.features, f.pronouns
+FROM dict_form f
+LEFT JOIN dict_features ft ON ft.id = f.features_id
+WHERE f.entry_id = ?
+ORDER BY ft.features;

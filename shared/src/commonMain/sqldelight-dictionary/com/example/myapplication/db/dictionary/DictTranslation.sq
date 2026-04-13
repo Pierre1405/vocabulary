@@ -1,0 +1,16 @@
+CREATE TABLE IF NOT EXISTS dict_translation (
+    id            INTEGER PRIMARY KEY AUTOINCREMENT,
+    entry_id      INTEGER NOT NULL REFERENCES dict_entry(id),
+    target_locale TEXT NOT NULL,
+    text          TEXT NOT NULL,
+    gloss_source  TEXT,
+    example       TEXT
+);
+
+CREATE INDEX IF NOT EXISTS idx_trans_entry ON dict_translation(entry_id);
+
+-- Toutes les traductions d'une entrée
+getByEntryId:
+SELECT id, entry_id, target_locale, text, gloss_source, example
+FROM dict_translation
+WHERE entry_id = ?;

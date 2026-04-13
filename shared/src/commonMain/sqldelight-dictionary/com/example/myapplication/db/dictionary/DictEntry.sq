@@ -1,0 +1,24 @@
+CREATE TABLE IF NOT EXISTS dict_entry (
+    id      INTEGER PRIMARY KEY AUTOINCREMENT,
+    lemma   TEXT NOT NULL,
+    locale  TEXT NOT NULL,
+    pos     TEXT,
+    gender  TEXT,
+    example TEXT
+);
+
+CREATE INDEX IF NOT EXISTS idx_entry_lemma ON dict_entry(lemma, locale);
+
+-- Cherche une entrée par lemme exact
+getByLemma:
+SELECT id, lemma, locale, pos, gender, example
+FROM dict_entry
+WHERE lemma = ? AND locale = ?;
+
+-- Cherche des entrées dont le lemme commence par un préfixe
+searchByPrefix:
+SELECT id, lemma, locale, pos, gender, example
+FROM dict_entry
+WHERE lemma LIKE ? AND locale = ?
+ORDER BY lemma
+LIMIT 20;

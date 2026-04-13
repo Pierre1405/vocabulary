@@ -24,7 +24,32 @@ generated/step 3 chunk/*.tsv
 
 # Ressources générées (SQLite + audio)
 app/src/main/assets/vocabulary.db
+app/src/main/assets/dictionary.db
 app/src/main/res/raw/*.mp3
+
+# Dictionnaire — dumps source (fichiers lourds)
+generated/dictionary/**/*.jsonl.gz
+generated/dictionary/*.jsonl.gz
+
+# Dictionnaire — fichiers générés à la racine (si scripts lancés depuis /)
+/dictionary.db
+/extract_de.json
+/extract_fr.json
+/normalized_de.json
+/normalized_fr.json
+
+# Dictionnaire — fichiers générés par le pipeline
+generated/dictionary/extract_de.json
+generated/dictionary/extract_fr.json
+generated/dictionary/normalized_de.json
+generated/dictionary/normalized_fr.json
+generated/dictionary/dictionary.db
+
+# Dictionnaire — échantillons d'exploration
+generated/dictionary/sample_*.jsonl
+generated/dictionary/sample_*.json
+generated/dictionary/exploration/sample_*.jsonl
+generated/dictionary/exploration/sample_*.json
 
 # KMP — builds des modules
 shared/build/

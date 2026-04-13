@@ -66,5 +66,9 @@ sqldelight {
         create("VocabularyDatabase") {
             packageName.set("com.example.myapplication.db")
         }
+        create("DictionaryDatabase") {
+            packageName.set("com.example.myapplication.db.dictionary")
+            srcDirs("src/commonMain/sqldelight-dictionary")
+        }
     }
 }
