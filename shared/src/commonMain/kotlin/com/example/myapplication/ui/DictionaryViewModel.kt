@@ -45,17 +45,33 @@ class DictionaryViewModel(
             return
         }
         _results.value = withContext(Dispatchers.Default) {
-            val deEntries = dictionaryRepository.searchByPrefix(q, "de")
-            val frEntries = dictionaryRepository.searchByPrefix(q, "fr")
-            (deEntries + frEntries)
+            // 1. Matchs exacts (lemme ou forme) dans les deux langues
+            val exact = (
+                dictionaryRepository.getByLemma(q, "de") +
+                dictionaryRepository.getByLemma(q, "fr") +
+                dictionaryRepository.searchExactByForm(q, "de") +
+                dictionaryRepository.searchExactByForm(q, "fr")
+            ).distinctBy { it.id }.sortedBy { it.lemma.lowercase() }
+
+            val exactIds = exact.map { it.id }.toSet()
+
+            // 2. Matchs partiels (%q%) sans les exacts déjà trouvés
+            val partial = (
+                dictionaryRepository.searchByPrefix("%$q%", "de") +
+                dictionaryRepository.searchByPrefix("%$q%", "fr") +
+                dictionaryRepository.searchByFormPattern("%$q%", "de") +
+                dictionaryRepository.searchByFormPattern("%$q%", "fr")
+            )
+                .distinctBy { it.id }
+                .filter { it.id !in exactIds }
                 .sortedBy { it.lemma.lowercase() }
-                .take(10)
-                .map { entry ->
-                    DictEntryWithTranslations(
-                        entry = entry,
-                        translations = dictionaryRepository.getTranslations(entry.id)
-                    )
-                }
+
+            (exact + partial).take(10).map { entry ->
+                DictEntryWithTranslations(
+                    entry = entry,
+                    translations = dictionaryRepository.getTranslations(entry.id)
+                )
+            }
         }
     }
 }

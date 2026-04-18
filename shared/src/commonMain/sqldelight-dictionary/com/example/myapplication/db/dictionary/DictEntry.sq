@@ -13,7 +13,7 @@ CREATE INDEX IF NOT EXISTS idx_entry_lemma ON dict_entry(lemma, locale);
 getByLemma:
 SELECT id, lemma, locale, pos, gender, example
 FROM dict_entry
-WHERE lemma = ? AND locale = ?;
+WHERE lower(lemma) = lower(?) AND locale = ?;
 
 -- Cherche une entrée par id
 getById:

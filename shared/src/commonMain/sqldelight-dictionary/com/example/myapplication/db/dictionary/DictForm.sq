@@ -22,6 +22,23 @@ JOIN dict_entry e ON e.id = f.entry_id
 LEFT JOIN dict_features ft ON ft.id = f.features_id
 WHERE f.form = ?;
 
+-- Match exact sur une forme fléchie
+searchByFormExact:
+SELECT DISTINCT e.id, e.lemma, e.locale, e.pos, e.gender, e.example
+FROM dict_form f
+JOIN dict_entry e ON e.id = f.entry_id
+WHERE lower(f.form) = lower(?) AND e.locale = ?
+ORDER BY e.lemma;
+
+-- Cherche des entrées dont une forme contient un motif (LIKE)
+searchByFormPrefix:
+SELECT DISTINCT e.id, e.lemma, e.locale, e.pos, e.gender, e.example
+FROM dict_form f
+JOIN dict_entry e ON e.id = f.entry_id
+WHERE f.form LIKE ? AND e.locale = ?
+ORDER BY e.lemma
+LIMIT 20;
+
 -- Toutes les formes d'une entrée (pour tableau de conjugaison)
 getFormsByEntryId:
 SELECT f.form, ft.features, f.pronouns

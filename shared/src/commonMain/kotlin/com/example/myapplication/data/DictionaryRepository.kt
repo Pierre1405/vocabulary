@@ -52,6 +52,18 @@ class DictionaryRepository(driver: SqlDriver) {
     fun searchByPrefix(prefix: String, locale: String): List<DictEntry> =
         entryQueries.searchByPrefix("$prefix%", locale).executeAsList().map { it.toDictEntry() }
 
+    /** Match exact sur une forme fléchie. */
+    fun searchExactByForm(word: String, locale: String): List<DictEntry> =
+        formQueries.searchByFormExact(word, locale).executeAsList().map {
+            DictEntry(id = it.id, lemma = it.lemma, locale = it.locale, pos = it.pos, gender = it.gender, example = it.example)
+        }
+
+    /** Cherche des entrées dont une forme fléchie correspond au motif LIKE. */
+    fun searchByFormPattern(pattern: String, locale: String): List<DictEntry> =
+        formQueries.searchByFormPrefix(pattern, locale).executeAsList().map {
+            DictEntry(id = it.id, lemma = it.lemma, locale = it.locale, pos = it.pos, gender = it.gender, example = it.example)
+        }
+
     /** Retourne toutes les traductions d'une entrée. */
     fun getTranslations(entryId: Long): List<DictTranslation> =
         translationQueries.getByEntryId(entryId).executeAsList().map { it.toDictTranslation() }
