@@ -7,12 +7,25 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.myapplication.data.AudioPlayer
+import com.example.myapplication.data.DictionaryRepository
 import com.example.myapplication.data.SpeechRecognizer
 import com.example.myapplication.data.VocabularyRepository
 import kotlinx.serialization.Serializable
 
 @Serializable
+object HomeRoute
+
+@Serializable
 object StoriesRoute
+
+@Serializable
+object ReviewSelectionRoute
+
+@Serializable
+object DictionaryRoute
+
+@Serializable
+data class DictionaryDetailRoute(val entryId: Long)
 
 @Serializable
 data class SentencesRoute(val storyId: Long)
@@ -23,6 +36,7 @@ data class ReviewRoute(val sourceLocale: String, val targetLocale: String, val s
 @Composable
 fun AppNavigation(
     repository: VocabularyRepository,
+    dictionaryRepository: DictionaryRepository,
     audioPlayer: AudioPlayer,
     speechRecognizer: SpeechRecognizer,
     modifier: Modifier = Modifier
@@ -31,14 +45,43 @@ fun AppNavigation(
 
     NavHost(
         navController = navController,
-        startDestination = StoriesRoute,
+        startDestination = HomeRoute,
         modifier = modifier
     ) {
+        composable<HomeRoute> {
+            HomeScreen(
+                onLectureClick = { navController.navigate(StoriesRoute) },
+                onRevisionClick = { navController.navigate(ReviewSelectionRoute) },
+                onDictionnaireClick = { navController.navigate(DictionaryRoute) }
+            )
+        }
         composable<StoriesRoute> {
             StoryListScreen(
                 repository = repository,
                 onStoryClick = { storyId -> navController.navigate(SentencesRoute(storyId)) },
-                onReviewClick = { source, target, sourceBlurred -> navController.navigate(ReviewRoute(source, target, sourceBlurred)) }
+                onBack = { navController.popBackStack() }
+            )
+        }
+        composable<ReviewSelectionRoute> {
+            ReviewSelectionScreen(
+                repository = repository,
+                onReviewClick = { source, target, sourceBlurred -> navController.navigate(ReviewRoute(source, target, sourceBlurred)) },
+                onBack = { navController.popBackStack() }
+            )
+        }
+        composable<DictionaryRoute> {
+            DictionaryScreen(
+                dictionaryRepository = dictionaryRepository,
+                onEntryClick = { entryId -> navController.navigate(DictionaryDetailRoute(entryId)) },
+                onBack = { navController.popBackStack() }
+            )
+        }
+        composable<DictionaryDetailRoute> { backStackEntry ->
+            val route = backStackEntry.toRoute<DictionaryDetailRoute>()
+            DictionaryDetailScreen(
+                dictionaryRepository = dictionaryRepository,
+                entryId = route.entryId,
+                onBack = { navController.popBackStack() }
             )
         }
         composable<SentencesRoute> { backStackEntry ->

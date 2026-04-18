@@ -18,9 +18,13 @@ iosApp/                ← point d'entrée iOS (Xcode)
 
 ### Écrans principaux
 
-- **Liste des histoires** : point d'entrée, titres en langue native + apprise
+- **Accueil** : point d'entrée, 3 boutons (Lecture, Révision, Dictionnaire)
+- **Liste des histoires** : titres en langue native + apprise
 - **Liste des phrases** : phrases d'une histoire (langue native + apprise)
+- **Sélection révision** : choix du mode parmi les 3 directions/modes disponibles
 - **Mode quiz** : masquer la traduction, la révéler après un clic
+- **Dictionnaire** : recherche bilingue de↔fr avec debounce
+- **Détail dictionnaire** : traductions + exemples + tableau de conjugaison/déclinaison
 - **Écran de configuration** : choisir les langues native et apprise
 
 ### Fonctionnalités
@@ -46,9 +50,11 @@ iosApp/                ← point d'entrée iOS (Xcode)
 
 ### ✅ Étape 3 : UI partagée
 - Thème Material 3 dans `shared/commonMain`
-- Navigation Compose entre écrans
-- `StoryListScreen` : liste des histoires avec titres traduits
-- `PhraseListScreen` : liste des phrases avec traductions et boutons audio
+- Navigation Compose type-safe entre écrans (7 routes)
+- `HomeScreen` : écran d'accueil avec 3 boutons (Lecture, Révision, Dictionnaire)
+- `StoryListScreen` : liste des histoires avec titres traduits + TopAppBar
+- `ReviewSelectionScreen` : sélection du mode de révision
+- `SentenceListScreen` / `SentenceDetailScreen` : phrases avec traductions et boutons audio
 
 ### ✅ Étape 4 : Multi-langues
 - `config.properties` pilote la génération (source_locale, target_locales, voix)
@@ -61,19 +67,27 @@ iosApp/                ← point d'entrée iOS (Xcode)
   - iOS : `AVAudioPlayer`
 - Bouton "▶" sur chaque phrase pour chaque locale
 
-### 🔲 Étape 6 : Mode quiz
+### ✅ Étape 6 : Dictionnaire bilingue
+- `DictionaryScreen` : recherche bilingue de↔fr (debounce 300ms, 10 résultats triés)
+- `DictionaryDetailScreen` : détail d'une entrée
+  - Traductions avec gloss source (italique) et exemples
+  - Tableau de formes groupé par temps/cas (ordre grammatical logique)
+  - `DictionaryDetailViewModel` : `FormGroup`/`FormRow` calculés sur `Dispatchers.Default`
+- `DictionaryRepository.getById` ajouté
+
+### 🔲 Étape 7 : Mode quiz
 - Masquer/révéler la traduction
 - Enregistrer le grade dans la table `learning`
 
-### 🔲 Étape 7 : Catégories
+### 🔲 Étape 8 : Catégories
 - Afficher les catégories avec leurs traductions
 - Navigation catégorie → histoires → phrases
 
-### 🔲 Étape 8 : Projet iOS
+### 🔲 Étape 9 : Projet iOS
 - Créer `iosApp/` (projet Xcode)
 - Tester sur simulateur iOS (nécessite macOS)
 
-### 🔲 Étape 9 : Tests
+### 🔲 Étape 10 : Tests
 - Tests unitaires dans `shared/commonTest`
 - Tests sur émulateur Android
 - Tests sur simulateur iOS

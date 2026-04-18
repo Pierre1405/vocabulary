@@ -15,6 +15,12 @@ SELECT id, lemma, locale, pos, gender, example
 FROM dict_entry
 WHERE lemma = ? AND locale = ?;
 
+-- Cherche une entrée par id
+getById:
+SELECT id, lemma, locale, pos, gender, example
+FROM dict_entry
+WHERE id = ?;
+
 -- Cherche des entrées dont le lemme commence par un préfixe
 searchByPrefix:
 SELECT id, lemma, locale, pos, gender, example

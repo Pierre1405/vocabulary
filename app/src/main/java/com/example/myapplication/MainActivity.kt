@@ -40,6 +40,7 @@ class MainActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     AppNavigation(
                         repository = repository,
+                        dictionaryRepository = dictionaryRepository,
                         audioPlayer = audioPlayer,
                         speechRecognizer = speechRecognizer,
                         modifier = Modifier.padding(innerPadding)

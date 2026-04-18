@@ -40,6 +40,10 @@ class DictionaryRepository(driver: SqlDriver) {
     private val translationQueries = db.dictTranslationQueries
     private val formQueries = db.dictFormQueries
 
+    /** Retourne une entrée par son id. */
+    fun getById(id: Long): DictEntry? =
+        entryQueries.getById(id).executeAsOneOrNull()?.toDictEntry()
+
     /** Cherche une entrée par lemme exact. */
     fun getByLemma(lemma: String, locale: String): List<DictEntry> =
         entryQueries.getByLemma(lemma, locale).executeAsList().map { it.toDictEntry() }
