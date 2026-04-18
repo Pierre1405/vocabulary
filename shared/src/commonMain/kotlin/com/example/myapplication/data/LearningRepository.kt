@@ -9,6 +9,7 @@ class LearningRepository(driver: SqlDriver) {
 
     private val db = LearningDatabase(driver)
     private val queries = db.learningQueries
+    private val wordQueries = db.wordLearningQueries
 
     suspend fun saveGrade(
         sentenceKey: String,
@@ -38,4 +39,15 @@ class LearningRepository(driver: SqlDriver) {
         queries.getGradesByDirection(sourceLocale, targetLocale).executeAsList()
             .associate { it.sentence_key to it.grade.toInt() }
     }
+
+    suspend fun saveWordGrade(entryId: Long, translationId: Long, grade: Int) =
+        withContext(Dispatchers.Default) {
+            wordQueries.upsertWordGrade(entryId, translationId, grade.toLong())
+        }
+
+    suspend fun getWordGradesByEntry(entryId: Long): Map<Long, Int> =
+        withContext(Dispatchers.Default) {
+            wordQueries.getWordGradesByEntry(entryId).executeAsList()
+                .associate { it.translation_id to it.grade.toInt() }
+        }
 }

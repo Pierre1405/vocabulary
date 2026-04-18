@@ -1,6 +1,7 @@
 package com.example.myapplication.ui
 
 import androidx.compose.animation.core.Animatable
+import androidx.compose.foundation.background
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
@@ -77,6 +78,7 @@ fun SentenceListScreen(
     val isPlayingAll by viewModel.isPlayingAll.collectAsState()
     val isLooping by viewModel.isLooping.collectAsState()
     val currentPlayingIndex by viewModel.currentPlayingIndex.collectAsState()
+    val grades by viewModel.grades.collectAsState()
 
     var showNative by remember { mutableStateOf(false) }
     var showLearned by remember { mutableStateOf(true) }
@@ -166,7 +168,8 @@ fun SentenceListScreen(
             ) {
                 itemsIndexed(sentences) { index, sentence ->
                     SwipeableGradeCard(
-                        onGradeSelected = { grade -> viewModel.saveGrade(sentence.sentenceKey, grade) }
+                        onGradeSelected = { grade -> viewModel.saveGrade(sentence.sentenceKey, grade) },
+                        currentGrade = grades[sentence.sentenceKey]
                     ) {
                         SentenceCard(
                             sentence = sentence,
@@ -304,6 +307,7 @@ fun ClickableWordText(
 @Composable
 fun SwipeableGradeCard(
     onGradeSelected: (Int) -> Unit,
+    currentGrade: Int? = null,
     content: @Composable () -> Unit
 ) {
     val revealWidthDp = 200.dp
@@ -322,10 +326,15 @@ fun SwipeableGradeCard(
             verticalAlignment = Alignment.CenterVertically
         ) {
             (1..5).forEach { grade ->
+                val isSelected = grade == currentGrade
                 Box(
                     modifier = Modifier
                         .weight(1f)
                         .fillMaxHeight()
+                        .background(
+                            if (isSelected) gradeColor(grade).copy(alpha = 0.3f)
+                            else androidx.compose.ui.graphics.Color.Transparent
+                        )
                         .clickable {
                             onGradeSelected(grade)
                             scope.launch { offsetX.animateTo(0f) }
@@ -334,14 +343,17 @@ fun SwipeableGradeCard(
                 ) {
                     Text(
                         text = "$grade",
-                        style = MaterialTheme.typography.titleMedium,
+                        style = if (isSelected) MaterialTheme.typography.titleLarge
+                                else MaterialTheme.typography.titleMedium,
+                        fontWeight = if (isSelected) androidx.compose.ui.text.font.FontWeight.Bold
+                                     else androidx.compose.ui.text.font.FontWeight.Normal,
                         color = gradeColor(grade)
                     )
                 }
             }
         }
 
-        // Carte glissante
+        // Carte glissante avec fond opaque pour masquer les boutons derrière
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -364,6 +376,7 @@ fun SwipeableGradeCard(
                         }
                     }
                 )
+                .background(MaterialTheme.colorScheme.surface)
         ) {
             content()
         }

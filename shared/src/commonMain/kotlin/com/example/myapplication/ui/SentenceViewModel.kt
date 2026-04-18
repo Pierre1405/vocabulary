@@ -36,6 +36,9 @@ class SentenceViewModel(
     private val _currentPlayingIndex = MutableStateFlow(-1)
     val currentPlayingIndex: StateFlow<Int> = _currentPlayingIndex
 
+    private val _grades = MutableStateFlow<Map<String, Int>>(emptyMap())
+    val grades: StateFlow<Map<String, Int>> = _grades
+
     fun toggleLoop() {
         _isLooping.value = !_isLooping.value
     }
@@ -74,6 +77,7 @@ class SentenceViewModel(
             val learnedLang = _learnedLanguage.value
             learningRepository.saveGrade(sentenceKey, nativeLang, learnedLang, grade)
             learningRepository.saveGrade(sentenceKey, learnedLang, nativeLang, grade)
+            _grades.value = _grades.value + (sentenceKey to grade)
         }
     }
 
@@ -113,6 +117,8 @@ class SentenceViewModel(
                         ?: emptyMap()
                 )
             }
+
+            _grades.value = learningRepository.getGradesByDirection(nativeLang, learnedLang)
         }
     }
 }

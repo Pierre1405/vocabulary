@@ -35,17 +35,19 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.data.DictEntry
 import com.example.myapplication.data.DictTranslation
 import com.example.myapplication.data.DictionaryRepository
+import com.example.myapplication.data.LearningRepository
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DictionaryDetailScreen(
     dictionaryRepository: DictionaryRepository,
+    learningRepository: LearningRepository,
     entryId: Long,
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val viewModel: DictionaryDetailViewModel = viewModel(key = entryId.toString()) {
-        DictionaryDetailViewModel(dictionaryRepository, entryId)
+        DictionaryDetailViewModel(dictionaryRepository, learningRepository, entryId)
     }
     val state by viewModel.state.collectAsState()
 
@@ -82,7 +84,16 @@ fun DictionaryDetailScreen(
             if (state.translations.isNotEmpty()) {
                 item { SectionHeader("Traductions") }
                 items(state.translations) { translation ->
-                    TranslationRow(translation, state.entry!!, dictionaryRepository)
+                    SwipeableGradeCard(
+                        onGradeSelected = { grade -> viewModel.saveWordGrade(translation.id, grade) },
+                        currentGrade = state.wordGrades[translation.id]
+                    ) {
+                        TranslationRow(
+                            translation = translation,
+                            entry = state.entry!!,
+                            repository = dictionaryRepository
+                        )
+                    }
                     HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
                 }
             }

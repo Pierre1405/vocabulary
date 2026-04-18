@@ -86,6 +86,7 @@ fun AppNavigation(
             val route = backStackEntry.toRoute<DictionaryDetailRoute>()
             DictionaryDetailScreen(
                 dictionaryRepository = dictionaryRepository,
+                learningRepository = learningRepository,
                 entryId = route.entryId,
                 onBack = { navController.popBackStack() }
             )

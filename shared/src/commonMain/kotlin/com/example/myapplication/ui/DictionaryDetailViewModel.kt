@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.myapplication.data.DictEntry
 import com.example.myapplication.data.DictTranslation
 import com.example.myapplication.data.DictionaryRepository
+import com.example.myapplication.data.LearningRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,11 +18,13 @@ data class FormGroup(val label: String, val rows: List<FormRow>)
 data class DictionaryDetailState(
     val entry: DictEntry? = null,
     val translations: List<DictTranslation> = emptyList(),
-    val formGroups: List<FormGroup> = emptyList()
+    val formGroups: List<FormGroup> = emptyList(),
+    val wordGrades: Map<Long, Int> = emptyMap()  // translationId -> grade
 )
 
 class DictionaryDetailViewModel(
     private val dictionaryRepository: DictionaryRepository,
+    private val learningRepository: LearningRepository,
     private val entryId: Long
 ) : ViewModel() {
 
@@ -35,8 +38,18 @@ class DictionaryDetailViewModel(
                 val translations = dictionaryRepository.getTranslations(entryId)
                 val forms = dictionaryRepository.getForms(entryId)
                 val formGroups = buildFormGroups(forms.map { Triple(it.form, it.features, it.pronouns) })
-                DictionaryDetailState(entry, translations, formGroups)
+                val wordGrades = learningRepository.getWordGradesByEntry(entryId)
+                DictionaryDetailState(entry, translations, formGroups, wordGrades)
             }
+        }
+    }
+
+    fun saveWordGrade(translationId: Long, grade: Int) {
+        viewModelScope.launch {
+            learningRepository.saveWordGrade(entryId, translationId, grade)
+            _state.value = _state.value.copy(
+                wordGrades = _state.value.wordGrades + (translationId to grade)
+            )
         }
     }
 
