@@ -14,6 +14,8 @@ import com.example.myapplication.data.AudioPlayer
 import com.example.myapplication.data.DatabaseDriverFactory
 import com.example.myapplication.data.DictionaryDriverFactory
 import com.example.myapplication.data.DictionaryRepository
+import com.example.myapplication.data.LearningDriverFactory
+import com.example.myapplication.data.LearningRepository
 import com.example.myapplication.data.SpeechRecognizer
 import com.example.myapplication.data.VocabularyRepository
 import com.example.myapplication.ui.AppNavigation
@@ -33,6 +35,7 @@ class MainActivity : ComponentActivity() {
         requestMicPermission.launch(Manifest.permission.RECORD_AUDIO)
 
         val repository = VocabularyRepository(DatabaseDriverFactory(applicationContext))
+        val learningRepository = LearningRepository(LearningDriverFactory(applicationContext).createDriver())
         val dictionaryRepository = DictionaryRepository(DictionaryDriverFactory(applicationContext).createDriver())
 
         setContent {
@@ -40,6 +43,7 @@ class MainActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     AppNavigation(
                         repository = repository,
+                        learningRepository = learningRepository,
                         dictionaryRepository = dictionaryRepository,
                         audioPlayer = audioPlayer,
                         speechRecognizer = speechRecognizer,

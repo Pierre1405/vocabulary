@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.data.AudioPlayer
+import com.example.myapplication.data.LearningRepository
 import com.example.myapplication.data.VocabularyRepository
 
 enum class SentenceTab { ALL, DETAIL }
@@ -25,13 +26,15 @@ enum class SentenceTab { ALL, DETAIL }
 @Composable
 fun SentenceScreen(
     repository: VocabularyRepository,
+    learningRepository: LearningRepository,
     audioPlayer: AudioPlayer,
     storyId: Long,
+    onWordClick: (String) -> Unit,
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val viewModel: SentenceViewModel = viewModel(key = storyId.toString()) {
-        SentenceViewModel(repository, storyId)
+        SentenceViewModel(repository, learningRepository, storyId)
     }
 
     var currentTab by remember { mutableStateOf(SentenceTab.ALL) }
@@ -75,6 +78,7 @@ fun SentenceScreen(
             SentenceTab.ALL -> SentenceListScreen(
                 viewModel = viewModel,
                 audioPlayer = audioPlayer,
+                onWordClick = onWordClick,
                 onBack = onBack,
                 modifier = Modifier.padding(innerPadding)
             )

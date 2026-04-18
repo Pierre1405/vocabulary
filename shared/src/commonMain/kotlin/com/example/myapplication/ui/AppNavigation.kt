@@ -8,6 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.myapplication.data.AudioPlayer
 import com.example.myapplication.data.DictionaryRepository
+import com.example.myapplication.data.LearningRepository
 import com.example.myapplication.data.SpeechRecognizer
 import com.example.myapplication.data.VocabularyRepository
 import kotlinx.serialization.Serializable
@@ -22,7 +23,7 @@ object StoriesRoute
 object ReviewSelectionRoute
 
 @Serializable
-object DictionaryRoute
+data class DictionaryRoute(val initialQuery: String = "")
 
 @Serializable
 data class DictionaryDetailRoute(val entryId: Long)
@@ -36,6 +37,7 @@ data class ReviewRoute(val sourceLocale: String, val targetLocale: String, val s
 @Composable
 fun AppNavigation(
     repository: VocabularyRepository,
+    learningRepository: LearningRepository,
     dictionaryRepository: DictionaryRepository,
     audioPlayer: AudioPlayer,
     speechRecognizer: SpeechRecognizer,
@@ -52,12 +54,13 @@ fun AppNavigation(
             HomeScreen(
                 onLectureClick = { navController.navigate(StoriesRoute) },
                 onRevisionClick = { navController.navigate(ReviewSelectionRoute) },
-                onDictionnaireClick = { navController.navigate(DictionaryRoute) }
+                onDictionnaireClick = { navController.navigate(DictionaryRoute()) }
             )
         }
         composable<StoriesRoute> {
             StoryListScreen(
                 repository = repository,
+                learningRepository = learningRepository,
                 onStoryClick = { storyId -> navController.navigate(SentencesRoute(storyId)) },
                 onBack = { navController.popBackStack() }
             )
@@ -65,13 +68,16 @@ fun AppNavigation(
         composable<ReviewSelectionRoute> {
             ReviewSelectionScreen(
                 repository = repository,
+                learningRepository = learningRepository,
                 onReviewClick = { source, target, sourceBlurred -> navController.navigate(ReviewRoute(source, target, sourceBlurred)) },
                 onBack = { navController.popBackStack() }
             )
         }
-        composable<DictionaryRoute> {
+        composable<DictionaryRoute> { backStackEntry ->
+            val route = backStackEntry.toRoute<DictionaryRoute>()
             DictionaryScreen(
                 dictionaryRepository = dictionaryRepository,
+                initialQuery = route.initialQuery,
                 onEntryClick = { entryId -> navController.navigate(DictionaryDetailRoute(entryId)) },
                 onBack = { navController.popBackStack() }
             )
@@ -88,8 +94,10 @@ fun AppNavigation(
             val route = backStackEntry.toRoute<SentencesRoute>()
             SentenceScreen(
                 repository = repository,
+                learningRepository = learningRepository,
                 audioPlayer = audioPlayer,
                 storyId = route.storyId,
+                onWordClick = { word -> navController.navigate(DictionaryRoute(word)) },
                 onBack = { navController.popBackStack() }
             )
         }
@@ -97,6 +105,7 @@ fun AppNavigation(
             val route = backStackEntry.toRoute<ReviewRoute>()
             ReviewScreen(
                 repository = repository,
+                learningRepository = learningRepository,
                 audioPlayer = audioPlayer,
                 speechRecognizer = speechRecognizer,
                 sourceLocale = route.sourceLocale,

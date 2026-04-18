@@ -2,12 +2,16 @@ package com.example.myapplication.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.myapplication.data.LearningRepository
 import com.example.myapplication.data.VocabularyRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class StoryViewModel(private val repository: VocabularyRepository) : ViewModel() {
+class StoryViewModel(
+    private val repository: VocabularyRepository,
+    private val learningRepository: LearningRepository
+) : ViewModel() {
 
     private val _stories = MutableStateFlow<List<StoryWithTranslations>>(emptyList())
     val stories: StateFlow<List<StoryWithTranslations>> = _stories
@@ -51,8 +55,8 @@ class StoryViewModel(private val repository: VocabularyRepository) : ViewModel()
         viewModelScope.launch {
             val nativeLang = _nativeLanguage.value
             val learnedLang = _learnedLanguage.value
-            _countNativeToLearned.value = repository.countLearningByDirection(nativeLang, learnedLang)
-            _countLearnedToNative.value = repository.countLearningByDirection(learnedLang, nativeLang)
+            _countNativeToLearned.value = learningRepository.countByDirection(nativeLang, learnedLang)
+            _countLearnedToNative.value = learningRepository.countByDirection(learnedLang, nativeLang)
         }
     }
 }

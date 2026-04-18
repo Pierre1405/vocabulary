@@ -3,6 +3,7 @@ package com.example.myapplication.ui
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.data.AudioPlayer
+import com.example.myapplication.data.LearningRepository
 import com.example.myapplication.data.VocabularyRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -10,6 +11,7 @@ import kotlinx.coroutines.launch
 
 class SentenceViewModel(
     private val repository: VocabularyRepository,
+    private val learningRepository: LearningRepository,
     private val storyId: Long
 ) : ViewModel() {
 
@@ -59,19 +61,19 @@ class SentenceViewModel(
             return
         }
         _currentPlayingIndex.value = index
-        audioPlayer.play(sentences[index].sentenceId, _learnedLanguage.value) {
+        audioPlayer.play(sentences[index].sentenceKey, _learnedLanguage.value) {
             viewModelScope.launch {
                 playNext(audioPlayer, sentences, index + 1)
             }
         }
     }
 
-    fun saveGrade(sentenceId: Long, grade: Int) {
+    fun saveGrade(sentenceKey: String, grade: Int) {
         viewModelScope.launch {
             val nativeLang = _nativeLanguage.value
             val learnedLang = _learnedLanguage.value
-            repository.saveGrade(sentenceId, nativeLang, learnedLang, grade)
-            repository.saveGrade(sentenceId, learnedLang, nativeLang, grade)
+            learningRepository.saveGrade(sentenceKey, nativeLang, learnedLang, grade)
+            learningRepository.saveGrade(sentenceKey, learnedLang, nativeLang, grade)
         }
     }
 
@@ -101,12 +103,12 @@ class SentenceViewModel(
 
             val sentences = repository.getSentencesByStory(storyId)
             val translations = repository.getTranslationsForStory(storyId)
-            val translationsBySentenceId = translations.groupBy { it.sentence_id }
+            val translationsByKey = translations.groupBy { it.sentence_key }
 
             _sentences.value = sentences.map { sentence ->
                 SentenceWithTranslations(
-                    sentenceId = sentence.id,
-                    translations = translationsBySentenceId[sentence.id]
+                    sentenceKey = sentence.sentence_key,
+                    translations = translationsByKey[sentence.sentence_key]
                         ?.associate { it.locale to it.translation }
                         ?: emptyMap()
                 )

@@ -1,17 +1,17 @@
 CREATE TABLE IF NOT EXISTS translation (
-    sentence_id INTEGER NOT NULL,
+    sentence_key TEXT NOT NULL,
     locale TEXT NOT NULL,
     translation TEXT NOT NULL,
-    PRIMARY KEY (sentence_id, locale),
-    FOREIGN KEY (sentence_id) REFERENCES sentence(id) ON DELETE CASCADE
+    PRIMARY KEY (sentence_key, locale),
+    FOREIGN KEY (sentence_key) REFERENCES sentence(sentence_key) ON DELETE CASCADE
 );
 
 getTranslationsForStory:
 SELECT * FROM translation
-WHERE sentence_id IN (SELECT id FROM sentence WHERE story_id = :storyId);
+WHERE sentence_key IN (SELECT sentence_key FROM sentence WHERE story_id = :storyId);
 
-getTranslationsByPhraseId:
-SELECT * FROM translation WHERE sentence_id = :phraseId;
+getTranslationsByKey:
+SELECT * FROM translation WHERE sentence_key = :sentenceKey;
 
 getTranslationsForSentences:
-SELECT * FROM translation WHERE sentence_id IN :sentenceIds;
+SELECT * FROM translation WHERE sentence_key IN :sentenceKeys;

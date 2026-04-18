@@ -9,6 +9,10 @@ import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.text.ClickableText
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.withStyle
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
@@ -48,7 +52,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.IntOffset
 import kotlinx.coroutines.launch
@@ -60,6 +66,7 @@ import com.example.myapplication.data.AudioPlayer
 fun SentenceListScreen(
     viewModel: SentenceViewModel,
     audioPlayer: AudioPlayer,
+    onWordClick: (String) -> Unit,
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -159,7 +166,7 @@ fun SentenceListScreen(
             ) {
                 itemsIndexed(sentences) { index, sentence ->
                     SwipeableGradeCard(
-                        onGradeSelected = { grade -> viewModel.saveGrade(sentence.sentenceId, grade) }
+                        onGradeSelected = { grade -> viewModel.saveGrade(sentence.sentenceKey, grade) }
                     ) {
                         SentenceCard(
                             sentence = sentence,
@@ -170,6 +177,7 @@ fun SentenceListScreen(
                             showLearned = showLearned,
                             onToggleNative = { showNative = !showNative },
                             onToggleLearned = { showLearned = !showLearned },
+                            onWordClick = onWordClick,
                             isPlaying = index == currentPlayingIndex
                         )
                     }
@@ -189,6 +197,7 @@ fun SentenceCard(
     showLearned: Boolean,
     onToggleNative: () -> Unit,
     onToggleLearned: () -> Unit,
+    onWordClick: (String) -> Unit,
     isPlaying: Boolean = false
 ) {
     Card(
@@ -207,16 +216,24 @@ fun SentenceCard(
             Box(
                 modifier = Modifier
                     .weight(1f)
-                    .clickable { onToggleLearned() }
-                    .then(if (!showLearned) Modifier.blur(8.dp) else Modifier)
+                    .then(if (!showLearned) Modifier.clickable { onToggleLearned() }.blur(8.dp) else Modifier)
             ) {
-                Text(
-                    text = sentence.getTranslation(learnedLanguage),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.primary
-                )
+                if (showLearned) {
+                    ClickableWordText(
+                        text = sentence.getTranslation(learnedLanguage),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.primary,
+                        onWordClick = onWordClick
+                    )
+                } else {
+                    Text(
+                        text = sentence.getTranslation(learnedLanguage),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                }
             }
-            IconButton(onClick = { audioPlayer.play(sentence.sentenceId, learnedLanguage) }) {
+            IconButton(onClick = { audioPlayer.play(sentence.sentenceKey, learnedLanguage) }) {
                 Text("▶", color = MaterialTheme.colorScheme.primary, style = MaterialTheme.typography.bodyLarge)
             }
         }
@@ -233,16 +250,55 @@ fun SentenceCard(
             Box(
                 modifier = Modifier
                     .weight(1f)
-                    .clickable { onToggleNative() }
-                    .then(if (!showNative) Modifier.blur(8.dp) else Modifier)
+                    .then(if (!showNative) Modifier.clickable { onToggleNative() }.blur(8.dp) else Modifier)
             ) {
-                Text(
-                    text = sentence.getTranslation(nativeLanguage),
-                    style = MaterialTheme.typography.bodyLarge
-                )
+                if (showNative) {
+                    ClickableWordText(
+                        text = sentence.getTranslation(nativeLanguage),
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        onWordClick = onWordClick
+                    )
+                } else {
+                    Text(
+                        text = sentence.getTranslation(nativeLanguage),
+                        style = MaterialTheme.typography.bodyLarge
+                    )
+                }
             }
         }
     }
+}
+
+@Composable
+fun ClickableWordText(
+    text: String,
+    style: TextStyle,
+    color: Color,
+    onWordClick: (String) -> Unit
+) {
+    val tokens = text.split(" ")
+    val annotated = buildAnnotatedString {
+        tokens.forEachIndexed { i, token ->
+            val word = token.trimEnd { !it.isLetter() }
+            if (word.isNotEmpty()) {
+                pushStringAnnotation("WORD", word)
+                withStyle(SpanStyle(color = color)) { append(token) }
+                pop()
+            } else {
+                withStyle(SpanStyle(color = color)) { append(token) }
+            }
+            if (i < tokens.size - 1) append(" ")
+        }
+    }
+    ClickableText(
+        text = annotated,
+        style = style,
+        onClick = { offset ->
+            annotated.getStringAnnotations("WORD", offset, offset)
+                .firstOrNull()?.let { onWordClick(it.item) }
+        }
+    )
 }
 
 @Composable

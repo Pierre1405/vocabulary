@@ -23,6 +23,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -35,6 +36,7 @@ import com.example.myapplication.data.DictionaryRepository
 @Composable
 fun DictionaryScreen(
     dictionaryRepository: DictionaryRepository,
+    initialQuery: String = "",
     onEntryClick: (entryId: Long) -> Unit,
     onBack: () -> Unit,
     modifier: Modifier = Modifier
@@ -42,6 +44,10 @@ fun DictionaryScreen(
     val viewModel: DictionaryViewModel = viewModel { DictionaryViewModel(dictionaryRepository) }
     val query by viewModel.query.collectAsState()
     val results by viewModel.results.collectAsState()
+
+    LaunchedEffect(initialQuery) {
+        if (initialQuery.isNotEmpty()) viewModel.onQueryChange(initialQuery)
+    }
 
     Scaffold(
         topBar = {

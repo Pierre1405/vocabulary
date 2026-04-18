@@ -1,6 +1,6 @@
 package com.example.myapplication.data
 
 expect class AudioPlayer {
-    fun play(sentenceId: Long, language: String, onComplete: () -> Unit = {})
+    fun play(sentenceKey: String, language: String, onComplete: () -> Unit = {})
     fun release()
 }

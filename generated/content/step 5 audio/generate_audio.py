@@ -44,6 +44,8 @@ def generate_audio(chunks_dir, output_dir, config_dir):
 
     chunk_files = sorted([f for f in os.listdir(chunks_dir) if f.startswith("chunk_") and f.endswith(".tsv")])
 
+    sentence_index_by_file = {}
+
     for chunk_file in chunk_files:
         chunk_path = os.path.join(chunks_dir, chunk_file)
         print(f"Traitement du chunk : {chunk_file}")
@@ -58,11 +60,13 @@ def generate_audio(chunks_dir, output_dir, config_dir):
                 if len(parts) < len(header):
                     continue
 
-                sentence_id = int(parts[0])
+                file_name = parts[file_name_idx]
+                sentence_index_by_file[file_name] = sentence_index_by_file.get(file_name, -1) + 1
+                sentence_key = f"{file_name}_{sentence_index_by_file[file_name]}"
 
                 for i, locale in enumerate(locale_columns):
                     text = parts[1 + i]
-                    audio_file = os.path.join(output_dir, f"sentence_{sentence_id}_{locale}.mp3")
+                    audio_file = os.path.join(output_dir, f"sentence_{sentence_key}_{locale}.mp3")
 
                     if os.path.exists(audio_file):
                         print(f"Fichier audio déjà existant : {audio_file}")

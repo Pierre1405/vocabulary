@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS sentence (
-    id INTEGER NOT NULL PRIMARY KEY,
+    sentence_key TEXT NOT NULL PRIMARY KEY,
     category_id INTEGER NOT NULL,
     story_id INTEGER NOT NULL,
     FOREIGN KEY (category_id) REFERENCES category(id) ON DELETE CASCADE,
@@ -14,3 +14,6 @@ SELECT * FROM sentence WHERE category_id = :categoryId;
 
 getSentencesByStory:
 SELECT * FROM sentence WHERE story_id = :storyId;
+
+getSentenceByKey:
+SELECT * FROM sentence WHERE sentence_key = :sentenceKey;

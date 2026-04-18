@@ -63,7 +63,6 @@ def create_database(chunks_dir, output_db, source_dir, translation_dir):
     cursor = conn.cursor()
 
     cursor.execute("DROP TABLE IF EXISTS configuration")
-    cursor.execute("DROP TABLE IF EXISTS learning")
     cursor.execute("DROP TABLE IF EXISTS translation")
     cursor.execute("DROP TABLE IF EXISTS sentence")
     cursor.execute("DROP TABLE IF EXISTS story_category")
@@ -106,7 +105,7 @@ def create_database(chunks_dir, output_db, source_dir, translation_dir):
 
     cursor.execute("""
         CREATE TABLE sentence (
-            id INTEGER NOT NULL PRIMARY KEY,
+            sentence_key TEXT NOT NULL PRIMARY KEY,
             category_id INTEGER NOT NULL,
             story_id INTEGER NOT NULL,
             FOREIGN KEY (story_id) REFERENCES story(id) ON DELETE CASCADE,
@@ -116,11 +115,11 @@ def create_database(chunks_dir, output_db, source_dir, translation_dir):
 
     cursor.execute("""
         CREATE TABLE translation (
-            sentence_id INTEGER NOT NULL,
+            sentence_key TEXT NOT NULL,
             locale TEXT NOT NULL,
             translation TEXT NOT NULL,
-            PRIMARY KEY (sentence_id, locale),
-            FOREIGN KEY (sentence_id) REFERENCES sentence(id) ON DELETE CASCADE
+            PRIMARY KEY (sentence_key, locale),
+            FOREIGN KEY (sentence_key) REFERENCES sentence(sentence_key) ON DELETE CASCADE
         )
     """)
 
@@ -133,21 +132,11 @@ def create_database(chunks_dir, output_db, source_dir, translation_dir):
     cursor.execute("INSERT INTO configuration (key, value) VALUES ('native_language', 'fr')")
     cursor.execute("INSERT INTO configuration (key, value) VALUES ('learned_language', 'de')")
 
-    cursor.execute("""
-        CREATE TABLE learning (
-            sentence_id INTEGER NOT NULL,
-            source_locale TEXT NOT NULL,
-            target_locale TEXT NOT NULL,
-            grade INTEGER NOT NULL,
-            PRIMARY KEY (sentence_id, source_locale, target_locale),
-            FOREIGN KEY (sentence_id) REFERENCES sentence(id) ON DELETE CASCADE
-        )
-    """)
-
     chunk_files = sorted([f for f in os.listdir(chunks_dir) if f.startswith("chunk_") and f.endswith(".tsv")])
 
     category_ids = {}
     story_ids = {}
+    sentence_index_by_file = {}
 
     for chunk_file in chunk_files:
         chunk_path = os.path.join(chunks_dir, chunk_file)
@@ -165,10 +154,13 @@ def create_database(chunks_dir, output_db, source_dir, translation_dir):
                 if len(parts) < len(header):
                     continue
 
-                sentence_id = int(parts[0])
                 file_name = parts[file_name_idx]
                 # category key = première partie du file_name (avant le premier _)
                 category_key = file_name.split('_')[0]
+
+                # sentence_key stable : {file_name}_{index_dans_le_fichier}
+                sentence_index_by_file[file_name] = sentence_index_by_file.get(file_name, -1) + 1
+                sentence_key = f"{file_name}_{sentence_index_by_file[file_name]}"
 
                 if file_name not in story_ids:
                     metadata = load_file_metadata(file_name, locale_columns, source_dir, translation_dir)
@@ -197,15 +189,15 @@ def create_database(chunks_dir, output_db, source_dir, translation_dir):
                     print(f"Story ajoutée : {file_name} (ID: {story_ids[file_name]})")
 
                 cursor.execute(
-                    "INSERT INTO sentence (id, category_id, story_id) VALUES (?, ?, ?)",
-                    (sentence_id, category_ids[category_key], story_ids[file_name])
+                    "INSERT INTO sentence (sentence_key, category_id, story_id) VALUES (?, ?, ?)",
+                    (sentence_key, category_ids[category_key], story_ids[file_name])
                 )
 
                 for i, locale in enumerate(locale_columns):
                     translation = parts[1 + i]
                     cursor.execute(
-                        "INSERT INTO translation (sentence_id, locale, translation) VALUES (?, ?, ?)",
-                        (sentence_id, locale, translation)
+                        "INSERT INTO translation (sentence_key, locale, translation) VALUES (?, ?, ?)",
+                        (sentence_key, locale, translation)
                     )
 
     conn.commit()

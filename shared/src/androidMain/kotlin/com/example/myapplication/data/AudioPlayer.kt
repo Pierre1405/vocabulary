@@ -6,9 +6,9 @@ import android.media.MediaPlayer
 actual class AudioPlayer(private val context: Context) {
     private var mediaPlayer: MediaPlayer? = null
 
-    actual fun play(sentenceId: Long, language: String, onComplete: () -> Unit) {
+    actual fun play(sentenceKey: String, language: String, onComplete: () -> Unit) {
         mediaPlayer?.release()
-        val resourceName = "sentence_${sentenceId}_$language"
+        val resourceName = "sentence_${sentenceKey}_$language"
         val resourceId = context.resources.getIdentifier(resourceName, "raw", context.packageName)
         if (resourceId != 0) {
             mediaPlayer = MediaPlayer.create(context, resourceId)

@@ -51,7 +51,7 @@ class ReviewPlayer(
             onIndexChanged(index)
 
             suspendCancellableCoroutine { cont ->
-                audioPlayer.play(sentence.sentenceId, sourceLocale) { cont.resume(Unit) }
+                audioPlayer.play(sentence.sentenceKey, sourceLocale) { cont.resume(Unit) }
                 cont.invokeOnCancellation { audioPlayer.release() }
             }
             if (!_isPlaying.value) break
@@ -59,7 +59,7 @@ class ReviewPlayer(
             if (!_isPlaying.value) break
 
             suspendCancellableCoroutine { cont ->
-                audioPlayer.play(sentence.sentenceId, targetLocale) { cont.resume(Unit) }
+                audioPlayer.play(sentence.sentenceKey, targetLocale) { cont.resume(Unit) }
                 cont.invokeOnCancellation { audioPlayer.release() }
             }
             if (!_isPlaying.value) break

@@ -55,30 +55,8 @@ class VocabularyRepository(driverFactory: DatabaseDriverFactory) {
         database.configurationQueries.getValue(key).executeAsOneOrNull()
     }
 
-    suspend fun saveGrade(sentenceId: Long, sourceLocale: String, targetLocale: String, grade: Int) =
+    suspend fun getTranslationsForSentences(sentenceKeys: List<String>): List<Translation> =
         withContext(Dispatchers.Default) {
-            database.learningQueries.upsertGrade(sentenceId, sourceLocale, targetLocale, grade.toLong())
-        }
-
-    suspend fun countLearningByDirection(sourceLocale: String, targetLocale: String): Long =
-        withContext(Dispatchers.Default) {
-            database.learningQueries.countByDirection(sourceLocale, targetLocale).executeAsOne()
-        }
-
-    suspend fun getTranslationsForSentences(sentenceIds: List<Long>): List<Translation> =
-        withContext(Dispatchers.Default) {
-            database.translationQueries.getTranslationsForSentences(sentenceIds).executeAsList()
-        }
-
-    suspend fun getSentenceIdsByDirection(sourceLocale: String, targetLocale: String): List<Long> =
-        withContext(Dispatchers.Default) {
-            database.learningQueries.getSentenceIdsByDirection(sourceLocale, targetLocale).executeAsList()
-        }
-
-    suspend fun getGradesByDirection(sourceLocale: String, targetLocale: String): Map<Long, Long> =
-        withContext(Dispatchers.Default) {
-            database.learningQueries.getGradesByDirection(sourceLocale, targetLocale)
-                .executeAsList()
-                .associate { it.sentence_id to it.grade }
+            database.translationQueries.getTranslationsForSentences(sentenceKeys).executeAsList()
         }
 }

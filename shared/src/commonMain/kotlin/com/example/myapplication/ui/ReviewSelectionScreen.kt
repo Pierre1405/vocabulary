@@ -25,17 +25,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.myapplication.data.LearningRepository
 import com.example.myapplication.data.VocabularyRepository
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReviewSelectionScreen(
     repository: VocabularyRepository,
+    learningRepository: LearningRepository,
     onReviewClick: (sourceLocale: String, targetLocale: String, sourceBlurred: Boolean) -> Unit,
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val viewModel: StoryViewModel = viewModel { StoryViewModel(repository) }
+    val viewModel: StoryViewModel = viewModel { StoryViewModel(repository, learningRepository) }
     val nativeLanguage by viewModel.nativeLanguage.collectAsState()
     val learnedLanguage by viewModel.learnedLanguage.collectAsState()
     val countNativeToLearned by viewModel.countNativeToLearned.collectAsState()

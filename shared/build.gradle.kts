@@ -70,5 +70,9 @@ sqldelight {
             packageName.set("com.example.myapplication.db.dictionary")
             srcDirs("src/commonMain/sqldelight-dictionary")
         }
+        create("LearningDatabase") {
+            packageName.set("com.example.myapplication.db.learning")
+            srcDirs("src/commonMain/sqldelight-learning")
+        }
     }
 }

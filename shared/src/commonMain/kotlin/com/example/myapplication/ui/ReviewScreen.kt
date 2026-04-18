@@ -40,6 +40,7 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.data.AudioPlayer
+import com.example.myapplication.data.LearningRepository
 import com.example.myapplication.data.SpeechRecognizer
 import com.example.myapplication.data.VocabularyRepository
 
@@ -47,6 +48,7 @@ import com.example.myapplication.data.VocabularyRepository
 @Composable
 fun ReviewScreen(
     repository: VocabularyRepository,
+    learningRepository: LearningRepository,
     audioPlayer: AudioPlayer,
     speechRecognizer: SpeechRecognizer,
     sourceLocale: String,
@@ -56,7 +58,7 @@ fun ReviewScreen(
     modifier: Modifier = Modifier
 ) {
     val viewModel: ReviewViewModel = viewModel(key = "$sourceLocale-$targetLocale") {
-        ReviewViewModel(repository, sourceLocale, targetLocale)
+        ReviewViewModel(repository, learningRepository, sourceLocale, targetLocale)
     }
 
     val sentences by viewModel.sentences.collectAsState()
@@ -129,7 +131,7 @@ fun ReviewScreen(
                 sourceBlurred = sourceBlurred,
                 audioPlayer = audioPlayer,
                 speechRecognizer = speechRecognizer,
-                onGradeSelected = { grade -> viewModel.saveGrade(sentence.sentenceId, grade) },
+                onGradeSelected = { grade -> viewModel.saveGrade(sentence.sentenceKey, grade) },
                 onNext = { viewModel.moveToNext() },
                 onPrevious = { viewModel.moveToPrevious() },
                 modifier = Modifier
@@ -156,11 +158,11 @@ fun ReviewCard(
     onPrevious: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var showSource by remember(sentence.sentenceId) { mutableStateOf(false) }
+    var showSource by remember(sentence.sentenceKey) { mutableStateOf(false) }
     val sourceVisible = !sourceBlurred || showSource
-    var showTarget by remember(sentence.sentenceId) { mutableStateOf(false) }
+    var showTarget by remember(sentence.sentenceKey) { mutableStateOf(false) }
     val targetVisible = showTarget || forceShowTarget
-    var spokenText by remember(sentence.sentenceId) { mutableStateOf("") }
+    var spokenText by remember(sentence.sentenceKey) { mutableStateOf("") }
     var isListening by remember { mutableStateOf(false) }
 
     Column(
@@ -196,7 +198,7 @@ fun ReviewCard(
                             style = MaterialTheme.typography.bodyLarge
                         )
                     }
-                    IconButton(onClick = { audioPlayer.play(sentence.sentenceId, sourceLocale) }) {
+                    IconButton(onClick = { audioPlayer.play(sentence.sentenceKey, sourceLocale) }) {
                         Text("▶", style = MaterialTheme.typography.bodyLarge)
                     }
                 }
@@ -221,7 +223,7 @@ fun ReviewCard(
                             color = MaterialTheme.colorScheme.primary
                         )
                     }
-                    IconButton(onClick = { audioPlayer.play(sentence.sentenceId, targetLocale) }) {
+                    IconButton(onClick = { audioPlayer.play(sentence.sentenceKey, targetLocale) }) {
                         Text("▶", color = MaterialTheme.colorScheme.primary, style = MaterialTheme.typography.bodyLarge)
                     }
                 }
