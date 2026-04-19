@@ -12,6 +12,7 @@ import androidx.compose.material.icons.filled.Headphones
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -34,6 +35,7 @@ fun ReviewSelectionScreen(
     repository: VocabularyRepository,
     learningRepository: LearningRepository,
     onReviewClick: (sourceLocale: String, targetLocale: String, sourceBlurred: Boolean) -> Unit,
+    onWordReviewClick: (reversed: Boolean) -> Unit,
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -42,6 +44,7 @@ fun ReviewSelectionScreen(
     val learnedLanguage by viewModel.learnedLanguage.collectAsState()
     val countNativeToLearned by viewModel.countNativeToLearned.collectAsState()
     val countLearnedToNative by viewModel.countLearnedToNative.collectAsState()
+    val countWordLearning by viewModel.countWordLearning.collectAsState()
 
     LifecycleResumeEffect(Unit) {
         viewModel.refreshCounts()
@@ -68,7 +71,7 @@ fun ReviewSelectionScreen(
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Text(
-                text = "Choisissez un mode",
+                text = "Phrases",
                 style = MaterialTheme.typography.titleMedium
             )
 
@@ -95,6 +98,33 @@ fun ReviewSelectionScreen(
                 ) {
                     Icon(Icons.Filled.Headphones, contentDescription = null)
                     Text(" ${localeToFlag(learnedLanguage)} → ${localeToFlag(nativeLanguage)} ($countLearnedToNative)")
+                }
+            }
+
+            HorizontalDivider()
+
+            Text(
+                text = "Mots",
+                style = MaterialTheme.typography.titleMedium
+            )
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                Button(
+                    onClick = { onWordReviewClick(false) },
+                    modifier = Modifier.weight(1f),
+                    enabled = countWordLearning > 0
+                ) {
+                    Text("${localeToFlag(learnedLanguage)} → ${localeToFlag(nativeLanguage)} ($countWordLearning)")
+                }
+                Button(
+                    onClick = { onWordReviewClick(true) },
+                    modifier = Modifier.weight(1f),
+                    enabled = countWordLearning > 0
+                ) {
+                    Text("${localeToFlag(nativeLanguage)} → ${localeToFlag(learnedLanguage)} ($countWordLearning)")
                 }
             }
         }

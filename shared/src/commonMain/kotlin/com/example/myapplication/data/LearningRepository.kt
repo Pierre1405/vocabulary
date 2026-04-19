@@ -50,4 +50,15 @@ class LearningRepository(driver: SqlDriver) {
             wordQueries.getWordGradesByEntry(entryId).executeAsList()
                 .associate { it.translation_id to it.grade.toInt() }
         }
+
+    suspend fun getAllWordLearning(): List<Triple<Long, Long, Int>> =
+        withContext(Dispatchers.Default) {
+            wordQueries.getAllWordLearning().executeAsList()
+                .map { Triple(it.entry_id, it.translation_id, it.grade.toInt()) }
+        }
+
+    suspend fun countWordLearning(): Long =
+        withContext(Dispatchers.Default) {
+            wordQueries.getAllWordLearning().executeAsList().size.toLong()
+        }
 }

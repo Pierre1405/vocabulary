@@ -28,6 +28,9 @@ class StoryViewModel(
     private val _countLearnedToNative = MutableStateFlow(0L)
     val countLearnedToNative: StateFlow<Long> = _countLearnedToNative
 
+    private val _countWordLearning = MutableStateFlow(0L)
+    val countWordLearning: StateFlow<Long> = _countWordLearning
+
     init {
         viewModelScope.launch {
             val nativeLang = repository.getConfiguration("native_language") ?: "fr"
@@ -57,6 +60,7 @@ class StoryViewModel(
             val learnedLang = _learnedLanguage.value
             _countNativeToLearned.value = learningRepository.countByDirection(nativeLang, learnedLang)
             _countLearnedToNative.value = learningRepository.countByDirection(learnedLang, nativeLang)
+            _countWordLearning.value = learningRepository.countWordLearning()
         }
     }
 }
