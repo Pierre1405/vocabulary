@@ -27,3 +27,5 @@
 [ ] dictionnaire embarqué
 [ ] conjugaison embarqué
 [ ] refactoring note, base dédié note, id constante pour les traductions.
+[ ] fix forms
+[ ] learn word in double direction
