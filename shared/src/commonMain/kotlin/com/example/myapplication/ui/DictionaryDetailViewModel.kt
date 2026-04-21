@@ -38,7 +38,9 @@ class DictionaryDetailViewModel(
                 val translations = dictionaryRepository.getTranslations(entryId)
                 val forms = dictionaryRepository.getForms(entryId)
                 val formGroups = buildFormGroups(forms.map { Triple(it.form, it.features, it.pronouns) })
-                val wordGrades = learningRepository.getWordGradesForTranslations(translations.map { it.id })
+                val sourceLocale = entry?.locale ?: ""
+                val targetLocale = translations.firstOrNull()?.targetLocale ?: ""
+                val wordGrades = learningRepository.getWordGradesForTranslations(translations.map { it.id }, sourceLocale, targetLocale)
                 DictionaryDetailState(entry, translations, formGroups, wordGrades)
             }
         }
@@ -46,7 +48,10 @@ class DictionaryDetailViewModel(
 
     fun saveWordGrade(translationId: Long, grade: Int) {
         viewModelScope.launch {
-            learningRepository.saveWordGrade(translationId, grade)
+            val sourceLocale = _state.value.entry?.locale ?: return@launch
+            val targetLocale = _state.value.translations.find { it.id == translationId }?.targetLocale ?: return@launch
+            learningRepository.saveWordGrade(translationId, sourceLocale, targetLocale, grade)
+            learningRepository.saveWordGrade(translationId, targetLocale, sourceLocale, grade)
             _state.value = _state.value.copy(
                 wordGrades = _state.value.wordGrades + (translationId to grade)
             )

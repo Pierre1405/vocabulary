@@ -35,7 +35,7 @@ data class SentencesRoute(val storyId: Long)
 data class ReviewRoute(val sourceLocale: String, val targetLocale: String, val sourceBlurred: Boolean = false)
 
 @Serializable
-data class WordReviewRoute(val reversed: Boolean = false)
+data class WordReviewRoute(val sourceLocale: String, val targetLocale: String)
 
 @Composable
 fun AppNavigation(
@@ -73,7 +73,7 @@ fun AppNavigation(
                 repository = repository,
                 learningRepository = learningRepository,
                 onReviewClick = { source, target, sourceBlurred -> navController.navigate(ReviewRoute(source, target, sourceBlurred)) },
-                onWordReviewClick = { reversed -> navController.navigate(WordReviewRoute(reversed)) },
+                onWordReviewClick = { source, target -> navController.navigate(WordReviewRoute(source, target)) },
                 onBack = { navController.popBackStack() }
             )
         }
@@ -82,7 +82,8 @@ fun AppNavigation(
             WordReviewScreen(
                 dictionaryRepository = dictionaryRepository,
                 learningRepository = learningRepository,
-                reversed = route.reversed,
+                sourceLocale = route.sourceLocale,
+                targetLocale = route.targetLocale,
                 onBack = { navController.popBackStack() }
             )
         }

@@ -35,7 +35,7 @@ fun ReviewSelectionScreen(
     repository: VocabularyRepository,
     learningRepository: LearningRepository,
     onReviewClick: (sourceLocale: String, targetLocale: String, sourceBlurred: Boolean) -> Unit,
-    onWordReviewClick: (reversed: Boolean) -> Unit,
+    onWordReviewClick: (sourceLocale: String, targetLocale: String) -> Unit,
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -44,7 +44,8 @@ fun ReviewSelectionScreen(
     val learnedLanguage by viewModel.learnedLanguage.collectAsState()
     val countNativeToLearned by viewModel.countNativeToLearned.collectAsState()
     val countLearnedToNative by viewModel.countLearnedToNative.collectAsState()
-    val countWordLearning by viewModel.countWordLearning.collectAsState()
+    val countWordLearnedToNative by viewModel.countWordLearnedToNative.collectAsState()
+    val countWordNativeToLearned by viewModel.countWordNativeToLearned.collectAsState()
 
     LifecycleResumeEffect(Unit) {
         viewModel.refreshCounts()
@@ -113,18 +114,18 @@ fun ReviewSelectionScreen(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 Button(
-                    onClick = { onWordReviewClick(false) },
+                    onClick = { onWordReviewClick(learnedLanguage, nativeLanguage) },
                     modifier = Modifier.weight(1f),
-                    enabled = countWordLearning > 0
+                    enabled = countWordLearnedToNative > 0
                 ) {
-                    Text("${localeToFlag(learnedLanguage)} → ${localeToFlag(nativeLanguage)} ($countWordLearning)")
+                    Text("${localeToFlag(learnedLanguage)} → ${localeToFlag(nativeLanguage)} ($countWordLearnedToNative)")
                 }
                 Button(
-                    onClick = { onWordReviewClick(true) },
+                    onClick = { onWordReviewClick(nativeLanguage, learnedLanguage) },
                     modifier = Modifier.weight(1f),
-                    enabled = countWordLearning > 0
+                    enabled = countWordNativeToLearned > 0
                 ) {
-                    Text("${localeToFlag(nativeLanguage)} → ${localeToFlag(learnedLanguage)} ($countWordLearning)")
+                    Text("${localeToFlag(nativeLanguage)} → ${localeToFlag(learnedLanguage)} ($countWordNativeToLearned)")
                 }
             }
         }

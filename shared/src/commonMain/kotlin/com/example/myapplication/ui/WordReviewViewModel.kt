@@ -22,7 +22,8 @@ data class WordReviewItem(
 class WordReviewViewModel(
     private val dictionaryRepository: DictionaryRepository,
     private val learningRepository: LearningRepository,
-    val reversed: Boolean = false
+    val sourceLocale: String,
+    val targetLocale: String
 ) : ViewModel() {
 
     private val _items = MutableStateFlow<List<WordReviewItem>>(emptyList())
@@ -38,7 +39,7 @@ class WordReviewViewModel(
 
     init {
         viewModelScope.launch {
-            val wordLearning = learningRepository.getAllWordLearning()
+            val wordLearning = learningRepository.getAllWordsByDirection(sourceLocale, targetLocale)
             _items.value = withContext(Dispatchers.Default) {
                 wordLearning.mapNotNull { (translationId, grade) ->
                     grades[translationId] = grade
@@ -63,9 +64,9 @@ class WordReviewViewModel(
         _currentGrade.value = item?.let { grades[it.translationId] }
     }
 
-    fun saveGrade(translationId: Long, entryId: Long, grade: Int) {
+    fun saveGrade(translationId: Long, grade: Int) {
         viewModelScope.launch {
-            learningRepository.saveWordGrade(translationId, grade)
+            learningRepository.saveWordGrade(translationId, sourceLocale, targetLocale, grade)
             grades[translationId] = grade
             if (grade == 5) {
                 val updated = _items.value.filter { it.translationId != translationId }
@@ -84,11 +85,6 @@ class WordReviewViewModel(
             }
             updateCurrentGrade()
         }
-    }
-
-    fun navigateTo(index: Int) {
-        _currentIndex.value = index
-        updateCurrentGrade()
     }
 
     fun moveToNext() {

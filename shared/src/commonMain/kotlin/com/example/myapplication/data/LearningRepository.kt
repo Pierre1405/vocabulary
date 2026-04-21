@@ -9,7 +9,11 @@ class LearningRepository(driver: SqlDriver) {
 
     private val db = LearningDatabase(driver)
     private val queries = db.learningQueries
-    private val wordQueries = db.wordLearningQueries
+
+    private val TYPE_SENTENCE = "sentence"
+    private val TYPE_WORD = "word"
+
+    // Phrases
 
     suspend fun saveGrade(
         sentenceKey: String,
@@ -17,51 +21,62 @@ class LearningRepository(driver: SqlDriver) {
         targetLocale: String,
         grade: Int
     ) = withContext(Dispatchers.Default) {
-        queries.upsertGrade(sentenceKey, sourceLocale, targetLocale, grade.toLong())
+        queries.upsertGrade(sentenceKey, sourceLocale, targetLocale, grade.toLong(), TYPE_SENTENCE)
     }
 
     suspend fun countByDirection(sourceLocale: String, targetLocale: String): Long =
         withContext(Dispatchers.Default) {
-            queries.countByDirection(sourceLocale, targetLocale).executeAsOne()
+            queries.countByDirection(sourceLocale, targetLocale, TYPE_SENTENCE).executeAsOne()
         }
 
     suspend fun getSentenceKeysByDirection(
         sourceLocale: String,
         targetLocale: String
     ): List<String> = withContext(Dispatchers.Default) {
-        queries.getSentenceKeysByDirection(sourceLocale, targetLocale).executeAsList()
+        queries.getKeysByDirection(sourceLocale, targetLocale, TYPE_SENTENCE).executeAsList()
     }
 
     suspend fun getGradesByDirection(
         sourceLocale: String,
         targetLocale: String
     ): Map<String, Int> = withContext(Dispatchers.Default) {
-        queries.getGradesByDirection(sourceLocale, targetLocale).executeAsList()
-            .associate { it.sentence_key to it.grade.toInt() }
+        queries.getGradesByDirection(sourceLocale, targetLocale, TYPE_SENTENCE).executeAsList()
+            .associate { it.key to it.grade.toInt() }
     }
 
-    suspend fun saveWordGrade(translationId: Long, grade: Int) =
-        withContext(Dispatchers.Default) {
-            wordQueries.upsertWordGrade(translationId, grade.toLong())
-        }
+    // Mots
 
-    suspend fun getWordGradesForTranslations(translationIds: List<Long>): Map<Long, Int> =
-        withContext(Dispatchers.Default) {
-            translationIds.mapNotNull { id ->
-                val grade = wordQueries.getWordGrade(id).executeAsOneOrNull()?.toInt()
-                    ?: return@mapNotNull null
-                id to grade
-            }.toMap()
-        }
+    suspend fun saveWordGrade(
+        translationId: Long,
+        sourceLocale: String,
+        targetLocale: String,
+        grade: Int
+    ) = withContext(Dispatchers.Default) {
+        queries.upsertGrade(translationId.toString(), sourceLocale, targetLocale, grade.toLong(), TYPE_WORD)
+    }
 
-    suspend fun getAllWordLearning(): List<Pair<Long, Int>> =
-        withContext(Dispatchers.Default) {
-            wordQueries.getAllWordLearning().executeAsList()
-                .map { it.translation_id to it.grade.toInt() }
-        }
+    suspend fun getWordGradesForTranslations(
+        translationIds: List<Long>,
+        sourceLocale: String,
+        targetLocale: String
+    ): Map<Long, Int> = withContext(Dispatchers.Default) {
+        translationIds.mapNotNull { id ->
+            val grade = queries.getGrade(id.toString(), sourceLocale, targetLocale, TYPE_WORD)
+                .executeAsOneOrNull()?.toInt() ?: return@mapNotNull null
+            id to grade
+        }.toMap()
+    }
 
-    suspend fun countWordLearning(): Long =
+    suspend fun getAllWordsByDirection(
+        sourceLocale: String,
+        targetLocale: String
+    ): List<Pair<Long, Int>> = withContext(Dispatchers.Default) {
+        queries.getAllByDirection(sourceLocale, targetLocale, TYPE_WORD).executeAsList()
+            .map { it.key.toLong() to it.grade.toInt() }
+    }
+
+    suspend fun countWordsByDirection(sourceLocale: String, targetLocale: String): Long =
         withContext(Dispatchers.Default) {
-            wordQueries.getAllWordLearning().executeAsList().size.toLong()
+            queries.countByDirection(sourceLocale, targetLocale, TYPE_WORD).executeAsOne()
         }
 }

@@ -44,12 +44,13 @@ import com.example.myapplication.data.LearningRepository
 fun WordReviewScreen(
     dictionaryRepository: DictionaryRepository,
     learningRepository: LearningRepository,
-    reversed: Boolean = false,
+    sourceLocale: String,
+    targetLocale: String,
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val viewModel: WordReviewViewModel = viewModel {
-        WordReviewViewModel(dictionaryRepository, learningRepository, reversed)
+        WordReviewViewModel(dictionaryRepository, learningRepository, sourceLocale, targetLocale)
     }
 
     val items by viewModel.items.collectAsState()
@@ -85,9 +86,9 @@ fun WordReviewScreen(
             val item = items[currentIndex]
             WordReviewCard(
                 item = item,
-                reversed = viewModel.reversed,
+                reversed = viewModel.sourceLocale != item.wordLocale,
                 currentGrade = currentGrade,
-                onGradeSelected = { grade -> viewModel.saveGrade(item.translationId, item.entryId, grade) },
+                onGradeSelected = { grade -> viewModel.saveGrade(item.translationId, grade) },
                 onNext = { viewModel.moveToNext() },
                 onPrevious = { viewModel.moveToPrevious() },
                 modifier = Modifier

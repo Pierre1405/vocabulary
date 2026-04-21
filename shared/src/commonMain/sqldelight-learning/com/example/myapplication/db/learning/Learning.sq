@@ -1,27 +1,32 @@
 CREATE TABLE IF NOT EXISTS learning (
-    sentence_key  TEXT    NOT NULL,
+    key           TEXT    NOT NULL,
     source_locale TEXT    NOT NULL,
     target_locale TEXT    NOT NULL,
     grade         INTEGER NOT NULL,
-    PRIMARY KEY (sentence_key, source_locale, target_locale)
+    type          TEXT    NOT NULL,
+    PRIMARY KEY (key, source_locale, target_locale, type)
 );
+
+upsertGrade:
+INSERT OR REPLACE INTO learning (key, source_locale, target_locale, grade, type)
+VALUES (:key, :sourceLocale, :targetLocale, :grade, :type);
 
 getGrade:
 SELECT grade FROM learning
-WHERE sentence_key = :sentenceKey AND source_locale = :sourceLocale AND target_locale = :targetLocale;
-
-upsertGrade:
-INSERT OR REPLACE INTO learning (sentence_key, source_locale, target_locale, grade)
-VALUES (:sentenceKey, :sourceLocale, :targetLocale, :grade);
+WHERE key = :key AND source_locale = :sourceLocale AND target_locale = :targetLocale AND type = :type;
 
 countByDirection:
 SELECT COUNT(*) FROM learning
-WHERE source_locale = :sourceLocale AND target_locale = :targetLocale AND grade < 5;
+WHERE source_locale = :sourceLocale AND target_locale = :targetLocale AND type = :type AND grade < 5;
 
-getSentenceKeysByDirection:
-SELECT sentence_key FROM learning
-WHERE source_locale = :sourceLocale AND target_locale = :targetLocale AND grade < 5;
+getKeysByDirection:
+SELECT key FROM learning
+WHERE source_locale = :sourceLocale AND target_locale = :targetLocale AND type = :type AND grade < 5;
 
 getGradesByDirection:
-SELECT sentence_key, grade FROM learning
-WHERE source_locale = :sourceLocale AND target_locale = :targetLocale;
+SELECT key, grade FROM learning
+WHERE source_locale = :sourceLocale AND target_locale = :targetLocale AND type = :type;
+
+getAllByDirection:
+SELECT key, grade FROM learning
+WHERE source_locale = :sourceLocale AND target_locale = :targetLocale AND type = :type AND grade < 5;
