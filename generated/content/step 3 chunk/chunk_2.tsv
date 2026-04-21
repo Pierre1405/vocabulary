@@ -1,14 +1,51 @@
 id	fr	de	file_name
-51	Je me mettais à sa portée.	Ich habe mich auf sein Niveau herabgelassen.	le_petit_prince_1
-52	Je lui parlais de bridge, de golf, de politique et de cravates.	Ich unterhielt mich mit ihm über Bridge, Golf, Politik und Krawatten.	le_petit_prince_1
-53	Et la grande personne était bien contente de connaître un homme aussi raisonnable...	Und der Erwachsene freute sich sehr, einen so vernünftigen Mann kennengelernt zu haben...	le_petit_prince_1
-54	À Léon Werth.	An Leon Werth.	le_petit_prince_intro
-55	Je demande pardon aux enfants d’avoir dédié ce livre à une grande personne.	Ich entschuldige mich bei den Kindern dafür, dass ich dieses Buch einem Erwachsenen widme.	le_petit_prince_intro
-56	J’ai une excuse sérieuse : cette grande personne est le meilleur ami que j’ai au monde.	Ich habe eine triftige Entschuldigung: Diese großartige Person ist mein bester Freund auf der Welt.	le_petit_prince_intro
-57	J’ai une autre excuse : cette grande personne peut tout comprendre, même les livres pour enfants.	Ich habe noch eine andere Ausrede: Dieser Erwachsene kann alles verstehen, sogar Kinderbücher.	le_petit_prince_intro
-58	J’ai une troisième excuse : cette grande personne habite la France où elle a faim et froid.	Ich habe noch eine dritte Ausrede: Diese erwachsene Frau lebt in Frankreich, wo sie Hunger leidet und friert.	le_petit_prince_intro
-59	Elle a bien besoin d’être consolée.	Sie braucht dringend Trost.	le_petit_prince_intro
-60	Si toutes ces excuses ne suffisent pas, je veux bien dédier ce livre à l’enfant qu’a été autrefois cette grande personne.	Sollten all diese Ausreden nicht ausreichen, widme ich dieses Buch gerne dem Kind, das dieser Erwachsene einst war.	le_petit_prince_intro
-61	Toutes les grandes personnes ont d’abord été des enfants. (Mais peu d’entre elles s’en souviennent.).	Alle Erwachsenen waren einmal Kinder. (Aber nur wenige erinnern sich daran.)	le_petit_prince_intro
-62	Je corrige donc ma dédicace :	Ich korrigiere daher meine Widmung:	le_petit_prince_intro
-63	À Léon Werth quand il était petit garçon.	An Léon Werth, als er noch ein kleiner Junge war.	le_petit_prince_intro
+51	Mon chat est toujours avec moi dans la cuisine.	Meine Katze ist immer bei mir in der Küche.	basic_1
+52	Il regarde ma nourriture, mais je ne lui donne pas de croissant.	Er schaut auf mein Essen, aber ich gebe ihm kein Croissant.	basic_1
+53	À 8 heures, je quitte mon appartement.	Um 8 Uhr verlasse ich meine Wohnung.	basic_1
+54	Je ferme la porte et je descends les escaliers.	Ich schließe die Tür und gehe die Treppe hinunter.	basic_1
+55	Dans la rue, il y a déjà beaucoup de monde.	Es sind bereits viele Menschen auf der Straße.	basic_1
+56	Les gens vont au travail.	Die Menschen gehen zur Arbeit.	basic_1
+57	Il y a des voitures, des bus et des vélos.	Es gibt Autos, Busse und Fahrräder.	basic_1
+58	J’aime marcher le matin parce que l’air est frais.	Ich gehe gerne morgens spazieren, weil die Luft dann frisch ist.	basic_1
+59	J’arrive au café à 8h15.	Ich komme um 8:15 Uhr im Café an.	basic_1
+60	Je dis bonjour à mes collègues.	Ich grüße meine Kollegen.	basic_1
+61	Nous préparons le café pour la journée.	Wir bereiten den Kaffee für heute zu.	basic_1
+62	Nous nettoyons les tables et nous préparons les tasses.	Wir reinigen die Tische und bereiten die Tassen vor.	basic_1
+63	À 8h30, le café ouvre.	Das Café öffnet um 8:30 Uhr.	basic_1
+64	Je travaille avec deux collègues.	Ich arbeite mit zwei Kollegen zusammen.	basic_1
+65	Ils s’appellent Paul et Sophie.	Sie heißen Paul und Sophie.	basic_1
+66	Paul est grand et il a les cheveux bruns.	Paul ist groß und hat braune Haare.	basic_1
+67	Il est très drôle.	Er ist sehr witzig.	basic_1
+68	Il fait souvent des blagues.	Er macht oft Witze.	basic_1
+69	Sophie est petite et elle a les cheveux blonds.	Sophie ist klein und hat blonde Haare.	basic_1
+70	Elle est très gentille et organisée.	Sie ist sehr freundlich und organisiert.	basic_1
+71	Nous travaillons bien ensemble.	Wir arbeiten gut zusammen.	basic_1
+72	Pendant la matinée, il y a beaucoup de clients.	Morgens sind viele Kunden da.	basic_1
+73	Je prends les commandes, je prépare les boissons et je donne les cafés aux clients.	Ich nehme Bestellungen entgegen, bereite Getränke zu und serviere Kaffee an die Kunden.	basic_1
+74	Je dis toujours “bonjour” et “merci”.	Ich sage immer „Hallo“ und „Danke“.	basic_1
+75	J’aime être polie avec les gens.	Ich bin gerne höflich zu anderen Menschen.	basic_1
+76	Parfois, il y a des touristes.	Manchmal sind Touristen da.	basic_1
+77	Ils parlent anglais ou une autre langue.	Sie sprechen Englisch oder eine andere Sprache.	basic_1
+78	Je parle un peu anglais, donc je peux aider.	Ich spreche ein bisschen Englisch, daher kann ich helfen.	basic_1
+79	Les touristes aiment Paris.	Touristen lieben Paris.	basic_1
+80	Ils prennent beaucoup de photos.	Sie machen viele Fotos.	basic_1
+81	À midi, je prends une pause.	Mittags mache ich Pause.	basic_1
+82	Je suis souvent fatiguée, mais contente.	Ich bin oft müde, aber glücklich.	basic_1
+83	Je mange un sandwich ou une salade.	Ich esse ein Sandwich oder einen Salat.	basic_1
+84	Je bois de l’eau ou un jus d’orange.	Ich trinke Wasser oder Orangensaft.	basic_1
+85	Je m’assois avec Paul et Sophie.	Ich setze mich zu Paul und Sophie.	basic_1
+86	Nous parlons de notre journée, de nos amis et de nos plans pour le week-end.	Wir unterhalten uns über unseren Tag, unsere Freunde und unsere Pläne fürs Wochenende.	basic_1
+87	Après la pause, je retourne au travail.	Nach der Pause gehe ich wieder an die Arbeit.	basic_1
+88	L’après-midi est plus calme.	Der Nachmittag ist ruhiger.	basic_1
+89	Il y a moins de clients.	Es gibt weniger Kunden.	basic_1
+90	Je nettoie les tables, je range la cuisine et je prépare des gâteaux.	Ich putze die Tische, ich räume die Küche auf und ich backe Kuchen.	basic_1
+91	J’aime préparer des gâteaux.	Ich backe gerne Kuchen.	basic_1
+92	C’est simple et amusant.	Es ist einfach und macht Spaß.	basic_1
+93	Je finis le travail à 17 heures.	Ich habe um 17 Uhr Feierabend.	basic_1
+94	Je dis au revoir à mes collègues et je quitte le café.	Ich verabschiede mich von meinen Kollegen und verlasse das Café.	basic_1
+95	Je marche jusqu’à mon appartement.	Ich gehe zu meiner Wohnung.	basic_1
+96	Parfois, je passe au supermarché pour acheter de la nourriture.	Manchmal gehe ich in den Supermarkt, um Lebensmittel einzukaufen.	basic_1
+97	Au supermarché, j’achète des légumes, du pain, du lait et des fruits.	Im Supermarkt kaufe ich Gemüse, Brot, Milch und Obst.	basic_1
+98	J’aime les pommes, les bananes et les oranges.	Ich mag Äpfel, Bananen und Orangen.	basic_1
+99	Je n’achète pas beaucoup de choses parce que mon appartement est petit.	Ich kaufe nicht viele Dinge, weil meine Wohnung klein ist.	basic_1
+100	Quand je rentre à la maison, mon chat vient me voir.	Wenn ich nach Hause komme, kommt meine Katze, um mich zu begrüßen.	basic_1
