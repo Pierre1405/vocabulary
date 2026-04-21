@@ -40,21 +40,24 @@ class LearningRepository(driver: SqlDriver) {
             .associate { it.sentence_key to it.grade.toInt() }
     }
 
-    suspend fun saveWordGrade(entryId: Long, translationId: Long, grade: Int) =
+    suspend fun saveWordGrade(translationId: Long, grade: Int) =
         withContext(Dispatchers.Default) {
-            wordQueries.upsertWordGrade(entryId, translationId, grade.toLong())
+            wordQueries.upsertWordGrade(translationId, grade.toLong())
         }
 
-    suspend fun getWordGradesByEntry(entryId: Long): Map<Long, Int> =
+    suspend fun getWordGradesForTranslations(translationIds: List<Long>): Map<Long, Int> =
         withContext(Dispatchers.Default) {
-            wordQueries.getWordGradesByEntry(entryId).executeAsList()
-                .associate { it.translation_id to it.grade.toInt() }
+            translationIds.mapNotNull { id ->
+                val grade = wordQueries.getWordGrade(id).executeAsOneOrNull()?.toInt()
+                    ?: return@mapNotNull null
+                id to grade
+            }.toMap()
         }
 
-    suspend fun getAllWordLearning(): List<Triple<Long, Long, Int>> =
+    suspend fun getAllWordLearning(): List<Pair<Long, Int>> =
         withContext(Dispatchers.Default) {
             wordQueries.getAllWordLearning().executeAsList()
-                .map { Triple(it.entry_id, it.translation_id, it.grade.toInt()) }
+                .map { it.translation_id to it.grade.toInt() }
         }
 
     suspend fun countWordLearning(): Long =

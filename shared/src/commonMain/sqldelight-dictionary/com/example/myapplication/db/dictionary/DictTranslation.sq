@@ -9,6 +9,11 @@ CREATE TABLE IF NOT EXISTS dict_translation (
 
 CREATE INDEX IF NOT EXISTS idx_trans_entry ON dict_translation(entry_id);
 
+getById:
+SELECT id, entry_id, target_locale, text, gloss_source, example
+FROM dict_translation
+WHERE id = ?;
+
 -- Toutes les traductions d'une entrée
 getByEntryId:
 SELECT id, entry_id, target_locale, text, gloss_source, example

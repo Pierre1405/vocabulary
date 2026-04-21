@@ -38,7 +38,7 @@ class DictionaryDetailViewModel(
                 val translations = dictionaryRepository.getTranslations(entryId)
                 val forms = dictionaryRepository.getForms(entryId)
                 val formGroups = buildFormGroups(forms.map { Triple(it.form, it.features, it.pronouns) })
-                val wordGrades = learningRepository.getWordGradesByEntry(entryId)
+                val wordGrades = learningRepository.getWordGradesForTranslations(translations.map { it.id })
                 DictionaryDetailState(entry, translations, formGroups, wordGrades)
             }
         }
@@ -46,7 +46,7 @@ class DictionaryDetailViewModel(
 
     fun saveWordGrade(translationId: Long, grade: Int) {
         viewModelScope.launch {
-            learningRepository.saveWordGrade(entryId, translationId, grade)
+            learningRepository.saveWordGrade(translationId, grade)
             _state.value = _state.value.copy(
                 wordGrades = _state.value.wordGrades + (translationId to grade)
             )

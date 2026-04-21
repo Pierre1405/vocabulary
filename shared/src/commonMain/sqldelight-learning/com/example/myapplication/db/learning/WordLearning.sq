@@ -1,21 +1,15 @@
 CREATE TABLE IF NOT EXISTS word_learning (
-    entry_id       INTEGER NOT NULL,
-    translation_id INTEGER NOT NULL,
-    grade          INTEGER NOT NULL,
-    PRIMARY KEY (entry_id, translation_id)
+    translation_id INTEGER NOT NULL PRIMARY KEY,
+    grade          INTEGER NOT NULL
 );
 
 getWordGrade:
 SELECT grade FROM word_learning
-WHERE entry_id = :entryId AND translation_id = :translationId;
+WHERE translation_id = :translationId;
 
 upsertWordGrade:
-INSERT OR REPLACE INTO word_learning (entry_id, translation_id, grade)
-VALUES (:entryId, :translationId, :grade);
-
-getWordGradesByEntry:
-SELECT translation_id, grade FROM word_learning
-WHERE entry_id = :entryId;
+INSERT OR REPLACE INTO word_learning (translation_id, grade)
+VALUES (:translationId, :grade);
 
 getAllWordLearning:
-SELECT * FROM word_learning WHERE grade < 5;
+SELECT translation_id, grade FROM word_learning WHERE grade < 5;

@@ -64,6 +64,10 @@ class DictionaryRepository(driver: SqlDriver) {
             DictEntry(id = it.id, lemma = it.lemma, locale = it.locale, pos = it.pos, gender = it.gender, example = it.example)
         }
 
+    /** Retourne une traduction par son id. */
+    fun getTranslationById(id: Long): DictTranslation? =
+        translationQueries.getById(id).executeAsOneOrNull()?.toDictTranslation()
+
     /** Retourne toutes les traductions d'une entrée. */
     fun getTranslations(entryId: Long): List<DictTranslation> =
         translationQueries.getByEntryId(entryId).executeAsList().map { it.toDictTranslation() }

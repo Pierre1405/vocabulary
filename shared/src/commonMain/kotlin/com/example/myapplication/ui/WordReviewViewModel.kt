@@ -40,13 +40,12 @@ class WordReviewViewModel(
         viewModelScope.launch {
             val wordLearning = learningRepository.getAllWordLearning()
             _items.value = withContext(Dispatchers.Default) {
-                wordLearning.mapNotNull { (entryId, translationId, grade) ->
+                wordLearning.mapNotNull { (translationId, grade) ->
                     grades[translationId] = grade
-                    val entry = dictionaryRepository.getById(entryId) ?: return@mapNotNull null
-                    val translations = dictionaryRepository.getTranslations(entryId)
-                    val translation = translations.find { it.id == translationId } ?: return@mapNotNull null
+                    val translation = dictionaryRepository.getTranslationById(translationId) ?: return@mapNotNull null
+                    val entry = dictionaryRepository.getById(translation.entryId) ?: return@mapNotNull null
                     WordReviewItem(
-                        entryId = entryId,
+                        entryId = entry.id,
                         translationId = translationId,
                         lemma = entry.lemma,
                         wordLocale = entry.locale,
@@ -66,7 +65,7 @@ class WordReviewViewModel(
 
     fun saveGrade(translationId: Long, entryId: Long, grade: Int) {
         viewModelScope.launch {
-            learningRepository.saveWordGrade(entryId, translationId, grade)
+            learningRepository.saveWordGrade(translationId, grade)
             grades[translationId] = grade
             if (grade == 5) {
                 val updated = _items.value.filter { it.translationId != translationId }

@@ -14,12 +14,11 @@ actual class LearningDriverFactory(private val context: Context) {
             name = "learning.db",
             callback = object : AndroidSqliteDriver.Callback(LearningDatabase.Schema) {
                 override fun onUpgrade(db: SupportSQLiteDatabase, oldVersion: Int, newVersion: Int) {
+                    db.execSQL("DROP TABLE IF EXISTS word_learning")
                     db.execSQL("""
                         CREATE TABLE IF NOT EXISTS word_learning (
-                            entry_id       INTEGER NOT NULL,
-                            translation_id INTEGER NOT NULL,
-                            grade          INTEGER NOT NULL,
-                            PRIMARY KEY (entry_id, translation_id)
+                            translation_id INTEGER NOT NULL PRIMARY KEY,
+                            grade          INTEGER NOT NULL
                         )
                     """)
                 }
