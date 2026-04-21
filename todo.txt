@@ -9,7 +9,7 @@
 [X] remove the apprise column, instead create a table to remember the grade on a sentence from local source to target source
 [X] auto increment db version
 [ ] detail view
-[ ] study algorithm
+[ ] study algorithm, add tempo between
 [ ] traduction incrémental
 [ ] génération des mp3 incrémental
 [ ] traduction et source dans le même répertoire, modification du script de clean pour tenir compte de la local source, modification du git ignore
@@ -29,3 +29,9 @@
 [ ] refactoring note, base dédié note, id constante pour les traductions.
 [ ] fix forms
 [ ] learn word in double direction
+[ ] Add play button in dictionnary
+[ ] remove detail veiw
+[ ] add input in learn word
+[ ] add play button in learn word
+[ ] add play all in learn word
+[ ] learn word should have 2 different grade in both direction
