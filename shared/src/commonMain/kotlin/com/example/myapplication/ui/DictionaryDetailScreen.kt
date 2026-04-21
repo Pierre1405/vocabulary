@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -36,12 +37,14 @@ import com.example.myapplication.data.DictEntry
 import com.example.myapplication.data.DictTranslation
 import com.example.myapplication.data.DictionaryRepository
 import com.example.myapplication.data.LearningRepository
+import com.example.myapplication.data.TtsPlayer
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DictionaryDetailScreen(
     dictionaryRepository: DictionaryRepository,
     learningRepository: LearningRepository,
+    ttsPlayer: TtsPlayer,
     entryId: Long,
     onBack: () -> Unit,
     modifier: Modifier = Modifier
@@ -78,7 +81,7 @@ fun DictionaryDetailScreen(
             verticalArrangement = Arrangement.spacedBy(0.dp)
         ) {
             // ── En-tête
-            item { EntryHeader(state.entry!!) }
+            item { EntryHeader(state.entry!!, ttsPlayer) }
 
             // ── Traductions
             if (state.translations.isNotEmpty()) {
@@ -91,7 +94,8 @@ fun DictionaryDetailScreen(
                         TranslationRow(
                             translation = translation,
                             entry = state.entry!!,
-                            repository = dictionaryRepository
+                            repository = dictionaryRepository,
+                            ttsPlayer = ttsPlayer
                         )
                     }
                     HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
@@ -113,18 +117,27 @@ fun DictionaryDetailScreen(
 }
 
 @Composable
-private fun EntryHeader(entry: DictEntry) {
+private fun EntryHeader(entry: DictEntry, ttsPlayer: TtsPlayer) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 16.dp),
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
-        Text(
-            text = "${localeToFlag(entry.locale)}  ${entry.lemma}",
-            style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold
-        )
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Text(
+                text = "${localeToFlag(entry.locale)}  ${entry.lemma}",
+                style = MaterialTheme.typography.headlineMedium,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.weight(1f)
+            )
+            IconButton(onClick = { ttsPlayer.speak(entry.lemma, entry.locale) }) {
+                Icon(Icons.Filled.VolumeUp, contentDescription = "Écouter")
+            }
+        }
         val subtitle = buildString {
             if (!entry.pos.isNullOrBlank()) append(entry.pos)
             if (!entry.gender.isNullOrBlank()) {
@@ -160,34 +173,44 @@ private fun SectionHeader(title: String) {
 private fun TranslationRow(
     translation: DictTranslation,
     entry: DictEntry,
-    repository: DictionaryRepository
+    repository: DictionaryRepository,
+    ttsPlayer: TtsPlayer
 ) {
     val example = repository.resolveExample(translation, entry)
-    Column(
+    Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 12.dp),
-        verticalArrangement = Arrangement.spacedBy(4.dp)
+            .padding(start = 16.dp, end = 4.dp, top = 12.dp, bottom = 12.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalAlignment = Alignment.Top
     ) {
-        Text(
-            text = translation.text,
-            style = MaterialTheme.typography.bodyLarge,
-            fontWeight = FontWeight.SemiBold
-        )
-        if (!translation.glossSource.isNullOrBlank()) {
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
             Text(
-                text = translation.glossSource,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                fontStyle = FontStyle.Italic
+                text = translation.text,
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.SemiBold
             )
+            if (!translation.glossSource.isNullOrBlank()) {
+                Text(
+                    text = translation.glossSource,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    fontStyle = FontStyle.Italic
+                )
+            }
+            if (!example.isNullOrBlank()) {
+                Text(
+                    text = "« $example »",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.outline
+                )
+            }
         }
-        if (!example.isNullOrBlank()) {
-            Text(
-                text = "« $example »",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.outline
-            )
+        IconButton(onClick = { ttsPlayer.speak(translation.text, translation.targetLocale) }) {
+            Icon(Icons.Filled.VolumeUp, contentDescription = "Écouter")
         }
     }
 }

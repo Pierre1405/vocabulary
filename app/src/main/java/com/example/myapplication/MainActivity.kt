@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import com.example.myapplication.data.AudioPlayer
+import com.example.myapplication.data.TtsPlayer
 import com.example.myapplication.data.DatabaseDriverFactory
 import com.example.myapplication.data.DictionaryDriverFactory
 import com.example.myapplication.data.DictionaryRepository
@@ -23,6 +24,7 @@ import com.example.myapplication.ui.theme.MyApplicationTheme
 
 class MainActivity : ComponentActivity() {
     private val audioPlayer by lazy { AudioPlayer(applicationContext) }
+    private val ttsPlayer by lazy { TtsPlayer(applicationContext) }
     private val speechRecognizer by lazy { SpeechRecognizer(applicationContext) }
 
     private val requestMicPermission = registerForActivityResult(
@@ -46,6 +48,7 @@ class MainActivity : ComponentActivity() {
                         learningRepository = learningRepository,
                         dictionaryRepository = dictionaryRepository,
                         audioPlayer = audioPlayer,
+                        ttsPlayer = ttsPlayer,
                         speechRecognizer = speechRecognizer,
                         modifier = Modifier.padding(innerPadding)
                     )
@@ -57,6 +60,7 @@ class MainActivity : ComponentActivity() {
     override fun onDestroy() {
         super.onDestroy()
         audioPlayer.release()
+        ttsPlayer.release()
         speechRecognizer.release()
     }
 }

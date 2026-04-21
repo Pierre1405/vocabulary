@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.myapplication.data.AudioPlayer
+import com.example.myapplication.data.TtsPlayer
 import com.example.myapplication.data.DictionaryRepository
 import com.example.myapplication.data.LearningRepository
 import com.example.myapplication.data.SpeechRecognizer
@@ -43,6 +44,7 @@ fun AppNavigation(
     learningRepository: LearningRepository,
     dictionaryRepository: DictionaryRepository,
     audioPlayer: AudioPlayer,
+    ttsPlayer: TtsPlayer,
     speechRecognizer: SpeechRecognizer,
     modifier: Modifier = Modifier
 ) {
@@ -101,6 +103,7 @@ fun AppNavigation(
             DictionaryDetailScreen(
                 dictionaryRepository = dictionaryRepository,
                 learningRepository = learningRepository,
+                ttsPlayer = ttsPlayer,
                 entryId = route.entryId,
                 onBack = { navController.popBackStack() }
             )
