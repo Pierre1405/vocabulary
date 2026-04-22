@@ -1,5 +1,6 @@
-package com.example.myapplication.ui
+package com.example.myapplication.ui.review
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -13,6 +14,8 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Stop
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -22,7 +25,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -43,6 +45,9 @@ import com.example.myapplication.data.AudioPlayer
 import com.example.myapplication.data.LearningRepository
 import com.example.myapplication.data.SpeechRecognizer
 import com.example.myapplication.data.VocabularyRepository
+import com.example.myapplication.ui.gradeColor
+import com.example.myapplication.ui.localeToFlag
+import com.example.myapplication.ui.practice.SentenceWithTranslations
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -87,10 +92,7 @@ fun ReviewScreen(
                 },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Retour"
-                        )
+                        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Retour")
                     }
                 },
                 actions = {
@@ -114,30 +116,26 @@ fun ReviewScreen(
         modifier = modifier
     ) { innerPadding ->
         if (sentences.isEmpty()) {
-            Box(
-                modifier = Modifier.fillMaxSize().padding(innerPadding),
-                contentAlignment = Alignment.Center
-            ) {
-                Text("Aucune phrase à réviser.")
+            Box(modifier = Modifier.fillMaxSize().padding(innerPadding), contentAlignment = Alignment.Center) {
+                Text("Rien à réviser pour aujourd'hui.")
             }
         } else {
             val sentence = sentences[currentIndex]
             ReviewCard(
-                sentence = sentence,
-                sourceLocale = sourceLocale,
+                itemKey = sentence.sentenceKey,
+                sourceText = sentence.getTranslation(sourceLocale),
+                targetText = sentence.getTranslation(targetLocale),
                 targetLocale = targetLocale,
                 currentGrade = currentGrade,
-                forceShowTarget = isPlayingAll,
                 sourceBlurred = sourceBlurred,
-                audioPlayer = audioPlayer,
+                forceShowTarget = isPlayingAll,
+                onPlaySource = { audioPlayer.play(sentence.sentenceKey, sourceLocale) },
+                onPlayTarget = { audioPlayer.play(sentence.sentenceKey, targetLocale) },
                 speechRecognizer = speechRecognizer,
                 onGradeSelected = { grade -> viewModel.saveGrade(sentence.sentenceKey, grade) },
                 onNext = { viewModel.moveToNext() },
                 onPrevious = { viewModel.moveToPrevious() },
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(innerPadding)
-                    .padding(16.dp)
+                modifier = Modifier.fillMaxSize().padding(innerPadding).padding(16.dp)
             )
         }
     }
@@ -145,97 +143,72 @@ fun ReviewScreen(
 
 @Composable
 fun ReviewCard(
-    sentence: SentenceWithTranslations,
-    sourceLocale: String,
+    itemKey: Any,
+    sourceText: String,
+    targetText: String,
     targetLocale: String,
     currentGrade: Int?,
-    forceShowTarget: Boolean = false,
     sourceBlurred: Boolean = false,
-    audioPlayer: AudioPlayer,
+    forceShowTarget: Boolean = false,
+    onPlaySource: (() -> Unit)? = null,
+    onPlayTarget: (() -> Unit)? = null,
     speechRecognizer: SpeechRecognizer,
     onGradeSelected: (Int) -> Unit,
     onNext: () -> Unit,
     onPrevious: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var showSource by remember(sentence.sentenceKey) { mutableStateOf(false) }
+    var showSource by remember(itemKey) { mutableStateOf(false) }
     val sourceVisible = !sourceBlurred || showSource
-    var showTarget by remember(sentence.sentenceKey) { mutableStateOf(false) }
+    var showTarget by remember(itemKey) { mutableStateOf(false) }
     val targetVisible = showTarget || forceShowTarget
-    var spokenText by remember(sentence.sentenceKey) { mutableStateOf("") }
+    var spokenText by remember(itemKey) { mutableStateOf("") }
     var isListening by remember { mutableStateOf(false) }
 
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
+    Column(modifier = modifier, verticalArrangement = Arrangement.spacedBy(16.dp)) {
         Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(1f),
+            modifier = Modifier.fillMaxWidth().weight(1f),
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
         ) {
             Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(24.dp),
+                modifier = Modifier.fillMaxSize().padding(24.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically)
             ) {
-                // Phrase source
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
                     Box(
-                        modifier = Modifier
-                            .weight(1f)
+                        modifier = Modifier.weight(1f)
                             .then(if (sourceBlurred) Modifier.clickable { showSource = !showSource } else Modifier)
                             .then(if (!sourceVisible) Modifier.blur(8.dp) else Modifier)
                     ) {
-                        Text(
-                            text = sentence.getTranslation(sourceLocale),
-                            style = MaterialTheme.typography.bodyLarge
-                        )
+                        Text(text = sourceText, style = MaterialTheme.typography.bodyLarge)
                     }
-                    IconButton(onClick = { audioPlayer.play(sentence.sentenceKey, sourceLocale) }) {
-                        Text("▶", style = MaterialTheme.typography.bodyLarge)
+                    if (onPlaySource != null) {
+                        IconButton(onClick = onPlaySource) {
+                            Text("▶", style = MaterialTheme.typography.bodyLarge)
+                        }
                     }
                 }
 
                 HorizontalDivider()
 
-                // Phrase cible (floue, clic pour révéler)
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.SpaceBetween, modifier = Modifier.fillMaxWidth()) {
                     Box(
-                        modifier = Modifier
-                            .weight(1f)
+                        modifier = Modifier.weight(1f)
                             .clickable { showTarget = !showTarget }
                             .then(if (!targetVisible) Modifier.blur(8.dp) else Modifier)
                     ) {
-                        Text(
-                            text = sentence.getTranslation(targetLocale),
-                            style = MaterialTheme.typography.bodyLarge,
-                            color = MaterialTheme.colorScheme.primary
-                        )
+                        Text(text = targetText, style = MaterialTheme.typography.bodyLarge, color = MaterialTheme.colorScheme.primary)
                     }
-                    IconButton(onClick = { audioPlayer.play(sentence.sentenceKey, targetLocale) }) {
-                        Text("▶", color = MaterialTheme.colorScheme.primary, style = MaterialTheme.typography.bodyLarge)
+                    if (onPlayTarget != null) {
+                        IconButton(onClick = onPlayTarget) {
+                            Text("▶", color = MaterialTheme.colorScheme.primary, style = MaterialTheme.typography.bodyLarge)
+                        }
                     }
                 }
             }
         }
 
-        // Zone de saisie avec bouton micro
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
             OutlinedTextField(
                 value = spokenText,
                 onValueChange = { spokenText = it },
@@ -252,10 +225,7 @@ fun ReviewCard(
                     isListening = true
                     speechRecognizer.startListening(
                         locale = targetLocale,
-                        onResult = { result ->
-                            spokenText = result
-                            isListening = false
-                        },
+                        onResult = { result -> spokenText = result; isListening = false },
                         onError = { isListening = false }
                     )
                 }
@@ -263,55 +233,28 @@ fun ReviewCard(
                 Icon(
                     imageVector = if (isListening) Icons.Filled.Stop else Icons.Filled.Mic,
                     contentDescription = if (isListening) "Arrêter" else "Écouter",
-                    tint = if (isListening) MaterialTheme.colorScheme.error
-                           else MaterialTheme.colorScheme.primary
+                    tint = if (isListening) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary
                 )
             }
         }
 
-        // Boutons de note 1-5
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
             (1..5).forEach { grade ->
                 val isSelected = grade == currentGrade
                 Button(
                     onClick = { onGradeSelected(grade) },
                     modifier = Modifier.weight(if (isSelected) 1.3f else 1f),
-                    colors = androidx.compose.material3.ButtonDefaults.buttonColors(
-                        containerColor = gradeColor(grade).copy(alpha = if (isSelected) 1f else 0.45f)
-                    ),
-                    border = if (isSelected) androidx.compose.foundation.BorderStroke(
-                        2.dp, gradeColor(grade)
-                    ) else null
+                    colors = ButtonDefaults.buttonColors(containerColor = gradeColor(grade).copy(alpha = if (isSelected) 1f else 0.45f)),
+                    border = if (isSelected) BorderStroke(2.dp, gradeColor(grade)) else null
                 ) {
-                    Text(
-                        text = "$grade",
-                        style = if (isSelected) MaterialTheme.typography.titleMedium
-                                else MaterialTheme.typography.bodyMedium
-                    )
+                    Text(text = "$grade", style = if (isSelected) MaterialTheme.typography.titleMedium else MaterialTheme.typography.bodyMedium)
                 }
             }
         }
 
-        // Navigation précédent / suivant
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            OutlinedButton(
-                onClick = onPrevious,
-                modifier = Modifier.weight(1f)
-            ) {
-                Text("← Précédent")
-            }
-            Button(
-                onClick = onNext,
-                modifier = Modifier.weight(1f)
-            ) {
-                Text("Suivant →")
-            }
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            OutlinedButton(onClick = onPrevious, modifier = Modifier.weight(1f)) { Text("← Précédent") }
+            Button(onClick = onNext, modifier = Modifier.weight(1f)) { Text("Suivant →") }
         }
     }
 }

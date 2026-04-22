@@ -1,4 +1,4 @@
-package com.example.myapplication.ui
+package com.example.myapplication.ui.review
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -28,6 +28,8 @@ import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.data.LearningRepository
 import com.example.myapplication.data.VocabularyRepository
+import com.example.myapplication.ui.localeToFlag
+import com.example.myapplication.ui.practice.StoryViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -65,37 +67,31 @@ fun ReviewSelectionScreen(
         }
     ) { innerPadding ->
         Column(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-                .padding(16.dp),
+            modifier = modifier.fillMaxSize().padding(innerPadding).padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Text(
-                text = "Phrases",
-                style = MaterialTheme.typography.titleMedium
-            )
+            Text(text = "Phrases", style = MaterialTheme.typography.titleMedium)
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Button(
                     onClick = { onReviewClick(nativeLanguage, learnedLanguage, false) },
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
+                    enabled = countNativeToLearned > 0
                 ) {
                     Text("${localeToFlag(nativeLanguage)} → ${localeToFlag(learnedLanguage)} ($countNativeToLearned)")
                 }
                 Button(
                     onClick = { onReviewClick(learnedLanguage, nativeLanguage, false) },
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
+                    enabled = countLearnedToNative > 0
                 ) {
                     Icon(Icons.Filled.Visibility, contentDescription = null)
                     Text(" ${localeToFlag(learnedLanguage)} → ${localeToFlag(nativeLanguage)} ($countLearnedToNative)")
                 }
                 Button(
                     onClick = { onReviewClick(learnedLanguage, nativeLanguage, true) },
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
+                    enabled = countLearnedToNative > 0
                 ) {
                     Icon(Icons.Filled.Headphones, contentDescription = null)
                     Text(" ${localeToFlag(learnedLanguage)} → ${localeToFlag(nativeLanguage)} ($countLearnedToNative)")
@@ -104,15 +100,9 @@ fun ReviewSelectionScreen(
 
             HorizontalDivider()
 
-            Text(
-                text = "Mots",
-                style = MaterialTheme.typography.titleMedium
-            )
+            Text(text = "Mots", style = MaterialTheme.typography.titleMedium)
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Button(
                     onClick = { onWordReviewClick(learnedLanguage, nativeLanguage) },
                     modifier = Modifier.weight(1f),

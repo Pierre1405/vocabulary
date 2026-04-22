@@ -1,4 +1,4 @@
-package com.example.myapplication.ui
+package com.example.myapplication.ui.dictionary
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -29,9 +29,7 @@ class DictionaryViewModel(
 
     init {
         viewModelScope.launch {
-            _query
-                .debounce(300)
-                .collect { q -> search(q) }
+            _query.debounce(300).collect { q -> search(q) }
         }
     }
 
@@ -45,7 +43,6 @@ class DictionaryViewModel(
             return
         }
         _results.value = withContext(Dispatchers.Default) {
-            // 1. Matchs exacts (lemme ou forme) dans les deux langues
             val exact = (
                 dictionaryRepository.getByLemma(q, "de") +
                 dictionaryRepository.getByLemma(q, "fr") +
@@ -55,7 +52,6 @@ class DictionaryViewModel(
 
             val exactIds = exact.map { it.id }.toSet()
 
-            // 2. Matchs partiels (%q%) sans les exacts déjà trouvés
             val partial = (
                 dictionaryRepository.searchByPrefix("%$q%", "de") +
                 dictionaryRepository.searchByPrefix("%$q%", "fr") +
@@ -67,10 +63,7 @@ class DictionaryViewModel(
                 .sortedBy { it.lemma.lowercase() }
 
             (exact + partial).take(10).map { entry ->
-                DictEntryWithTranslations(
-                    entry = entry,
-                    translations = dictionaryRepository.getTranslations(entry.id)
-                )
+                DictEntryWithTranslations(entry = entry, translations = dictionaryRepository.getTranslations(entry.id))
             }
         }
     }

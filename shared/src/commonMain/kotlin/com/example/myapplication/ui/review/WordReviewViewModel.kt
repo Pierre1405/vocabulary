@@ -1,4 +1,4 @@
-package com.example.myapplication.ui
+package com.example.myapplication.ui.review
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -35,7 +35,7 @@ class WordReviewViewModel(
     private val _currentGrade = MutableStateFlow<Int?>(null)
     val currentGrade: StateFlow<Int?> = _currentGrade
 
-    private val grades = mutableMapOf<Long, Int>() // translationId -> grade
+    private val grades = mutableMapOf<Long, Int>()
 
     init {
         viewModelScope.launch {
@@ -85,6 +85,11 @@ class WordReviewViewModel(
             }
             updateCurrentGrade()
         }
+    }
+
+    fun navigateTo(index: Int) {
+        _currentIndex.value = index
+        updateCurrentGrade()
     }
 
     fun moveToNext() {

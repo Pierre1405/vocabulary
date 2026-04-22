@@ -1,4 +1,4 @@
-package com.example.myapplication.ui
+package com.example.myapplication.ui.practice
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -49,25 +49,11 @@ fun SentenceScreen(
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     if (currentTab == SentenceTab.ALL) {
-                        Button(onClick = {}, modifier = Modifier.weight(1f)) {
-                            Text("All")
-                        }
-                        OutlinedButton(
-                            onClick = { currentTab = SentenceTab.DETAIL },
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            Text("Detail")
-                        }
+                        Button(onClick = {}, modifier = Modifier.weight(1f)) { Text("All") }
+                        OutlinedButton(onClick = { currentTab = SentenceTab.DETAIL }, modifier = Modifier.weight(1f)) { Text("Detail") }
                     } else {
-                        OutlinedButton(
-                            onClick = { currentTab = SentenceTab.ALL },
-                            modifier = Modifier.weight(1f)
-                        ) {
-                            Text("All")
-                        }
-                        Button(onClick = {}, modifier = Modifier.weight(1f)) {
-                            Text("Detail")
-                        }
+                        OutlinedButton(onClick = { currentTab = SentenceTab.ALL }, modifier = Modifier.weight(1f)) { Text("All") }
+                        Button(onClick = {}, modifier = Modifier.weight(1f)) { Text("Detail") }
                     }
                 }
             }

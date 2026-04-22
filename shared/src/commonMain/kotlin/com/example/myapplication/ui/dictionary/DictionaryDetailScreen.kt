@@ -1,4 +1,4 @@
-package com.example.myapplication.ui
+package com.example.myapplication.ui.dictionary
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -38,6 +38,8 @@ import com.example.myapplication.data.DictTranslation
 import com.example.myapplication.data.DictionaryRepository
 import com.example.myapplication.data.LearningRepository
 import com.example.myapplication.data.TtsPlayer
+import com.example.myapplication.ui.SwipeableGradeCard
+import com.example.myapplication.ui.localeToFlag
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -67,23 +69,15 @@ fun DictionaryDetailScreen(
         }
     ) { innerPadding ->
         if (state.entry == null) {
-            Box(
-                modifier = modifier.fillMaxSize().padding(innerPadding),
-                contentAlignment = Alignment.Center
-            ) { CircularProgressIndicator() }
+            Box(modifier = modifier.fillMaxSize().padding(innerPadding), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
+            }
             return@Scaffold
         }
 
-        LazyColumn(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(innerPadding),
-            verticalArrangement = Arrangement.spacedBy(0.dp)
-        ) {
-            // ── En-tête
+        LazyColumn(modifier = modifier.fillMaxSize().padding(innerPadding), verticalArrangement = Arrangement.spacedBy(0.dp)) {
             item { EntryHeader(state.entry!!, ttsPlayer) }
 
-            // ── Traductions
             if (state.translations.isNotEmpty()) {
                 item { SectionHeader("Traductions") }
                 items(state.translations) { translation ->
@@ -91,18 +85,12 @@ fun DictionaryDetailScreen(
                         onGradeSelected = { grade -> viewModel.saveWordGrade(translation.id, grade) },
                         currentGrade = state.wordGrades[translation.id]
                     ) {
-                        TranslationRow(
-                            translation = translation,
-                            entry = state.entry!!,
-                            repository = dictionaryRepository,
-                            ttsPlayer = ttsPlayer
-                        )
+                        TranslationRow(translation = translation, entry = state.entry!!, repository = dictionaryRepository, ttsPlayer = ttsPlayer)
                     }
                     HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
                 }
             }
 
-            // ── Formes
             if (state.formGroups.isNotEmpty()) {
                 item { SectionHeader("Formes") }
                 state.formGroups.forEach { group ->
@@ -118,22 +106,9 @@ fun DictionaryDetailScreen(
 
 @Composable
 private fun EntryHeader(entry: DictEntry, ttsPlayer: TtsPlayer) {
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(4.dp)
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            Text(
-                text = "${localeToFlag(entry.locale)}  ${entry.lemma}",
-                style = MaterialTheme.typography.headlineMedium,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.weight(1f)
-            )
+    Column(modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text(text = "${localeToFlag(entry.locale)}  ${entry.lemma}", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
             IconButton(onClick = { ttsPlayer.speak(entry.lemma, entry.locale) }) {
                 Icon(Icons.Filled.VolumeUp, contentDescription = "Écouter")
             }
@@ -146,11 +121,7 @@ private fun EntryHeader(entry: DictEntry, ttsPlayer: TtsPlayer) {
             }
         }
         if (subtitle.isNotBlank()) {
-            Text(
-                text = subtitle,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.outline
-            )
+            Text(text = subtitle, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.outline)
         }
     }
     HorizontalDivider()
@@ -162,51 +133,25 @@ private fun SectionHeader(title: String) {
         text = title.uppercase(),
         style = MaterialTheme.typography.labelMedium,
         color = MaterialTheme.colorScheme.primary,
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surfaceVariant)
-            .padding(horizontal = 16.dp, vertical = 8.dp)
+        modifier = Modifier.fillMaxWidth().background(MaterialTheme.colorScheme.surfaceVariant).padding(horizontal = 16.dp, vertical = 8.dp)
     )
 }
 
 @Composable
-private fun TranslationRow(
-    translation: DictTranslation,
-    entry: DictEntry,
-    repository: DictionaryRepository,
-    ttsPlayer: TtsPlayer
-) {
+private fun TranslationRow(translation: DictTranslation, entry: DictEntry, repository: DictionaryRepository, ttsPlayer: TtsPlayer) {
     val example = repository.resolveExample(translation, entry)
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 16.dp, end = 4.dp, top = 12.dp, bottom = 12.dp),
+        modifier = Modifier.fillMaxWidth().padding(start = 16.dp, end = 4.dp, top = 12.dp, bottom = 12.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.Top
     ) {
-        Column(
-            modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            Text(
-                text = translation.text,
-                style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.SemiBold
-            )
+        Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            Text(text = translation.text, style = MaterialTheme.typography.bodyLarge, fontWeight = FontWeight.SemiBold)
             if (!translation.glossSource.isNullOrBlank()) {
-                Text(
-                    text = translation.glossSource,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    fontStyle = FontStyle.Italic
-                )
+                Text(text = translation.glossSource, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant, fontStyle = FontStyle.Italic)
             }
             if (!example.isNullOrBlank()) {
-                Text(
-                    text = "« $example »",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.outline
-                )
+                Text(text = "« $example »", style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline)
             }
         }
         IconButton(onClick = { ttsPlayer.speak(translation.text, translation.targetLocale) }) {
@@ -217,44 +162,21 @@ private fun TranslationRow(
 
 @Composable
 private fun FormGroupHeader(label: String) {
-    Text(
-        text = label,
-        style = MaterialTheme.typography.titleSmall,
-        fontWeight = FontWeight.SemiBold,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 8.dp)
-    )
+    Text(text = label, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold, modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp))
 }
 
 @Composable
 private fun FormRowItem(row: FormRow) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 24.dp, vertical = 6.dp),
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 6.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         if (row.label != null) {
-            Text(
-                text = row.label,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.outline,
-                modifier = Modifier.weight(1f)
-            )
-            Text(
-                text = row.form,
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Medium,
-                modifier = Modifier.weight(1f)
-            )
+            Text(text = row.label, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.outline, modifier = Modifier.weight(1f))
+            Text(text = row.form, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium, modifier = Modifier.weight(1f))
         } else {
-            Text(
-                text = row.form,
-                style = MaterialTheme.typography.bodyMedium,
-                fontWeight = FontWeight.Medium
-            )
+            Text(text = row.form, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Medium)
         }
     }
 }

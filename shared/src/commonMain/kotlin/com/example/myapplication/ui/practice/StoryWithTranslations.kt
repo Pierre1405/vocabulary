@@ -1,8 +1,8 @@
-package com.example.myapplication.ui
+package com.example.myapplication.ui.practice
 
 data class StoryWithTranslations(
     val storyId: Long,
-    val translations: Map<String, String>  // locale -> titre
+    val translations: Map<String, String>
 ) {
     fun getTranslation(locale: String): String = translations[locale] ?: ""
 }

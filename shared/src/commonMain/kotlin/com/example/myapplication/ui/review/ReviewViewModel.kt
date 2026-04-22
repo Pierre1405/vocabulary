@@ -1,9 +1,10 @@
-package com.example.myapplication.ui
+package com.example.myapplication.ui.review
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myapplication.data.LearningRepository
 import com.example.myapplication.data.VocabularyRepository
+import com.example.myapplication.ui.practice.SentenceWithTranslations
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -24,7 +25,6 @@ class ReviewViewModel(
     private val _currentGrade = MutableStateFlow<Int?>(null)
     val currentGrade: StateFlow<Int?> = _currentGrade
 
-    // sentenceKey -> grade
     private val grades = mutableMapOf<String, Int>()
 
     init {

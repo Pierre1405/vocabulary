@@ -1,6 +1,7 @@
-package com.example.myapplication.ui
+package com.example.myapplication.ui.review
 
 import com.example.myapplication.data.AudioPlayer
+import com.example.myapplication.ui.practice.SentenceWithTranslations
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay

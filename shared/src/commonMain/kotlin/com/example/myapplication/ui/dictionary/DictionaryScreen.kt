@@ -1,4 +1,4 @@
-package com.example.myapplication.ui
+package com.example.myapplication.ui.dictionary
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.data.DictionaryRepository
+import com.example.myapplication.ui.localeToFlag
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -61,11 +62,7 @@ fun DictionaryScreen(
             )
         }
     ) { innerPadding ->
-        Column(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-        ) {
+        Column(modifier = modifier.fillMaxSize().padding(innerPadding)) {
             TextField(
                 value = query,
                 onValueChange = viewModel::onQueryChange,
@@ -79,24 +76,15 @@ fun DictionaryScreen(
                     }
                 },
                 singleLine = true,
-                colors = TextFieldDefaults.colors(
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent
-                ),
+                colors = TextFieldDefaults.colors(focusedIndicatorColor = Color.Transparent, unfocusedIndicatorColor = Color.Transparent),
                 modifier = Modifier.fillMaxWidth()
             )
 
             HorizontalDivider()
 
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(0.dp)
-            ) {
+            LazyColumn(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.spacedBy(0.dp)) {
                 items(results) { result ->
-                    DictEntryRow(
-                        result = result,
-                        onClick = { onEntryClick(result.entry.id) }
-                    )
+                    DictEntryRow(result = result, onClick = { onEntryClick(result.entry.id) })
                     HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp))
                 }
             }
@@ -107,12 +95,7 @@ fun DictionaryScreen(
 @Composable
 private fun DictEntryRow(result: DictEntryWithTranslations, onClick: () -> Unit) {
     val entry = result.entry
-    val translationText = result.translations
-        .map { it.text }
-        .distinct()
-        .take(5)
-        .joinToString(", ")
-
+    val translationText = result.translations.map { it.text }.distinct().take(5).joinToString(", ")
     val subtitle = buildString {
         if (!entry.pos.isNullOrBlank()) append(entry.pos)
         if (!entry.gender.isNullOrBlank()) {
@@ -122,29 +105,15 @@ private fun DictEntryRow(result: DictEntryWithTranslations, onClick: () -> Unit)
     }
 
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onClick() }
-            .padding(horizontal = 16.dp, vertical = 12.dp),
+        modifier = Modifier.fillMaxWidth().clickable { onClick() }.padding(horizontal = 16.dp, vertical = 12.dp),
         verticalArrangement = Arrangement.spacedBy(2.dp)
     ) {
-        Text(
-            text = "${localeToFlag(entry.locale)}  ${entry.lemma}",
-            style = MaterialTheme.typography.bodyLarge
-        )
+        Text(text = "${localeToFlag(entry.locale)}  ${entry.lemma}", style = MaterialTheme.typography.bodyLarge)
         if (subtitle.isNotBlank()) {
-            Text(
-                text = subtitle,
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.outline
-            )
+            Text(text = subtitle, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.outline)
         }
         if (translationText.isNotBlank()) {
-            Text(
-                text = translationText,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.primary
-            )
+            Text(text = translationText, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.primary)
         }
     }
 }

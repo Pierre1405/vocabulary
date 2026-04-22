@@ -12,6 +12,13 @@ import com.example.myapplication.data.DictionaryRepository
 import com.example.myapplication.data.LearningRepository
 import com.example.myapplication.data.SpeechRecognizer
 import com.example.myapplication.data.VocabularyRepository
+import com.example.myapplication.ui.dictionary.DictionaryDetailScreen
+import com.example.myapplication.ui.dictionary.DictionaryScreen
+import com.example.myapplication.ui.practice.SentenceScreen
+import com.example.myapplication.ui.practice.StoryListScreen
+import com.example.myapplication.ui.review.ReviewScreen
+import com.example.myapplication.ui.review.ReviewSelectionScreen
+import com.example.myapplication.ui.review.WordReviewScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -84,6 +91,8 @@ fun AppNavigation(
             WordReviewScreen(
                 dictionaryRepository = dictionaryRepository,
                 learningRepository = learningRepository,
+                ttsPlayer = ttsPlayer,
+                speechRecognizer = speechRecognizer,
                 sourceLocale = route.sourceLocale,
                 targetLocale = route.targetLocale,
                 onBack = { navController.popBackStack() }
