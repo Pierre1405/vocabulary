@@ -62,21 +62,9 @@ class ReviewViewModel(
         viewModelScope.launch {
             learningRepository.saveGrade(sentenceKey, sourceLocale, targetLocale, grade)
             grades[sentenceKey] = grade
-            if (grade == 5) {
-                val updated = _sentences.value.filter { it.sentenceKey != sentenceKey }
-                _sentences.value = updated
-                val size = updated.size
-                if (size == 0) {
-                    _currentIndex.value = 0
-                    _currentGrade.value = null
-                    return@launch
-                }
-                _currentIndex.value = _currentIndex.value.coerceAtMost(size - 1)
-            } else {
-                val size = _sentences.value.size
-                if (size == 0) return@launch
-                _currentIndex.value = (_currentIndex.value + 1) % size
-            }
+            val size = _sentences.value.size
+            if (size == 0) return@launch
+            _currentIndex.value = (_currentIndex.value + 1) % size
             updateCurrentGrade()
         }
     }

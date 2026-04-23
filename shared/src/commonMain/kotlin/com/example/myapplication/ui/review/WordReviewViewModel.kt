@@ -68,21 +68,9 @@ class WordReviewViewModel(
         viewModelScope.launch {
             learningRepository.saveWordGrade(translationId, sourceLocale, targetLocale, grade)
             grades[translationId] = grade
-            if (grade == 5) {
-                val updated = _items.value.filter { it.translationId != translationId }
-                _items.value = updated
-                val size = updated.size
-                if (size == 0) {
-                    _currentIndex.value = 0
-                    _currentGrade.value = null
-                    return@launch
-                }
-                _currentIndex.value = _currentIndex.value.coerceAtMost(size - 1)
-            } else {
-                val size = _items.value.size
-                if (size == 0) return@launch
-                _currentIndex.value = (_currentIndex.value + 1) % size
-            }
+            val size = _items.value.size
+            if (size == 0) return@launch
+            _currentIndex.value = (_currentIndex.value + 1) % size
             updateCurrentGrade()
         }
     }

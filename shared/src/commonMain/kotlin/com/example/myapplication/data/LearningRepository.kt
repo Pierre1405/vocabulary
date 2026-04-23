@@ -4,6 +4,7 @@ import app.cash.sqldelight.db.SqlDriver
 import com.example.myapplication.db.learning.LearningDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlin.math.roundToInt
 
 class LearningRepository(driver: SqlDriver) {
 
@@ -21,19 +22,22 @@ class LearningRepository(driver: SqlDriver) {
         targetLocale: String,
         grade: Int
     ) = withContext(Dispatchers.Default) {
-        queries.upsertGrade(sentenceKey, sourceLocale, targetLocale, grade.toLong(), TYPE_SENTENCE)
+        val current = queries.getGrade(sentenceKey, sourceLocale, targetLocale, TYPE_SENTENCE).executeAsOneOrNull()
+        val newInterval = computeNextInterval(current?.interval_days?.toInt() ?: 0, grade)
+        val nextReview = if (current == null) currentEpochDays() else currentEpochDays() + newInterval
+        queries.upsertGrade(sentenceKey, sourceLocale, targetLocale, grade.toLong(), TYPE_SENTENCE, newInterval.toLong(), nextReview)
     }
 
     suspend fun countByDirection(sourceLocale: String, targetLocale: String): Long =
         withContext(Dispatchers.Default) {
-            queries.countByDirection(sourceLocale, targetLocale, TYPE_SENTENCE).executeAsOne()
+            queries.countDue(sourceLocale, targetLocale, TYPE_SENTENCE, currentEpochDays()).executeAsOne()
         }
 
     suspend fun getSentenceKeysByDirection(
         sourceLocale: String,
         targetLocale: String
     ): List<String> = withContext(Dispatchers.Default) {
-        queries.getKeysByDirection(sourceLocale, targetLocale, TYPE_SENTENCE).executeAsList()
+        queries.getKeysDue(sourceLocale, targetLocale, TYPE_SENTENCE, currentEpochDays()).executeAsList()
     }
 
     suspend fun getGradesByDirection(
@@ -52,7 +56,11 @@ class LearningRepository(driver: SqlDriver) {
         targetLocale: String,
         grade: Int
     ) = withContext(Dispatchers.Default) {
-        queries.upsertGrade(translationId.toString(), sourceLocale, targetLocale, grade.toLong(), TYPE_WORD)
+        val key = translationId.toString()
+        val current = queries.getGrade(key, sourceLocale, targetLocale, TYPE_WORD).executeAsOneOrNull()
+        val newInterval = computeNextInterval(current?.interval_days?.toInt() ?: 0, grade)
+        val nextReview = if (current == null) currentEpochDays() else currentEpochDays() + newInterval
+        queries.upsertGrade(key, sourceLocale, targetLocale, grade.toLong(), TYPE_WORD, newInterval.toLong(), nextReview)
     }
 
     suspend fun getWordGradesForTranslations(
@@ -62,7 +70,7 @@ class LearningRepository(driver: SqlDriver) {
     ): Map<Long, Int> = withContext(Dispatchers.Default) {
         translationIds.mapNotNull { id ->
             val grade = queries.getGrade(id.toString(), sourceLocale, targetLocale, TYPE_WORD)
-                .executeAsOneOrNull()?.toInt() ?: return@mapNotNull null
+                .executeAsOneOrNull()?.grade?.toInt() ?: return@mapNotNull null
             id to grade
         }.toMap()
     }
@@ -71,12 +79,23 @@ class LearningRepository(driver: SqlDriver) {
         sourceLocale: String,
         targetLocale: String
     ): List<Pair<Long, Int>> = withContext(Dispatchers.Default) {
-        queries.getAllByDirection(sourceLocale, targetLocale, TYPE_WORD).executeAsList()
+        queries.getAllDue(sourceLocale, targetLocale, TYPE_WORD, currentEpochDays()).executeAsList()
             .map { it.key.toLong() to it.grade.toInt() }
     }
 
     suspend fun countWordsByDirection(sourceLocale: String, targetLocale: String): Long =
         withContext(Dispatchers.Default) {
-            queries.countByDirection(sourceLocale, targetLocale, TYPE_WORD).executeAsOne()
+            queries.countDue(sourceLocale, targetLocale, TYPE_WORD, currentEpochDays()).executeAsOne()
         }
+
+    private fun computeNextInterval(currentInterval: Int, grade: Int): Int = when {
+        grade <= 2 -> 1
+        currentInterval == 0 -> 1
+        currentInterval == 1 -> 3
+        else -> when (grade) {
+            3 -> (currentInterval * 1.5).roundToInt()
+            4 -> (currentInterval * 2.0).roundToInt()
+            else -> (currentInterval * 2.5).roundToInt()
+        }
+    }
 }
