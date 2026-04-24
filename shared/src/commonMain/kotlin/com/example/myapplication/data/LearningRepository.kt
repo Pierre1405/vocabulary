@@ -23,21 +23,21 @@ class LearningRepository(driver: SqlDriver) {
         grade: Int
     ) = withContext(Dispatchers.Default) {
         val current = queries.getGrade(sentenceKey, sourceLocale, targetLocale, TYPE_SENTENCE).executeAsOneOrNull()
-        val newInterval = computeNextInterval(current?.interval_days?.toInt() ?: 0, grade)
-        val nextReview = if (current == null) currentEpochDays() else currentEpochDays() + newInterval
+        val newInterval = computeNextIntervalHours(current?.interval_hours?.toInt() ?: 0, grade)
+        val nextReview = if (current == null) currentEpochHours() else currentEpochHours() + newInterval
         queries.upsertGrade(sentenceKey, sourceLocale, targetLocale, grade.toLong(), TYPE_SENTENCE, newInterval.toLong(), nextReview)
     }
 
     suspend fun countByDirection(sourceLocale: String, targetLocale: String): Long =
         withContext(Dispatchers.Default) {
-            queries.countDue(sourceLocale, targetLocale, TYPE_SENTENCE, currentEpochDays()).executeAsOne()
+            queries.countDue(sourceLocale, targetLocale, TYPE_SENTENCE, currentEpochHours()).executeAsOne()
         }
 
     suspend fun getSentenceKeysByDirection(
         sourceLocale: String,
         targetLocale: String
     ): List<String> = withContext(Dispatchers.Default) {
-        queries.getKeysDue(sourceLocale, targetLocale, TYPE_SENTENCE, currentEpochDays()).executeAsList()
+        queries.getKeysDue(sourceLocale, targetLocale, TYPE_SENTENCE, currentEpochHours()).executeAsList()
     }
 
     suspend fun getGradesByDirection(
@@ -58,8 +58,8 @@ class LearningRepository(driver: SqlDriver) {
     ) = withContext(Dispatchers.Default) {
         val key = translationId.toString()
         val current = queries.getGrade(key, sourceLocale, targetLocale, TYPE_WORD).executeAsOneOrNull()
-        val newInterval = computeNextInterval(current?.interval_days?.toInt() ?: 0, grade)
-        val nextReview = if (current == null) currentEpochDays() else currentEpochDays() + newInterval
+        val newInterval = computeNextIntervalHours(current?.interval_hours?.toInt() ?: 0, grade)
+        val nextReview = if (current == null) currentEpochHours() else currentEpochHours() + newInterval
         queries.upsertGrade(key, sourceLocale, targetLocale, grade.toLong(), TYPE_WORD, newInterval.toLong(), nextReview)
     }
 
@@ -79,23 +79,20 @@ class LearningRepository(driver: SqlDriver) {
         sourceLocale: String,
         targetLocale: String
     ): List<Pair<Long, Int>> = withContext(Dispatchers.Default) {
-        queries.getAllDue(sourceLocale, targetLocale, TYPE_WORD, currentEpochDays()).executeAsList()
+        queries.getAllDue(sourceLocale, targetLocale, TYPE_WORD, currentEpochHours()).executeAsList()
             .map { it.key.toLong() to it.grade.toInt() }
     }
 
     suspend fun countWordsByDirection(sourceLocale: String, targetLocale: String): Long =
         withContext(Dispatchers.Default) {
-            queries.countDue(sourceLocale, targetLocale, TYPE_WORD, currentEpochDays()).executeAsOne()
+            queries.countDue(sourceLocale, targetLocale, TYPE_WORD, currentEpochHours()).executeAsOne()
         }
 
-    private fun computeNextInterval(currentInterval: Int, grade: Int): Int = when {
-        grade <= 2 -> 1
-        currentInterval == 0 -> 1
-        currentInterval == 1 -> 3
-        else -> when (grade) {
-            3 -> (currentInterval * 1.5).roundToInt()
-            4 -> (currentInterval * 2.0).roundToInt()
-            else -> (currentInterval * 2.5).roundToInt()
-        }
+    private fun computeNextIntervalHours(currentHours: Int, grade: Int): Int = when (grade) {
+        1 -> 0
+        2 -> 1
+        3 -> if (currentHours > 0) (currentHours * 1.5).roundToInt() else 24
+        4 -> if (currentHours > 0) (currentHours * 2.0).roundToInt() else 24
+        else -> if (currentHours > 0) (currentHours * 2.5).roundToInt() else 24
     }
 }

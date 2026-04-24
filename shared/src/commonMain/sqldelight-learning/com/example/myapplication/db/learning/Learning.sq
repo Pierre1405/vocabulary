@@ -1,29 +1,29 @@
 CREATE TABLE IF NOT EXISTS learning (
-    key           TEXT    NOT NULL,
-    source_locale TEXT    NOT NULL,
-    target_locale TEXT    NOT NULL,
-    grade         INTEGER NOT NULL,
-    type          TEXT    NOT NULL,
-    interval_days INTEGER NOT NULL DEFAULT 0,
-    next_review   INTEGER NOT NULL DEFAULT 0,
+    key             TEXT    NOT NULL,
+    source_locale   TEXT    NOT NULL,
+    target_locale   TEXT    NOT NULL,
+    grade           INTEGER NOT NULL,
+    type            TEXT    NOT NULL,
+    interval_hours  INTEGER NOT NULL DEFAULT 0,
+    next_review     INTEGER NOT NULL DEFAULT 0,
     PRIMARY KEY (key, source_locale, target_locale, type)
 );
 
 upsertGrade:
-INSERT OR REPLACE INTO learning (key, source_locale, target_locale, grade, type, interval_days, next_review)
-VALUES (:key, :sourceLocale, :targetLocale, :grade, :type, :intervalDays, :nextReview);
+INSERT OR REPLACE INTO learning (key, source_locale, target_locale, grade, type, interval_hours, next_review)
+VALUES (:key, :sourceLocale, :targetLocale, :grade, :type, :intervalHours, :nextReview);
 
 getGrade:
-SELECT grade, interval_days FROM learning
+SELECT grade, interval_hours FROM learning
 WHERE key = :key AND source_locale = :sourceLocale AND target_locale = :targetLocale AND type = :type;
 
 countDue:
 SELECT COUNT(*) FROM learning
-WHERE source_locale = :sourceLocale AND target_locale = :targetLocale AND type = :type AND next_review <= :today;
+WHERE source_locale = :sourceLocale AND target_locale = :targetLocale AND type = :type AND next_review <= :now;
 
 getKeysDue:
 SELECT key FROM learning
-WHERE source_locale = :sourceLocale AND target_locale = :targetLocale AND type = :type AND next_review <= :today;
+WHERE source_locale = :sourceLocale AND target_locale = :targetLocale AND type = :type AND next_review <= :now;
 
 getGradesByDirection:
 SELECT key, grade FROM learning
@@ -31,4 +31,4 @@ WHERE source_locale = :sourceLocale AND target_locale = :targetLocale AND type =
 
 getAllDue:
 SELECT key, grade FROM learning
-WHERE source_locale = :sourceLocale AND target_locale = :targetLocale AND type = :type AND next_review <= :today;
+WHERE source_locale = :sourceLocale AND target_locale = :targetLocale AND type = :type AND next_review <= :now;

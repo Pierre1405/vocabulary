@@ -1,5 +1,6 @@
 package com.example.myapplication.data
 
 import platform.Foundation.NSDate
+import platform.Foundation.timeIntervalSince1970
 
-actual fun currentEpochDays(): Long = (NSDate().timeIntervalSince1970 / 86400.0).toLong()
+actual fun currentEpochHours(): Long = (NSDate().timeIntervalSince1970 / 3600.0).toLong()
