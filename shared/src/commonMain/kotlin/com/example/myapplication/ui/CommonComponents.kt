@@ -1,7 +1,9 @@
 package com.example.myapplication.ui
 
 import androidx.compose.animation.core.Animatable
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
@@ -84,6 +86,11 @@ fun SwipeableGradeCard(
             modifier = Modifier
                 .fillMaxWidth()
                 .offset { IntOffset(offsetX.value.roundToInt(), 0) }
+                .then(
+                    if (currentGrade != null)
+                        Modifier.border(BorderStroke(2.dp, gradeColor(currentGrade)))
+                    else Modifier
+                )
                 .draggable(
                     orientation = Orientation.Horizontal,
                     state = rememberDraggableState { delta ->
