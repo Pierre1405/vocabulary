@@ -38,25 +38,26 @@ class DictionaryViewModel(
     }
 
     private suspend fun search(q: String) {
-        if (q.isBlank()) {
+        val trimmed = q.trim()
+        if (trimmed.isBlank()) {
             _results.value = emptyList()
             return
         }
         _results.value = withContext(Dispatchers.Default) {
             val exact = (
-                dictionaryRepository.getByLemma(q, "de") +
-                dictionaryRepository.getByLemma(q, "fr") +
-                dictionaryRepository.searchExactByForm(q, "de") +
-                dictionaryRepository.searchExactByForm(q, "fr")
+                dictionaryRepository.getByLemma(trimmed, "de") +
+                dictionaryRepository.getByLemma(trimmed, "fr") +
+                dictionaryRepository.searchExactByForm(trimmed, "de") +
+                dictionaryRepository.searchExactByForm(trimmed, "fr")
             ).distinctBy { it.id }.sortedBy { it.lemma.lowercase() }
 
             val exactIds = exact.map { it.id }.toSet()
 
             val partial = (
-                dictionaryRepository.searchByPrefix("%$q%", "de") +
-                dictionaryRepository.searchByPrefix("%$q%", "fr") +
-                dictionaryRepository.searchByFormPattern("%$q%", "de") +
-                dictionaryRepository.searchByFormPattern("%$q%", "fr")
+                dictionaryRepository.searchByPrefix("%$trimmed%", "de") +
+                dictionaryRepository.searchByPrefix("%$trimmed%", "fr") +
+                dictionaryRepository.searchByFormPattern("%$trimmed%", "de") +
+                dictionaryRepository.searchByFormPattern("%$trimmed%", "fr")
             )
                 .distinctBy { it.id }
                 .filter { it.id !in exactIds }
