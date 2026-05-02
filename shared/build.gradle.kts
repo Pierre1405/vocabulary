@@ -23,6 +23,8 @@ kotlin {
         }
     }
 
+    jvm()
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -57,6 +59,15 @@ kotlin {
 
         iosMain.dependencies {
             implementation(libs.sqldelight.native.driver)
+        }
+
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+        }
+
+        jvmTest.dependencies {
+            implementation(kotlin("test"))
+            implementation(libs.sqlite.jdbc)
         }
     }
 }

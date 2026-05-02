@@ -8,7 +8,8 @@ CREATE TABLE IF NOT EXISTS dict_form (
     entry_id    INTEGER NOT NULL REFERENCES dict_entry(id),
     form        TEXT NOT NULL,
     features_id INTEGER REFERENCES dict_features(id),
-    pronouns    TEXT
+    pronouns    TEXT,
+    group_key   TEXT
 );
 
 CREATE INDEX IF NOT EXISTS idx_form_form ON dict_form(form);
@@ -41,8 +42,6 @@ LIMIT 20;
 
 -- Toutes les formes d'une entrée (pour tableau de conjugaison)
 getFormsByEntryId:
-SELECT f.form, ft.features, f.pronouns
+SELECT f.form, f.group_key, f.pronouns
 FROM dict_form f
-LEFT JOIN dict_features ft ON ft.id = f.features_id
-WHERE f.entry_id = ?
-ORDER BY ft.features;
+WHERE f.entry_id = ?;

@@ -38,6 +38,8 @@ import com.example.myapplication.data.DictTranslation
 import com.example.myapplication.data.DictionaryRepository
 import com.example.myapplication.data.LearningRepository
 import com.example.myapplication.data.TtsPlayer
+import com.example.myapplication.data.forms.FormGroup
+import com.example.myapplication.data.forms.FormRow
 import com.example.myapplication.ui.SwipeableGradeCard
 import com.example.myapplication.ui.localeToFlag
 

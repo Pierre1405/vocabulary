@@ -1,55 +1,101 @@
 {
-  "_comment": "Une forme est conservée si ses tags contiennent TOUS les tags d'au moins une entrée de la liste. Les formes contenant 'processual-passive' (voix passive DE) ou 'multiword-construction' (FR) sont exclues dans extract.py.",
+  "_comment": "groups : liste ordonnée du plus spécifique au plus général (first-match wins). pronoun_canonical : normalise le pronom extrait vers le label canonique.",
   "de": {
-    "noun": [
-      ["nominative", "singular"],
-      ["nominative", "plural"],
-      ["genitive",   "singular"],
-      ["genitive",   "plural"],
-      ["dative",     "singular"],
-      ["dative",     "plural"],
-      ["accusative", "singular"],
-      ["accusative", "plural"]
+    "skip_tag_combinations": [
+      ["archaic"],
+      ["outdated"],
+      ["perfect", "first-person"],
+      ["perfect", "second-person"],
+      ["perfect", "third-person"]
     ],
-    "verb": [
-      ["infinitive", "present"],
-      ["present"],
-      ["past"],
-      ["participle-2", "perfect"],
-      ["auxiliary", "perfect"],
-      ["subjunctive-ii"],
-      ["imperative", "singular"],
-      ["imperative", "plural"]
-    ],
-    "adj": [
-      ["positive"],
-      ["comparative"],
-      ["superlative"]
-    ]
+    "skip_tags_by_pos": {
+      "verb": [
+        "active", "main-clause", "subordinate-clause",
+        "regular", "irregular",
+        "auxiliary verb",
+        "reflexive", "statal-reflexive",
+        "transitive", "intransitive",
+        "separable", "inseparable",
+        "verb"
+      ]
+    },
+    "pronoun_canonical": {
+      "er/sie/es": "er,sie,es"
+    },
+    "groups": {
+      "verb": [
+        {"key": "participle_present",  "tags": ["participle", "present"]},
+        {"key": "participle_past",     "tags": ["participle-2", "perfect"]},
+        {"key": "auxiliary",           "tags": ["auxiliary", "perfect"]},
+        {"key": "subjunctive_ii",      "tags": ["subjunctive-ii"]},
+        {"key": "subjunctive_i",       "tags": ["subjunctive-i"]},
+        {"key": "imperative",          "tags": ["imperative"]},
+        {"key": "indicative_present",  "tags": ["present"]},
+        {"key": "indicative_past",     "tags": ["past"]}
+      ],
+      "noun": [
+        {"key": "nominative", "tags": ["nominative"]},
+        {"key": "accusative", "tags": ["accusative"]},
+        {"key": "dative",     "tags": ["dative"]},
+        {"key": "genitive",   "tags": ["genitive"]}
+      ],
+      "adj": [
+        {"key": "positive",    "tags": ["positive"]},
+        {"key": "comparative", "tags": ["comparative"]},
+        {"key": "superlative", "tags": ["superlative"]}
+      ]
+    }
   },
   "fr": {
-    "_comment_noun": "Le français n'a pas de déclinaison — seul le pluriel est une forme fléchie.",
-    "noun": [
-      ["plural"]
-    ],
-    "_comment_verb": "Tags observés sur fr-extract. Le pronom est inclus dans la forme (ex: 'je lis'). Les formes 'multiword-construction' sont exclues dans extract.py.",
-    "verb": [
-      ["infinitive", "present"],
-      ["participle", "present"],
-      ["participle", "past"],
-      ["indicative", "present"],
-      ["indicative", "imperfect"],
-      ["indicative", "past"],
-      ["future", "indicative"],
-      ["conditional", "present"],
-      ["present", "subjunctive"],
-      ["imperative", "present"]
-    ],
-    "adj": [
-      ["masculine", "singular"],
-      ["masculine", "plural"],
-      ["feminine",  "singular"],
-      ["feminine",  "plural"]
-    ]
+    "skip_tag_combinations": [],
+    "skip_tags_by_pos": {},
+    "pronoun_canonical": {
+      "j'":    "je",
+      "j\u2019": "je",
+      "j\ufffd": "je",
+      "il":    "il/elle/on",
+      "elle":  "il/elle/on",
+      "on":    "il/elle/on",
+      "ils":   "ils/elles",
+      "elles": "ils/elles"
+    },
+    "auxiliary_detection": {
+      "être_forms": [
+        "suis", "es", "est", "sommes", "êtes", "sont",
+        "étais", "était", "étions", "étiez", "étaient",
+        "fus", "fut", "fûmes", "fûtes", "furent",
+        "serai", "seras", "sera", "serons", "serez", "seront",
+        "serais", "serait", "serions", "seriez", "seraient",
+        "sois", "soit", "soyons", "soyez", "soient"
+      ]
+    },
+    "groups": {
+      "verb": [
+        {"key": "participle_present",   "tags": ["participle", "present"]},
+        {"key": "participle_past",      "tags": ["participle", "past"]},
+        {"key": "futur_anterieur",      "tags": ["future", "indicative", "perfect"]},
+        {"key": "conditionnel_passe",   "tags": ["conditional", "perfect"]},
+        {"key": "subjonctif_passe",     "tags": ["subjunctive", "perfect"]},
+        {"key": "plus_que_parfait",     "tags": ["indicative", "imperfect", "perfect"]},
+        {"key": "passe_anterieur",      "tags": ["indicative", "past", "perfect"]},
+        {"key": "passe_compose",        "tags": ["indicative", "present", "perfect"]},
+        {"key": "subjunctive_present",  "tags": ["present", "subjunctive"]},
+        {"key": "conditional",          "tags": ["conditional", "present"]},
+        {"key": "imperative",           "tags": ["imperative"]},
+        {"key": "indicative_future",    "tags": ["future", "indicative"]},
+        {"key": "indicative_past",      "tags": ["indicative", "past"]},
+        {"key": "indicative_imperfect", "tags": ["indicative", "imperfect"]},
+        {"key": "indicative_present",   "tags": ["indicative", "present"]}
+      ],
+      "noun": [
+        {"key": "plural", "tags": ["plural"]}
+      ],
+      "adj": [
+        {"key": "masculine_singular", "tags": ["masculine", "singular"]},
+        {"key": "masculine_plural",   "tags": ["masculine", "plural"]},
+        {"key": "feminine_singular",  "tags": ["feminine",  "singular"]},
+        {"key": "feminine_plural",    "tags": ["feminine",  "plural"]}
+      ]
+    }
   }
 }

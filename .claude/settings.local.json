@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(sqlite3 *)",
+      "Bash(python -c ' *)",
+      "Bash(./gradlew :shared:testDebugUnitTest)",
+      "Bash(./gradlew :shared:jvmTest --info)",
+      "Bash(./gradlew :shared:jvmTest)",
+      "Bash(python3 *)"
+    ]
+  }
+}

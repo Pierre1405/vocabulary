@@ -23,7 +23,7 @@ data class DictTranslation(
 
 data class DictForm(
     val form: String,
-    val features: String?,
+    val groupKey: String?,
     val pronouns: String?
 )
 
@@ -75,7 +75,7 @@ class DictionaryRepository(driver: SqlDriver) {
     /** Retourne toutes les formes fléchies d'une entrée (tableau de conjugaison/déclinaison). */
     fun getForms(entryId: Long): List<DictForm> =
         formQueries.getFormsByEntryId(entryId).executeAsList().map {
-            DictForm(form = it.form, features = it.features, pronouns = it.pronouns)
+            DictForm(form = it.form, groupKey = it.group_key, pronouns = it.pronouns)
         }
 
     /**
