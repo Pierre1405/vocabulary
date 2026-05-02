@@ -41,7 +41,7 @@ class WordReviewViewModel(
         viewModelScope.launch {
             val wordLearning = learningRepository.getAllWordsByDirection(sourceLocale, targetLocale)
             _items.value = withContext(Dispatchers.Default) {
-                wordLearning.mapNotNull { (translationId, grade) ->
+                wordLearning.shuffled().mapNotNull { (translationId, grade) ->
                     grades[translationId] = grade
                     val translation = dictionaryRepository.getTranslationById(translationId) ?: return@mapNotNull null
                     val entry = dictionaryRepository.getById(translation.entryId) ?: return@mapNotNull null

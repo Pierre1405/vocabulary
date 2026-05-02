@@ -37,7 +37,7 @@ class ReviewViewModel(
             learningRepository.getGradesByDirection(sourceLocale, targetLocale)
                 .forEach { (key, grade) -> grades[key] = grade }
 
-            val matched = sentenceKeys.mapNotNull { sentenceByKey[it] }
+            val matched = sentenceKeys.shuffled().mapNotNull { sentenceByKey[it] }
             val translations = repository.getTranslationsForSentences(matched.map { it.sentence_key })
             val translationsByKey = translations.groupBy { it.sentence_key }
 
