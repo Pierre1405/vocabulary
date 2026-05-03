@@ -1,11 +1,7 @@
-package com.example.myapplication.ui.practice
+﻿package com.example.myapplication.ui.practice
 
-import androidx.compose.animation.core.Animatable
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.draggable
-import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -47,6 +43,7 @@ import androidx.compose.ui.draw.blur
 import androidx.compose.ui.unit.dp
 import com.example.myapplication.data.AudioPlayer
 import com.example.myapplication.ui.ClickableWordText
+import com.example.myapplication.ui.LocalStrings
 import com.example.myapplication.ui.SwipeableGradeCard
 import com.example.myapplication.ui.localeToFlag
 
@@ -92,18 +89,18 @@ fun SentenceListScreen(
                 },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Retour")
+                        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = LocalStrings.current.back)
                     }
                 },
                 actions = {
                     IconButton(onClick = { viewModel.toggleLoop() }) {
-                        Icon(imageVector = Icons.Filled.Loop, contentDescription = "Loop", tint = if (isLooping) MaterialTheme.colorScheme.primary else LocalContentColor.current)
+                        Icon(imageVector = Icons.Filled.Loop, contentDescription = LocalStrings.current.loop, tint = if (isLooping) MaterialTheme.colorScheme.primary else LocalContentColor.current)
                     }
                     IconButton(onClick = {
                         if (isPlayingAll) viewModel.stopPlayAll(audioPlayer)
                         else viewModel.playAll(audioPlayer)
                     }) {
-                        Icon(imageVector = if (isPlayingAll) Icons.Filled.Stop else Icons.Filled.PlayArrow, contentDescription = if (isPlayingAll) "Stop" else "Play all")
+                        Icon(imageVector = if (isPlayingAll) Icons.Filled.Stop else Icons.Filled.PlayArrow, contentDescription = if (isPlayingAll) LocalStrings.current.stop else LocalStrings.current.playAll)
                     }
                     FilterChip(selected = showNative, onClick = { showNative = !showNative }, label = { Text(localeToFlag(nativeLanguage)) })
                     FilterChip(selected = showLearned, onClick = { showLearned = !showLearned }, label = { Text(localeToFlag(learnedLanguage)) }, modifier = Modifier.padding(end = 8.dp))
@@ -113,7 +110,7 @@ fun SentenceListScreen(
         modifier = modifier
     ) { innerPadding ->
         if (sentences.isEmpty()) {
-            Text(text = "Aucune sentence trouvée.", modifier = Modifier.padding(innerPadding).padding(16.dp))
+            Text(text = LocalStrings.current.sentenceEmpty, modifier = Modifier.padding(innerPadding).padding(16.dp))
         } else {
             LazyColumn(
                 state = listState,
@@ -177,7 +174,7 @@ fun SentenceCard(
                 }
             }
             IconButton(onClick = { audioPlayer.play(sentence.sentenceKey, learnedLanguage) }) {
-                Text("▶", color = MaterialTheme.colorScheme.primary, style = MaterialTheme.typography.bodyLarge)
+                Text(LocalStrings.current.play, color = MaterialTheme.colorScheme.primary, style = MaterialTheme.typography.bodyLarge)
             }
         }
 

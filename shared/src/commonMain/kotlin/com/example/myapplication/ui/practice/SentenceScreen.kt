@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.practice
+﻿package com.example.myapplication.ui.practice
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -20,6 +20,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.data.AudioPlayer
 import com.example.myapplication.data.LearningRepository
 import com.example.myapplication.data.VocabularyRepository
+import com.example.myapplication.ui.LocalStrings
 
 enum class SentenceTab { ALL, DETAIL }
 
@@ -49,11 +50,11 @@ fun SentenceScreen(
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     if (currentTab == SentenceTab.ALL) {
-                        Button(onClick = {}, modifier = Modifier.weight(1f)) { Text("All") }
-                        OutlinedButton(onClick = { currentTab = SentenceTab.DETAIL }, modifier = Modifier.weight(1f)) { Text("Detail") }
+                        Button(onClick = {}, modifier = Modifier.weight(1f)) { Text(LocalStrings.current.sentenceTabAll) }
+                        OutlinedButton(onClick = { currentTab = SentenceTab.DETAIL }, modifier = Modifier.weight(1f)) { Text(LocalStrings.current.sentenceTabDetail) }
                     } else {
-                        OutlinedButton(onClick = { currentTab = SentenceTab.ALL }, modifier = Modifier.weight(1f)) { Text("All") }
-                        Button(onClick = {}, modifier = Modifier.weight(1f)) { Text("Detail") }
+                        OutlinedButton(onClick = { currentTab = SentenceTab.ALL }, modifier = Modifier.weight(1f)) { Text(LocalStrings.current.sentenceTabAll) }
+                        Button(onClick = {}, modifier = Modifier.weight(1f)) { Text(LocalStrings.current.sentenceTabDetail) }
                     }
                 }
             }

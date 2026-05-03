@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.review
+﻿package com.example.myapplication.ui.review
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
@@ -45,6 +45,7 @@ import com.example.myapplication.data.AudioPlayer
 import com.example.myapplication.data.LearningRepository
 import com.example.myapplication.data.SpeechRecognizer
 import com.example.myapplication.data.VocabularyRepository
+import com.example.myapplication.ui.LocalStrings
 import com.example.myapplication.ui.gradeColor
 import com.example.myapplication.ui.localeToFlag
 
@@ -92,7 +93,7 @@ fun ReviewScreen(
                 },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Retour")
+                        Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = LocalStrings.current.back)
                     }
                 },
                 actions = {
@@ -107,7 +108,7 @@ fun ReviewScreen(
                     }) {
                         Icon(
                             imageVector = if (isPlayingAll) Icons.Filled.Stop else Icons.Filled.PlayArrow,
-                            contentDescription = if (isPlayingAll) "Stop" else "Lire tout"
+                            contentDescription = if (isPlayingAll) LocalStrings.current.stop else LocalStrings.current.playAll
                         )
                     }
                 }
@@ -124,7 +125,7 @@ fun ReviewScreen(
             )
         } else if (sentences.isEmpty()) {
             Box(modifier = Modifier.fillMaxSize().padding(innerPadding), contentAlignment = Alignment.Center) {
-                Text("Rien à réviser pour aujourd'hui.")
+                Text(LocalStrings.current.reviewEmpty)
             }
         } else {
             val sentence = sentences[currentIndex]
@@ -220,7 +221,7 @@ fun ReviewCard(
                 value = spokenText,
                 onValueChange = { spokenText = it },
                 modifier = Modifier.weight(1f),
-                placeholder = { Text("${localeToFlag(targetLocale)} Prononcez ou écrivez...") },
+                placeholder = { Text("${localeToFlag(targetLocale)} ${LocalStrings.current.reviewSpeakHint}") },
                 singleLine = false,
                 maxLines = 3
             )
@@ -239,7 +240,7 @@ fun ReviewCard(
             }) {
                 Icon(
                     imageVector = if (isListening) Icons.Filled.Stop else Icons.Filled.Mic,
-                    contentDescription = if (isListening) "Arrêter" else "Écouter",
+                    contentDescription = if (isListening) LocalStrings.current.reviewStopListen else LocalStrings.current.reviewListen,
                     tint = if (isListening) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary
                 )
             }
@@ -260,8 +261,8 @@ fun ReviewCard(
         }
 
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            OutlinedButton(onClick = onPrevious, modifier = Modifier.weight(1f)) { Text("← Précédent") }
-            Button(onClick = onNext, modifier = Modifier.weight(1f)) { Text("Suivant →") }
+            OutlinedButton(onClick = onPrevious, modifier = Modifier.weight(1f)) { Text(LocalStrings.current.reviewPrevious) }
+            Button(onClick = onNext, modifier = Modifier.weight(1f)) { Text(LocalStrings.current.reviewNext) }
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.dictionary
+﻿package com.example.myapplication.ui.dictionary
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -38,8 +38,8 @@ import com.example.myapplication.data.DictTranslation
 import com.example.myapplication.data.DictionaryRepository
 import com.example.myapplication.data.LearningRepository
 import com.example.myapplication.data.TtsPlayer
-import com.example.myapplication.data.forms.FormGroup
 import com.example.myapplication.data.forms.FormRow
+import com.example.myapplication.ui.LocalStrings
 import com.example.myapplication.ui.SwipeableGradeCard
 import com.example.myapplication.ui.localeToFlag
 
@@ -64,7 +64,7 @@ fun DictionaryDetailScreen(
                 title = { Text(state.entry?.lemma ?: "…") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Retour")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = LocalStrings.current.back)
                     }
                 }
             )
@@ -81,7 +81,7 @@ fun DictionaryDetailScreen(
             item { EntryHeader(state.entry!!, ttsPlayer) }
 
             if (state.translations.isNotEmpty()) {
-                item { SectionHeader("Traductions") }
+                item { SectionHeader(LocalStrings.current.dictionaryTranslations) }
                 items(state.translations) { translation ->
                     SwipeableGradeCard(
                         onGradeSelected = { grade -> viewModel.saveWordGrade(translation.id, grade) },
@@ -94,7 +94,7 @@ fun DictionaryDetailScreen(
             }
 
             if (state.formGroups.isNotEmpty()) {
-                item { SectionHeader("Formes") }
+                item { SectionHeader(LocalStrings.current.dictionaryForms) }
                 state.formGroups.forEach { group ->
                     item { FormGroupHeader(group.label) }
                     items(group.rows) { row -> FormRowItem(row) }
@@ -112,7 +112,7 @@ private fun EntryHeader(entry: DictEntry, ttsPlayer: TtsPlayer) {
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Text(text = "${localeToFlag(entry.locale)}  ${entry.lemma}", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
             IconButton(onClick = { ttsPlayer.speak(entry.lemma, entry.locale) }) {
-                Icon(Icons.Filled.VolumeUp, contentDescription = "Écouter")
+                Icon(Icons.Filled.VolumeUp, contentDescription = LocalStrings.current.dictionaryListen)
             }
         }
         val subtitle = buildString {
@@ -157,7 +157,7 @@ private fun TranslationRow(translation: DictTranslation, entry: DictEntry, repos
             }
         }
         IconButton(onClick = { ttsPlayer.speak(translation.text, translation.targetLocale) }) {
-            Icon(Icons.Filled.VolumeUp, contentDescription = "Écouter")
+            Icon(Icons.Filled.VolumeUp, contentDescription = LocalStrings.current.dictionaryListen)
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.review
+﻿package com.example.myapplication.ui.review
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.example.myapplication.ui.LocalStrings
 
 @Composable
 fun ReviewCompletionScreen(
@@ -26,18 +27,18 @@ fun ReviewCompletionScreen(
         verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.CenterVertically),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("Série terminée !", style = MaterialTheme.typography.headlineMedium)
+        Text(LocalStrings.current.completionTitle, style = MaterialTheme.typography.headlineMedium)
 
         Button(onClick = onRestart, modifier = Modifier.fillMaxWidth()) {
-            Text("Recommencer")
+            Text(LocalStrings.current.completionRestart)
         }
 
         Button(onClick = onRestartLowGrades, modifier = Modifier.fillMaxWidth()) {
-            Text("Recommencer avec les notes < 3")
+            Text(LocalStrings.current.completionRestartLow)
         }
 
         OutlinedButton(onClick = onFinish, modifier = Modifier.fillMaxWidth()) {
-            Text("Fin")
+            Text(LocalStrings.current.completionFinish)
         }
     }
 }

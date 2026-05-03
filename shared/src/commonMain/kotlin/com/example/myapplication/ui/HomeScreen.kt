@@ -1,4 +1,4 @@
-package com.example.myapplication.ui
+﻿package com.example.myapplication.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -36,14 +36,14 @@ fun HomeScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Vocabulaire",
+            text = LocalStrings.current.appTitle,
             style = MaterialTheme.typography.displaySmall
         )
 
         Spacer(modifier = Modifier.height(64.dp))
 
         HomeButton(
-            label = "Lecture",
+            label = LocalStrings.current.homeReading,
             icon = { Icon(Icons.Filled.AutoStories, contentDescription = null, modifier = Modifier.size(28.dp)) },
             onClick = onLectureClick
         )
@@ -51,7 +51,7 @@ fun HomeScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         HomeButton(
-            label = "Révision",
+            label = LocalStrings.current.homeReview,
             icon = { Icon(Icons.Filled.School, contentDescription = null, modifier = Modifier.size(28.dp)) },
             onClick = onRevisionClick
         )
@@ -59,7 +59,7 @@ fun HomeScreen(
         Spacer(modifier = Modifier.height(16.dp))
 
         HomeButton(
-            label = "Dictionnaire",
+            label = LocalStrings.current.homeDictionary,
             icon = { Icon(Icons.Filled.Book, contentDescription = null, modifier = Modifier.size(28.dp)) },
             onClick = onDictionnaireClick
         )

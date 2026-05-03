@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.practice
+﻿package com.example.myapplication.ui.practice
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.data.LearningRepository
 import com.example.myapplication.data.VocabularyRepository
+import com.example.myapplication.ui.LocalStrings
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,10 +47,10 @@ fun StoryListScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Histoires") },
+                title = { Text(LocalStrings.current.storiesTitle) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Retour")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = LocalStrings.current.back)
                     }
                 }
             )
@@ -63,7 +64,7 @@ fun StoryListScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             if (stories.isEmpty()) {
-                Text(text = "Aucune histoire trouvée.")
+                Text(text = LocalStrings.current.storiesEmpty)
             } else {
                 LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     items(stories) { story ->

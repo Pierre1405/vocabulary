@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.review
+﻿package com.example.myapplication.ui.review
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -28,6 +28,7 @@ import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.data.LearningRepository
 import com.example.myapplication.data.VocabularyRepository
+import com.example.myapplication.ui.LocalStrings
 import com.example.myapplication.ui.localeToFlag
 import com.example.myapplication.ui.practice.StoryViewModel
 
@@ -57,10 +58,10 @@ fun ReviewSelectionScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Révision") },
+                title = { Text(LocalStrings.current.reviewTitle) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Retour")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = LocalStrings.current.back)
                     }
                 }
             )
@@ -70,7 +71,7 @@ fun ReviewSelectionScreen(
             modifier = modifier.fillMaxSize().padding(innerPadding).padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Text(text = "Phrases", style = MaterialTheme.typography.titleMedium)
+            Text(text = LocalStrings.current.reviewSentences, style = MaterialTheme.typography.titleMedium)
 
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Button(
@@ -100,7 +101,7 @@ fun ReviewSelectionScreen(
 
             HorizontalDivider()
 
-            Text(text = "Mots", style = MaterialTheme.typography.titleMedium)
+            Text(text = LocalStrings.current.reviewWords, style = MaterialTheme.typography.titleMedium)
 
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Button(

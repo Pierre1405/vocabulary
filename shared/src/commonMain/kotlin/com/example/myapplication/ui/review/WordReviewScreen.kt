@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.review
+﻿package com.example.myapplication.ui.review
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,6 +27,7 @@ import com.example.myapplication.data.DictionaryRepository
 import com.example.myapplication.data.LearningRepository
 import com.example.myapplication.data.SpeechRecognizer
 import com.example.myapplication.data.TtsPlayer
+import com.example.myapplication.ui.LocalStrings
 import com.example.myapplication.ui.localeToFlag
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -66,13 +67,13 @@ fun WordReviewScreen(
             TopAppBar(
                 title = {
                     Text(
-                        "Mots" +
+                        LocalStrings.current.reviewWords +
                         if (items.isNotEmpty()) "  ${currentIndex + 1} / ${items.size}" else ""
                     )
                 },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Retour")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = LocalStrings.current.back)
                     }
                 },
                 actions = {
@@ -86,7 +87,7 @@ fun WordReviewScreen(
                     }) {
                         Icon(
                             imageVector = if (isPlayingAll) Icons.Filled.Stop else Icons.Filled.PlayArrow,
-                            contentDescription = if (isPlayingAll) "Stop" else "Lire tout"
+                            contentDescription = if (isPlayingAll) LocalStrings.current.stop else LocalStrings.current.playAll
                         )
                     }
                 }
@@ -103,7 +104,7 @@ fun WordReviewScreen(
             )
         } else if (items.isEmpty()) {
             Box(modifier = Modifier.fillMaxSize().padding(innerPadding), contentAlignment = Alignment.Center) {
-                Text("Rien à réviser pour aujourd'hui.")
+                Text(LocalStrings.current.reviewEmpty)
             }
         } else {
             val item = items[currentIndex]

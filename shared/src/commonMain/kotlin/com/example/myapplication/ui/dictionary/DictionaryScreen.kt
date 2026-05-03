@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.dictionary
+﻿package com.example.myapplication.ui.dictionary
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.data.DictionaryRepository
+import com.example.myapplication.ui.LocalStrings
 import com.example.myapplication.ui.localeToFlag
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,10 +54,10 @@ fun DictionaryScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Dictionnaire") },
+                title = { Text(LocalStrings.current.dictionaryTitle) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Retour")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = LocalStrings.current.back)
                     }
                 }
             )
@@ -66,12 +67,12 @@ fun DictionaryScreen(
             TextField(
                 value = query,
                 onValueChange = viewModel::onQueryChange,
-                placeholder = { Text("Rechercher un mot…") },
+                placeholder = { Text(LocalStrings.current.dictionarySearchHint) },
                 leadingIcon = { Icon(Icons.Filled.Search, contentDescription = null) },
                 trailingIcon = {
                     if (query.isNotEmpty()) {
                         IconButton(onClick = { viewModel.onQueryChange("") }) {
-                            Icon(Icons.Filled.Clear, contentDescription = "Effacer")
+                            Icon(Icons.Filled.Clear, contentDescription = LocalStrings.current.dictionaryClear)
                         }
                     }
                 },

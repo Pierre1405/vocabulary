@@ -1,7 +1,11 @@
 package com.example.myapplication.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -13,6 +17,7 @@ import com.example.myapplication.data.LearningRepository
 import com.example.myapplication.data.SpeechRecognizer
 import com.example.myapplication.data.VocabularyRepository
 import com.example.myapplication.ui.dictionary.DictionaryDetailScreen
+import com.example.myapplication.ui.practice.StoryViewModel
 import com.example.myapplication.ui.dictionary.DictionaryScreen
 import com.example.myapplication.ui.practice.SentenceScreen
 import com.example.myapplication.ui.practice.StoryListScreen
@@ -55,6 +60,10 @@ fun AppNavigation(
     speechRecognizer: SpeechRecognizer,
     modifier: Modifier = Modifier
 ) {
+    val appViewModel: StoryViewModel = viewModel { StoryViewModel(repository, learningRepository) }
+    val nativeLanguage by appViewModel.nativeLanguage.collectAsState()
+
+    CompositionLocalProvider(LocalStrings provides stringsForLocale(nativeLanguage)) {
     val navController = rememberNavController()
 
     NavHost(
@@ -142,4 +151,5 @@ fun AppNavigation(
             )
         }
     }
+    } // CompositionLocalProvider
 }

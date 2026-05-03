@@ -149,7 +149,76 @@ fun getFormsConfig(locale: String): FormsConfig = when (locale) {
 
 ---
 
-## Étape 4 — UI et recherche
+## Étape 4 — Traduction de l'interface
+
+L'UI est internalisée via `ui/Strings.kt`. Chaque langue native nécessite sa propre implémentation.
+
+### 4a. Créer `StringsEs.kt` (si l'espagnol est langue native)
+
+Ajouter un objet dans `shared/src/commonMain/kotlin/.../ui/Strings.kt` :
+
+```kotlin
+object StringsEs : Strings {
+    override val back = "Volver"
+
+    override val appTitle       = "Vocabulario"
+    override val homeReading    = "Lectura"
+    override val homeReview     = "Revisión"
+    override val homeDictionary = "Diccionario"
+
+    override val storiesTitle = "Historias"
+    override val storiesEmpty = "No se encontraron historias."
+
+    override val sentenceEmpty     = "No se encontraron frases."
+    override val sentenceTabAll    = "Todo"
+    override val sentenceTabDetail = "Detalle"
+    override val sentenceDetailWip = "Detalle — próximamente"
+    override val play    = "▶"
+    override val loop    = "Bucle"
+    override val playAll = "Reproducir todo"
+    override val stop    = "Parar"
+
+    override val reviewTitle     = "Revisión"
+    override val reviewSentences = "Frases"
+    override val reviewWords     = "Palabras"
+
+    override val reviewEmpty       = "Nada que revisar hoy."
+    override val reviewPrevious    = "← Anterior"
+    override val reviewNext        = "Siguiente →"
+    override val reviewSpeakHint   = "Habla o escribe..."
+    override val reviewListen      = "Escuchar"
+    override val reviewStopListen  = "Parar"
+
+    override val completionTitle      = "¡Serie completada!"
+    override val completionRestart    = "Reiniciar"
+    override val completionRestartLow = "Reiniciar con notas < 3"
+    override val completionFinish     = "Fin"
+
+    override val dictionaryTitle        = "Diccionario"
+    override val dictionarySearchHint   = "Buscar una palabra…"
+    override val dictionaryClear        = "Borrar"
+    override val dictionaryTranslations = "Traducciones"
+    override val dictionaryForms        = "Formas"
+    override val dictionaryListen       = "Escuchar"
+}
+```
+
+### 4b. Enregistrer dans `stringsForLocale()`
+
+```kotlin
+// Dans Strings.kt
+fun stringsForLocale(locale: String): Strings = when (locale) {
+    "en" -> StringsEn
+    "es" -> StringsEs   // ← ajouter
+    else -> StringsFr
+}
+```
+
+L'UI bascule automatiquement dès que `native_language` vaut `"es"` dans la configuration.
+
+---
+
+## Étape 5 — UI et recherche
 
 ### `DictionaryViewModel.kt`
 
@@ -183,8 +252,9 @@ Les valeurs par défaut `native_language = "fr"` et `learned_language = "de"` so
 | 2c | — | Régénérer `dictionary.db` |
 | 3a | `FormsConfigEs.kt` | Créer le fichier avec groupes et pronounOrder |
 | 3b | `FormsConfigRegistry.kt` | Ajouter `"es" -> FormsConfigEs` |
-| 4a | `DictionaryViewModel.kt` | Ajouter `"es"` dans les listes de recherche |
-| 4b | `LocaleFlag.kt` | Vérifier (déjà mappé pour les langues courantes) |
+| 4a | `Strings.kt` | Ajouter `object StringsEs` + case dans `stringsForLocale()` |
+| 5a | `DictionaryViewModel.kt` | Ajouter `"es"` dans les listes de recherche |
+| 5b | `LocaleFlag.kt` | Vérifier (déjà mappé pour les langues courantes) |
 
 ---
 
