@@ -26,6 +26,10 @@ class ReviewViewModel(
     val currentGrade: StateFlow<Int?> = _currentGrade
 
     private val grades = mutableMapOf<String, Int>()
+    private val sessionGrades = mutableMapOf<String, Int>()
+
+    private val _isCompleted = MutableStateFlow(false)
+    val isCompleted: StateFlow<Boolean> = _isCompleted
 
     init {
         viewModelScope.launch {
@@ -62,10 +66,12 @@ class ReviewViewModel(
         viewModelScope.launch {
             learningRepository.saveGrade(sentenceKey, sourceLocale, targetLocale, grade)
             grades[sentenceKey] = grade
+            sessionGrades[sentenceKey] = grade
             val size = _sentences.value.size
             if (size == 0) return@launch
-            _currentIndex.value = (_currentIndex.value + 1) % size
-            updateCurrentGrade()
+            val next = _currentIndex.value + 1
+            if (next >= size) _isCompleted.value = true
+            else { _currentIndex.value = next; updateCurrentGrade() }
         }
     }
 
@@ -77,14 +83,27 @@ class ReviewViewModel(
     fun moveToNext() {
         val size = _sentences.value.size
         if (size == 0) return
-        _currentIndex.value = (_currentIndex.value + 1) % size
-        updateCurrentGrade()
+        val next = _currentIndex.value + 1
+        if (next >= size) _isCompleted.value = true
+        else { _currentIndex.value = next; updateCurrentGrade() }
     }
 
     fun moveToPrevious() {
         val size = _sentences.value.size
         if (size == 0) return
         _currentIndex.value = (_currentIndex.value - 1 + size) % size
+        updateCurrentGrade()
+    }
+
+    fun restart(filterLowGrades: Boolean) {
+        val list = if (filterLowGrades)
+            _sentences.value.filter { (sessionGrades[it.sentenceKey] ?: Int.MAX_VALUE) < 3 }
+        else
+            _sentences.value
+        sessionGrades.clear()
+        _sentences.value = list
+        _currentIndex.value = 0
+        _isCompleted.value = false
         updateCurrentGrade()
     }
 }

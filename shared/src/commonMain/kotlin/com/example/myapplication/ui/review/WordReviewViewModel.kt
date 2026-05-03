@@ -36,6 +36,10 @@ class WordReviewViewModel(
     val currentGrade: StateFlow<Int?> = _currentGrade
 
     private val grades = mutableMapOf<Long, Int>()
+    private val sessionGrades = mutableMapOf<Long, Int>()
+
+    private val _isCompleted = MutableStateFlow(false)
+    val isCompleted: StateFlow<Boolean> = _isCompleted
 
     init {
         viewModelScope.launch {
@@ -68,10 +72,12 @@ class WordReviewViewModel(
         viewModelScope.launch {
             learningRepository.saveWordGrade(translationId, sourceLocale, targetLocale, grade)
             grades[translationId] = grade
+            sessionGrades[translationId] = grade
             val size = _items.value.size
             if (size == 0) return@launch
-            _currentIndex.value = (_currentIndex.value + 1) % size
-            updateCurrentGrade()
+            val next = _currentIndex.value + 1
+            if (next >= size) _isCompleted.value = true
+            else { _currentIndex.value = next; updateCurrentGrade() }
         }
     }
 
@@ -83,14 +89,27 @@ class WordReviewViewModel(
     fun moveToNext() {
         val size = _items.value.size
         if (size == 0) return
-        _currentIndex.value = (_currentIndex.value + 1) % size
-        updateCurrentGrade()
+        val next = _currentIndex.value + 1
+        if (next >= size) _isCompleted.value = true
+        else { _currentIndex.value = next; updateCurrentGrade() }
     }
 
     fun moveToPrevious() {
         val size = _items.value.size
         if (size == 0) return
         _currentIndex.value = (_currentIndex.value - 1 + size) % size
+        updateCurrentGrade()
+    }
+
+    fun restart(filterLowGrades: Boolean) {
+        val list = if (filterLowGrades)
+            _items.value.filter { (sessionGrades[it.translationId] ?: Int.MAX_VALUE) < 3 }
+        else
+            _items.value
+        sessionGrades.clear()
+        _items.value = list
+        _currentIndex.value = 0
+        _isCompleted.value = false
         updateCurrentGrade()
     }
 }

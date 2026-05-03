@@ -48,6 +48,7 @@ fun WordReviewScreen(
     val items by viewModel.items.collectAsState()
     val currentIndex by viewModel.currentIndex.collectAsState()
     val currentGrade by viewModel.currentGrade.collectAsState()
+    val isCompleted by viewModel.isCompleted.collectAsState()
 
     val scope = rememberCoroutineScope()
     val wordPlayer = remember { WordReviewPlayer(ttsPlayer, scope) }
@@ -93,7 +94,14 @@ fun WordReviewScreen(
         },
         modifier = modifier
     ) { innerPadding ->
-        if (items.isEmpty()) {
+        if (isCompleted) {
+            ReviewCompletionScreen(
+                onRestart = { viewModel.restart(filterLowGrades = false) },
+                onRestartLowGrades = { viewModel.restart(filterLowGrades = true) },
+                onFinish = onBack,
+                modifier = Modifier.padding(innerPadding)
+            )
+        } else if (items.isEmpty()) {
             Box(modifier = Modifier.fillMaxSize().padding(innerPadding), contentAlignment = Alignment.Center) {
                 Text("Rien à réviser pour aujourd'hui.")
             }

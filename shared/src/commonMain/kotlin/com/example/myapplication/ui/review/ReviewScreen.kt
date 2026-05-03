@@ -47,7 +47,6 @@ import com.example.myapplication.data.SpeechRecognizer
 import com.example.myapplication.data.VocabularyRepository
 import com.example.myapplication.ui.gradeColor
 import com.example.myapplication.ui.localeToFlag
-import com.example.myapplication.ui.practice.SentenceWithTranslations
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -69,6 +68,7 @@ fun ReviewScreen(
     val sentences by viewModel.sentences.collectAsState()
     val currentIndex by viewModel.currentIndex.collectAsState()
     val currentGrade by viewModel.currentGrade.collectAsState()
+    val isCompleted by viewModel.isCompleted.collectAsState()
 
     val scope = rememberCoroutineScope()
     val reviewPlayer = remember { ReviewPlayer(audioPlayer, scope) }
@@ -115,7 +115,14 @@ fun ReviewScreen(
         },
         modifier = modifier
     ) { innerPadding ->
-        if (sentences.isEmpty()) {
+        if (isCompleted) {
+            ReviewCompletionScreen(
+                onRestart = { viewModel.restart(filterLowGrades = false) },
+                onRestartLowGrades = { viewModel.restart(filterLowGrades = true) },
+                onFinish = onBack,
+                modifier = Modifier.padding(innerPadding)
+            )
+        } else if (sentences.isEmpty()) {
             Box(modifier = Modifier.fillMaxSize().padding(innerPadding), contentAlignment = Alignment.Center) {
                 Text("Rien à réviser pour aujourd'hui.")
             }
