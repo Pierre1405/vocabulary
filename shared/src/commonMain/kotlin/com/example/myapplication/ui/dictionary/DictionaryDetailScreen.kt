@@ -51,6 +51,7 @@ fun DictionaryDetailScreen(
     ttsPlayer: TtsPlayer,
     entryId: Long,
     onBack: () -> Unit,
+    groupKeyFilter: String? = null,
     modifier: Modifier = Modifier
 ) {
     val viewModel: DictionaryDetailViewModel = viewModel(key = entryId.toString()) {
@@ -80,7 +81,12 @@ fun DictionaryDetailScreen(
         LazyColumn(modifier = modifier.fillMaxSize().padding(innerPadding), verticalArrangement = Arrangement.spacedBy(0.dp)) {
             item { EntryHeader(state.entry!!, ttsPlayer) }
 
-            if (state.translations.isNotEmpty()) {
+            val displayGroups = if (groupKeyFilter != null)
+                state.formGroups.filter { it.key == groupKeyFilter }
+            else
+                state.formGroups
+
+            if (groupKeyFilter == null && state.translations.isNotEmpty()) {
                 item { SectionHeader(LocalStrings.current.dictionaryTranslations) }
                 items(state.translations) { translation ->
                     SwipeableGradeCard(
@@ -93,9 +99,9 @@ fun DictionaryDetailScreen(
                 }
             }
 
-            if (state.formGroups.isNotEmpty()) {
+            if (displayGroups.isNotEmpty()) {
                 item { SectionHeader(LocalStrings.current.dictionaryForms) }
-                state.formGroups.forEach { group ->
+                displayGroups.forEach { group ->
                     item { FormGroupHeader(group.label) }
                     items(group.rows) { row -> FormRowItem(row) }
                 }

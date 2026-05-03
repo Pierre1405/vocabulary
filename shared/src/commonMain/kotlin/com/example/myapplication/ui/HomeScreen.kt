@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AutoStories
 import androidx.compose.material.icons.filled.Book
+import androidx.compose.material.icons.filled.MenuBook
 import androidx.compose.material.icons.filled.School
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
@@ -26,6 +27,7 @@ fun HomeScreen(
     onLectureClick: () -> Unit,
     onRevisionClick: () -> Unit,
     onDictionnaireClick: () -> Unit,
+    onConjugaisonsClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -62,6 +64,14 @@ fun HomeScreen(
             label = LocalStrings.current.homeDictionary,
             icon = { Icon(Icons.Filled.Book, contentDescription = null, modifier = Modifier.size(28.dp)) },
             onClick = onDictionnaireClick
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        HomeButton(
+            label = LocalStrings.current.homeConjugation,
+            icon = { Icon(Icons.Filled.MenuBook, contentDescription = null, modifier = Modifier.size(28.dp)) },
+            onClick = onConjugaisonsClick
         )
     }
 }

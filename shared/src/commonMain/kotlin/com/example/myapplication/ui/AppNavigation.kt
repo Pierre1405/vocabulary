@@ -16,6 +16,7 @@ import com.example.myapplication.data.DictionaryRepository
 import com.example.myapplication.data.LearningRepository
 import com.example.myapplication.data.SpeechRecognizer
 import com.example.myapplication.data.VocabularyRepository
+import com.example.myapplication.ui.conjugation.ConjugationScreen
 import com.example.myapplication.ui.dictionary.DictionaryDetailScreen
 import com.example.myapplication.ui.practice.StoryViewModel
 import com.example.myapplication.ui.dictionary.DictionaryScreen
@@ -39,7 +40,10 @@ object ReviewSelectionRoute
 data class DictionaryRoute(val initialQuery: String = "")
 
 @Serializable
-data class DictionaryDetailRoute(val entryId: Long)
+object ConjugationRoute
+
+@Serializable
+data class DictionaryDetailRoute(val entryId: Long, val groupKey: String? = null)
 
 @Serializable
 data class SentencesRoute(val storyId: Long)
@@ -75,7 +79,17 @@ fun AppNavigation(
             HomeScreen(
                 onLectureClick = { navController.navigate(StoriesRoute) },
                 onRevisionClick = { navController.navigate(ReviewSelectionRoute) },
-                onDictionnaireClick = { navController.navigate(DictionaryRoute()) }
+                onDictionnaireClick = { navController.navigate(DictionaryRoute()) },
+                onConjugaisonsClick = { navController.navigate(ConjugationRoute) }
+            )
+        }
+        composable<ConjugationRoute> {
+            ConjugationScreen(
+                dictionaryRepository = dictionaryRepository,
+                onVerbClick = { entryId ->
+                    navController.navigate(DictionaryDetailRoute(entryId))
+                },
+                onBack = { navController.popBackStack() }
             )
         }
         composable<StoriesRoute> {
@@ -124,6 +138,7 @@ fun AppNavigation(
                 learningRepository = learningRepository,
                 ttsPlayer = ttsPlayer,
                 entryId = route.entryId,
+                groupKeyFilter = route.groupKey,
                 onBack = { navController.popBackStack() }
             )
         }

@@ -11,6 +11,7 @@ interface Strings {
     val homeReading: String
     val homeReview: String
     val homeDictionary: String
+    val homeConjugation: String
 
     // Story
     val storiesTitle: String
@@ -65,10 +66,11 @@ interface Strings {
 object StringsFr : Strings {
     override val back = "Retour"
 
-    override val appTitle       = "Vocabulaire"
-    override val homeReading    = "Lecture"
-    override val homeReview     = "Révision"
-    override val homeDictionary = "Dictionnaire"
+    override val appTitle         = "Vocabulaire"
+    override val homeReading      = "Lecture"
+    override val homeReview       = "Révision"
+    override val homeDictionary   = "Dictionnaire"
+    override val homeConjugation  = "Conjugaisons"
 
     override val storiesTitle = "Histoires"
     override val storiesEmpty = "Aucune histoire trouvée."
@@ -119,10 +121,11 @@ object StringsFr : Strings {
 object StringsEn : Strings {
     override val back = "Back"
 
-    override val appTitle       = "Vocabulary"
-    override val homeReading    = "Reading"
-    override val homeReview     = "Review"
-    override val homeDictionary = "Dictionary"
+    override val appTitle         = "Vocabulary"
+    override val homeReading      = "Reading"
+    override val homeReview       = "Review"
+    override val homeDictionary   = "Dictionary"
+    override val homeConjugation  = "Conjugations"
 
     override val storiesTitle = "Stories"
     override val storiesEmpty = "No stories found."

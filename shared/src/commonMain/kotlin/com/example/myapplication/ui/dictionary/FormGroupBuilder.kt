@@ -35,6 +35,6 @@ internal fun buildFormGroups(
         .mapNotNull { key ->
             val groupConfig = groupByKey[key] ?: return@mapNotNull null
             val rows = resolvedDbForms[key] ?: derivedGroups[key] ?: return@mapNotNull null
-            FormGroup(label = groupConfig.label, rows = rows)
+            FormGroup(key = key, label = groupConfig.label, rows = rows)
         }
 }
