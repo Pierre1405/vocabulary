@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS learning_config (
+    key   TEXT NOT NULL PRIMARY KEY,
+    value TEXT NOT NULL
+);
+
+getConfig:
+SELECT value FROM learning_config WHERE key = :key;
+
+setConfig:
+INSERT OR REPLACE INTO learning_config (key, value) VALUES (:key, :value);

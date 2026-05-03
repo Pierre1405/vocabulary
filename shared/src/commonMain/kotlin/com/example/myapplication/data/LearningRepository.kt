@@ -6,6 +6,39 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlin.math.roundToInt
 
+// ---------------------------------------------------------------------------
+// Virtual clock — anti-overwhelm mechanism
+// ---------------------------------------------------------------------------
+//
+// Problem: if the user doesn't open the app for several days, all pending
+// reviews become due at once, creating an unmanageable backlog.
+//
+// Solution: instead of scheduling reviews against real wall-clock time, we
+// schedule them against a "virtual clock" (usage_time) that advances by at
+// most MAX_DAILY_CATCH_UP_HOURS per calendar day.
+//
+// How it works:
+//   - Two values are persisted in `learning_config`:
+//       last_connection_time  — real epoch hours of the last session start
+//       usage_time            — accumulated virtual hours
+//   - On each session start (user opens the review selection screen):
+//       elapsed   = min(now - last_connection_time, MAX_DAILY_CATCH_UP_HOURS)
+//       usage_time += elapsed
+//       last_connection_time = now
+//   - All next_review values are stored and compared against usage_time.
+//
+// Effect: after a 7-day break, virtual time advances by only
+// MAX_DAILY_CATCH_UP_HOURS hours, so at most that many hours' worth of
+// reviews become due — not 7 days' worth.
+//
+// Initialisation: on first launch usage_time is seeded to currentEpochHours()
+// so that existing next_review values (also in real epoch hours) remain valid.
+// ---------------------------------------------------------------------------
+
+private const val KEY_LAST_CONNECTION = "last_connection_time"
+private const val KEY_USAGE_TIME = "usage_time"
+private const val MAX_DAILY_CATCH_UP_HOURS = 24L
+
 data class UpcomingWordRaw(
     val translationId: Long,
     val sourceLocale: String,
@@ -25,11 +58,36 @@ class LearningRepository(driver: SqlDriver) {
 
     private val db = LearningDatabase(driver)
     private val queries = db.learningQueries
+    private val configQueries = db.learningConfigQueries
 
     private val TYPE_SENTENCE = "sentence"
     private val TYPE_WORD = "word"
 
-    // Phrases
+    // --- Virtual clock -------------------------------------------------
+
+    /**
+     * Advances the virtual clock by min(elapsed real hours, MAX_DAILY_CATCH_UP_HOURS)
+     * and persists both usage_time and last_connection_time.
+     * Must be called once per session (e.g. when the user opens the review screen).
+     */
+    suspend fun updateUsageTime() = withContext(Dispatchers.Default) {
+        val now = currentEpochHours()
+        val lastConnection = configQueries.getConfig(KEY_LAST_CONNECTION)
+            .executeAsOneOrNull()?.toLongOrNull() ?: now
+        val usageTime = configQueries.getConfig(KEY_USAGE_TIME)
+            .executeAsOneOrNull()?.toLongOrNull() ?: now
+
+        val elapsed = minOf(now - lastConnection, MAX_DAILY_CATCH_UP_HOURS)
+        configQueries.setConfig(KEY_USAGE_TIME, (usageTime + elapsed).toString())
+        configQueries.setConfig(KEY_LAST_CONNECTION, now.toString())
+    }
+
+    /** Returns the current virtual clock value (hours). */
+    private fun currentUsageHours(): Long =
+        configQueries.getConfig(KEY_USAGE_TIME)
+            .executeAsOneOrNull()?.toLongOrNull() ?: currentEpochHours()
+
+    // --- Phrases -------------------------------------------------------
 
     suspend fun saveGrade(
         sentenceKey: String,
@@ -39,20 +97,20 @@ class LearningRepository(driver: SqlDriver) {
     ) = withContext(Dispatchers.Default) {
         val current = queries.getGrade(sentenceKey, sourceLocale, targetLocale, TYPE_SENTENCE).executeAsOneOrNull()
         val newInterval = computeNextIntervalHours(current?.interval_hours?.toInt() ?: 0, grade)
-        val nextReview = if (current == null) currentEpochHours() else currentEpochHours() + newInterval
+        val nextReview = if (current == null) currentUsageHours() else currentUsageHours() + newInterval
         queries.upsertGrade(sentenceKey, sourceLocale, targetLocale, grade.toLong(), TYPE_SENTENCE, newInterval.toLong(), nextReview)
     }
 
     suspend fun countByDirection(sourceLocale: String, targetLocale: String): Long =
         withContext(Dispatchers.Default) {
-            queries.countDue(sourceLocale, targetLocale, TYPE_SENTENCE, currentEpochHours()).executeAsOne()
+            queries.countDue(sourceLocale, targetLocale, TYPE_SENTENCE, currentUsageHours()).executeAsOne()
         }
 
     suspend fun getSentenceKeysByDirection(
         sourceLocale: String,
         targetLocale: String
     ): List<String> = withContext(Dispatchers.Default) {
-        queries.getKeysDue(sourceLocale, targetLocale, TYPE_SENTENCE, currentEpochHours()).executeAsList()
+        queries.getKeysDue(sourceLocale, targetLocale, TYPE_SENTENCE, currentUsageHours()).executeAsList()
     }
 
     suspend fun getGradesByDirection(
@@ -63,7 +121,7 @@ class LearningRepository(driver: SqlDriver) {
             .associate { it.key to it.grade.toInt() }
     }
 
-    // Mots
+    // --- Mots ----------------------------------------------------------
 
     suspend fun saveWordGrade(
         translationId: Long,
@@ -74,7 +132,7 @@ class LearningRepository(driver: SqlDriver) {
         val key = translationId.toString()
         val current = queries.getGrade(key, sourceLocale, targetLocale, TYPE_WORD).executeAsOneOrNull()
         val newInterval = computeNextIntervalHours(current?.interval_hours?.toInt() ?: 0, grade)
-        val nextReview = if (current == null) currentEpochHours() else currentEpochHours() + newInterval
+        val nextReview = if (current == null) currentUsageHours() else currentUsageHours() + newInterval
         queries.upsertGrade(key, sourceLocale, targetLocale, grade.toLong(), TYPE_WORD, newInterval.toLong(), nextReview)
     }
 
@@ -94,17 +152,19 @@ class LearningRepository(driver: SqlDriver) {
         sourceLocale: String,
         targetLocale: String
     ): List<Pair<Long, Int>> = withContext(Dispatchers.Default) {
-        queries.getAllDue(sourceLocale, targetLocale, TYPE_WORD, currentEpochHours()).executeAsList()
+        queries.getAllDue(sourceLocale, targetLocale, TYPE_WORD, currentUsageHours()).executeAsList()
             .map { it.key.toLong() to it.grade.toInt() }
     }
 
     suspend fun countWordsByDirection(sourceLocale: String, targetLocale: String): Long =
         withContext(Dispatchers.Default) {
-            queries.countDue(sourceLocale, targetLocale, TYPE_WORD, currentEpochHours()).executeAsOne()
+            queries.countDue(sourceLocale, targetLocale, TYPE_WORD, currentUsageHours()).executeAsOne()
         }
 
+    // --- Upcoming ------------------------------------------------------
+
     suspend fun getUpcomingGroups(): List<UpcomingGroup> = withContext(Dispatchers.Default) {
-        val now = currentEpochHours()
+        val now = currentUsageHours()
         queries.getUpcomingGroups(now).executeAsList().map {
             UpcomingGroup(
                 sourceLocale = it.source_locale,
@@ -117,7 +177,7 @@ class LearningRepository(driver: SqlDriver) {
     }
 
     suspend fun getUpcomingWordRaws(): List<UpcomingWordRaw> = withContext(Dispatchers.Default) {
-        val now = currentEpochHours()
+        val now = currentUsageHours()
         queries.getUpcomingWordItems(now).executeAsList().map {
             UpcomingWordRaw(
                 translationId = it.key.toLong(),
@@ -127,6 +187,8 @@ class LearningRepository(driver: SqlDriver) {
             )
         }
     }
+
+    // --- Intervalle SRS ------------------------------------------------
 
     private fun computeNextIntervalHours(currentHours: Int, grade: Int): Int = when (grade) {
         1 -> 0

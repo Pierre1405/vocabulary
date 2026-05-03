@@ -78,6 +78,9 @@ class StoryViewModel(
 
     fun refreshCounts() {
         viewModelScope.launch {
+            // Advance the virtual clock before querying due counts.
+            // See LearningRepository for the anti-overwhelm mechanism.
+            learningRepository.updateUsageTime()
             val nativeLang = _nativeLanguage.value
             val learnedLang = _learnedLanguage.value
             _countNativeToLearned.value = learningRepository.countByDirection(nativeLang, learnedLang)
