@@ -32,3 +32,16 @@ WHERE source_locale = :sourceLocale AND target_locale = :targetLocale AND type =
 getAllDue:
 SELECT key, grade FROM learning
 WHERE source_locale = :sourceLocale AND target_locale = :targetLocale AND type = :type AND next_review <= :now;
+
+getUpcomingGroups:
+SELECT source_locale, target_locale, type, COUNT(*) AS count, MIN(next_review) AS next_review_epoch
+FROM learning
+WHERE next_review > :now
+GROUP BY source_locale, target_locale, type
+ORDER BY next_review_epoch ASC;
+
+getUpcomingWordItems:
+SELECT key, source_locale, target_locale, next_review
+FROM learning
+WHERE next_review > :now AND type = 'word'
+ORDER BY next_review ASC;

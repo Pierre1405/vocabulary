@@ -90,6 +90,7 @@ fun AppNavigation(
             ReviewSelectionScreen(
                 repository = repository,
                 learningRepository = learningRepository,
+                dictionaryRepository = dictionaryRepository,
                 onReviewClick = { source, target, sourceBlurred -> navController.navigate(ReviewRoute(source, target, sourceBlurred)) },
                 onWordReviewClick = { source, target -> navController.navigate(WordReviewRoute(source, target)) },
                 onBack = { navController.popBackStack() }

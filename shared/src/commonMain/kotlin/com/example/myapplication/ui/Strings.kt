@@ -49,6 +49,10 @@ interface Strings {
     val completionRestartLow: String
     val completionFinish: String
 
+    // Upcoming reviews
+    val reviewUpcomingTitle: String
+    fun reviewUpcomingIn(hours: Long): String
+
     // Dictionary
     val dictionaryTitle: String
     val dictionarySearchHint: String
@@ -97,6 +101,13 @@ object StringsFr : Strings {
     override val completionRestartLow = "Recommencer avec les notes < 3"
     override val completionFinish     = "Fin"
 
+    override val reviewUpcomingTitle = "À venir"
+    override fun reviewUpcomingIn(hours: Long): String = when {
+        hours < 1L  -> "< 1h"
+        hours < 24L -> "dans ${hours}h"
+        else        -> "dans ${hours / 24}j"
+    }
+
     override val dictionaryTitle        = "Dictionnaire"
     override val dictionarySearchHint   = "Rechercher un mot…"
     override val dictionaryClear        = "Effacer"
@@ -143,6 +154,13 @@ object StringsEn : Strings {
     override val completionRestart    = "Restart"
     override val completionRestartLow = "Restart with grades < 3"
     override val completionFinish     = "Done"
+
+    override val reviewUpcomingTitle = "Upcoming"
+    override fun reviewUpcomingIn(hours: Long): String = when {
+        hours < 1L  -> "< 1h"
+        hours < 24L -> "in ${hours}h"
+        else        -> "in ${hours / 24}d"
+    }
 
     override val dictionaryTitle        = "Dictionary"
     override val dictionarySearchHint   = "Search a word…"

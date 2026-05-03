@@ -6,6 +6,21 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlin.math.roundToInt
 
+data class UpcomingWordRaw(
+    val translationId: Long,
+    val sourceLocale: String,
+    val targetLocale: String,
+    val hoursUntilDue: Long
+)
+
+data class UpcomingGroup(
+    val sourceLocale: String,
+    val targetLocale: String,
+    val type: String,
+    val count: Int,
+    val hoursUntilDue: Long
+)
+
 class LearningRepository(driver: SqlDriver) {
 
     private val db = LearningDatabase(driver)
@@ -87,6 +102,31 @@ class LearningRepository(driver: SqlDriver) {
         withContext(Dispatchers.Default) {
             queries.countDue(sourceLocale, targetLocale, TYPE_WORD, currentEpochHours()).executeAsOne()
         }
+
+    suspend fun getUpcomingGroups(): List<UpcomingGroup> = withContext(Dispatchers.Default) {
+        val now = currentEpochHours()
+        queries.getUpcomingGroups(now).executeAsList().map {
+            UpcomingGroup(
+                sourceLocale = it.source_locale,
+                targetLocale = it.target_locale,
+                type = it.type,
+                count = it.count.toInt(),
+                hoursUntilDue = (it.next_review_epoch ?: now) - now
+            )
+        }
+    }
+
+    suspend fun getUpcomingWordRaws(): List<UpcomingWordRaw> = withContext(Dispatchers.Default) {
+        val now = currentEpochHours()
+        queries.getUpcomingWordItems(now).executeAsList().map {
+            UpcomingWordRaw(
+                translationId = it.key.toLong(),
+                sourceLocale = it.source_locale,
+                targetLocale = it.target_locale,
+                hoursUntilDue = it.next_review - now
+            )
+        }
+    }
 
     private fun computeNextIntervalHours(currentHours: Int, grade: Int): Int = when (grade) {
         1 -> 0
