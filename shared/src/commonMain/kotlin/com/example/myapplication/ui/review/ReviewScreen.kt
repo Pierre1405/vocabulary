@@ -70,6 +70,8 @@ fun ReviewScreen(
     val currentIndex by viewModel.currentIndex.collectAsState()
     val currentGrade by viewModel.currentGrade.collectAsState()
     val isCompleted by viewModel.isCompleted.collectAsState()
+    val showPreview by viewModel.showPreview.collectAsState()
+    val previewItems by viewModel.previewItems.collectAsState()
 
     val scope = rememberCoroutineScope()
     val reviewPlayer = remember { ReviewPlayer(audioPlayer, scope) }
@@ -116,7 +118,13 @@ fun ReviewScreen(
         },
         modifier = modifier
     ) { innerPadding ->
-        if (isCompleted) {
+        if (showPreview) {
+            ReviewPreviewScreen(
+                items = previewItems,
+                onStart = { viewModel.dismissPreview() },
+                modifier = Modifier.padding(innerPadding)
+            )
+        } else if (isCompleted) {
             ReviewCompletionScreen(
                 onRestart = { viewModel.restart(filterLowGrades = false) },
                 onRestartLowGrades = { viewModel.restart(filterLowGrades = true) },

@@ -41,6 +41,14 @@ class WordReviewViewModel(
     private val _isCompleted = MutableStateFlow(false)
     val isCompleted: StateFlow<Boolean> = _isCompleted
 
+    private val _showPreview = MutableStateFlow(false)
+    val showPreview: StateFlow<Boolean> = _showPreview
+
+    private val _previewItems = MutableStateFlow<List<Pair<String, String>>>(emptyList())
+    val previewItems: StateFlow<List<Pair<String, String>>> = _previewItems
+
+    fun dismissPreview() { _showPreview.value = false }
+
     init {
         viewModelScope.launch {
             val wordLearning = learningRepository.getAllWordsByDirection(sourceLocale, targetLocale)
@@ -59,6 +67,11 @@ class WordReviewViewModel(
                     )
                 }
             }
+            val grade1 = _items.value
+                .filter { grades[it.translationId] == 1 }
+                .map { it.lemma to it.translationText }
+            _previewItems.value = grade1
+            if (grade1.isNotEmpty()) _showPreview.value = true
             updateCurrentGrade()
         }
     }

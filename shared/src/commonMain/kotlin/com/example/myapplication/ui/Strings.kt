@@ -39,6 +39,10 @@ interface Strings {
     val reviewListen: String
     val reviewStopListen: String
 
+    // Review preview (grade 1)
+    val reviewPreviewTitle: String
+    val reviewPreviewStart: String
+
     // Review completion
     val completionTitle: String
     val completionRestart: String
@@ -85,6 +89,9 @@ object StringsFr : Strings {
     override val reviewListen      = "Écouter"
     override val reviewStopListen  = "Arrêter"
 
+    override val reviewPreviewTitle = "À revoir — note 1"
+    override val reviewPreviewStart = "Commencer"
+
     override val completionTitle      = "Série terminée !"
     override val completionRestart    = "Recommencer"
     override val completionRestartLow = "Recommencer avec les notes < 3"
@@ -128,6 +135,9 @@ object StringsEn : Strings {
     override val reviewSpeakHint   = "Speak or type..."
     override val reviewListen      = "Listen"
     override val reviewStopListen  = "Stop"
+
+    override val reviewPreviewTitle = "To review — grade 1"
+    override val reviewPreviewStart = "Start"
 
     override val completionTitle      = "Session complete!"
     override val completionRestart    = "Restart"

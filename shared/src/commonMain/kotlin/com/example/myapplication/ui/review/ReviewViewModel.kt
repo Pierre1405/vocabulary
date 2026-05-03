@@ -31,6 +31,14 @@ class ReviewViewModel(
     private val _isCompleted = MutableStateFlow(false)
     val isCompleted: StateFlow<Boolean> = _isCompleted
 
+    private val _showPreview = MutableStateFlow(false)
+    val showPreview: StateFlow<Boolean> = _showPreview
+
+    private val _previewItems = MutableStateFlow<List<Pair<String, String>>>(emptyList())
+    val previewItems: StateFlow<List<Pair<String, String>>> = _previewItems
+
+    fun dismissPreview() { _showPreview.value = false }
+
     init {
         viewModelScope.launch {
             val sentenceKeys = learningRepository.getSentenceKeysByDirection(sourceLocale, targetLocale)
@@ -53,6 +61,11 @@ class ReviewViewModel(
                         ?: emptyMap()
                 )
             }
+            val grade1 = _sentences.value
+                .filter { grades[it.sentenceKey] == 1 }
+                .map { it.getTranslation(sourceLocale) to it.getTranslation(targetLocale) }
+            _previewItems.value = grade1
+            if (grade1.isNotEmpty()) _showPreview.value = true
             updateCurrentGrade()
         }
     }
