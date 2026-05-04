@@ -1,8 +1,51 @@
 id	fr	de	file_name
-201	J’ai une autre excuse : cette grande personne peut tout comprendre, même les livres pour enfants.	Ich habe noch eine andere Ausrede: Dieser Erwachsene kann alles verstehen, sogar Kinderbücher.	le_petit_prince_intro
-202	J’ai une troisième excuse : cette grande personne habite la France où elle a faim et froid.	Ich habe noch eine dritte Ausrede: Diese erwachsene Frau lebt in Frankreich, wo sie Hunger leidet und friert.	le_petit_prince_intro
-203	Elle a bien besoin d’être consolée.	Sie braucht dringend Trost.	le_petit_prince_intro
-204	Si toutes ces excuses ne suffisent pas, je veux bien dédier ce livre à l’enfant qu’a été autrefois cette grande personne.	Sollten all diese Ausreden nicht ausreichen, widme ich dieses Buch gerne dem Kind, das dieser Erwachsene einst war.	le_petit_prince_intro
-205	Toutes les grandes personnes ont d’abord été des enfants. (Mais peu d’entre elles s’en souviennent.).	Alle Erwachsenen waren einmal Kinder. (Aber nur wenige erinnern sich daran.)	le_petit_prince_intro
-206	Je corrige donc ma dédicace :	Ich korrigiere daher meine Widmung:	le_petit_prince_intro
-207	À Léon Werth quand il était petit garçon.	An Léon Werth, als er noch ein kleiner Junge war.	le_petit_prince_intro
+201	Nous n'y allons pas aujourd'hui.	Wir fahren heute nicht.	a1_08
+202	Il ne fait pas beau.	Das Wetter ist nicht schön.	a1_08
+203	Je n'ai pas de voiture.	Ich habe kein Auto.	a1_08
+204	Vous n'avez pas le temps.	Du hast keine Zeit.	a1_08
+205	Il n'a pas faim.	Er hat keinen Hunger.	a1_08
+206	Elle n'a pas d'argent.	Sie hat kein Geld.	a1_08
+207	Nous n'avons pas de chat.	Wir haben keine Katze.	a1_08
+208	Vous n'avez pas de café.	Ihr habt keinen Kaffee.	a1_08
+209	Ils n'en ont aucune idée.	Sie haben keine Idee.	a1_08
+210	Ce n'est pas un problème.	Das ist kein Problem.	a1_08
+211	Il ne parle pas fort.	Er spricht nicht laut.	a1_08
+212	Elle n'a pas de livre avec elle.	Sie hat kein Buch dabei.	a1_08
+213	Le restaurant est fermé.	Das Restaurant ist nicht offen.	a1_08
+214	Je ne le connais pas.	Ich kenne ihn nicht.	a1_08
+215	Vous n'avez pas besoin de dictionnaire.	Du brauchst kein Wörterbuch.	a1_08
+216	Il ne conduit pas vite.	Er fährt nicht schnell.	a1_08
+217	Ce n'est pas une bonne idée.	Das ist keine gute Idee.	a1_08
+218	Nous n'avons plus d'eau.	Wir haben kein Wasser mehr.	a1_08
+219	Je ne comprends pas.	Ich verstehe das nicht.	a1_08
+220	Il ne viendra pas, il est malade.	Er kommt nicht, er ist krank.	a1_08
+221	L'enfant ne pleure pas.	Das Kind weint nicht.	a1_08
+222	Elle n'est pas encore endormie.	Sie schläft noch nicht.	a1_08
+223	Tu viens aujourd'hui ?	Kommst du heute?	a1_09
+224	Oui, je viens aujourd'hui.	Ja, ich komme heute.	a1_09
+225	Avez-vous le temps ?	Hast du Zeit?	a1_09
+226	Non, je n'ai pas le temps.	Nein, ich habe keine Zeit.	a1_09
+227	Est-il chez lui ?	Ist er zu Hause?	a1_09
+228	Oui, il est chez lui.	Ja, er ist zu Hause.	a1_09
+229	Parlez-vous allemand ?	Sprichst du Deutsch?	a1_09
+230	Oui, je parle un peu allemand.	Ja, ich spreche ein bisschen Deutsch.	a1_09
+231	Avez-vous faim?	Habt ihr Hunger?	a1_09
+232	Oui, nous avons faim.	Ja, wir haben Hunger.	a1_09
+233	Qui es-tu?	Wer bist du?	a1_09
+234	Je m'appelle Maria.	Ich heiße Maria.	a1_09
+235	Que fais-tu?	Was machst du?	a1_09
+236	J'apprends l'allemand.	Ich lerne Deutsch.	a1_09
+237	Où  habites-tu?	Wo wohnst du?	a1_09
+238	J'habite à Munich.	Ich wohne in München.	a1_09
+239	Quand arrives-tu ?	Wann kommst du?	a1_09
+240	J'arriverai à trois heures.	Ich komme um drei Uhr.	a1_09
+241	Quel est ton nom?	Wie heißt du?	a1_09
+242	Je m'appelle Thomas.	Ich heiße Thomas.	a1_09
+243	Pourquoi apprenez-vous l'allemand ?	Warum lernst du Deutsch?	a1_09
+244	Parce que je veux visiter l'Allemagne.	Weil ich Deutschland besuchen möchte.	a1_09
+245	Combien ça coûte ?	Wie viel kostet das?	a1_09
+246	Cela coûte cinq euros.	Das kostet fünf Euro.	a1_09
+247	D'où viens-tu?	Woher kommst du?	a1_09
+248	Je viens de France.	Ich komme aus Frankreich.	a1_09
+249	Où vas-tu?	Wohin gehst du?	a1_09
+250	Je vais au supermarché.	Ich gehe in den Supermarkt.	a1_09

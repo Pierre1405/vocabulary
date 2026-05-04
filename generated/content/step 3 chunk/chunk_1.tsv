@@ -1,51 +1,51 @@
 id	fr	de	file_name
-1	Stationnement interdit ici !	Hier darf man nicht parken!	assimil_23
-2	Tu ne sais pas lire ?	Kannst du nicht lessen?	assimil_23
-3	Le panneau indique : Stationnement interdit.	Hier steht: Parken verboten.	assimil_23
-4	Hahaha ! Très drôle !	Hahaha! Sehr witzig!	assimil_23
-5	Que dois-je faire?	Was soll ich machen?	assimil_23
-6	Tout est complètement rempli de voitures garées.	Alles ist vollgeparkt.	assimil_23
-7	Ou préférez-vous porter les valises jusqu'ici ?	Oder willst du die Koffer bis hierher tragen?	assimil_23
-8	Désolé, vous avez raison.	Sorry, du hast recht.	assimil_23
-9	Déchargeons rapidement la voiture.	Lass uns dans schnell das Auto ausladen.	assimil_23
-10	avant l'arrivée de la police.	bevor die Polizei kommt.	assimil_23
-11	Ce sera assurément génial !	Es wird bestimmt toll	assimil_24
-12	Viens avec moi!	Komm doch mit!	assimil_24
-13	Nous partons le 30 juin.	Wir fahren am dreissigsten Juni los.	assimil_24
-14	Merci, mais je suis trop vieux pour ce genre de choses.	Danke, ich bin aber zu alt fûr sowas.	assimil_24
-15	Oh, allez ! Quel âge as-tu, au fait ?	Ach was! Wie alt bist eigentlich?	assimil_24
-16	Trente-neuf ans, mais plus maintenant.	Neununddreissig, aber nich mehr lage.	assimil_24
-17	J'aurai quarante ans le 2 juillet.	Am zweiten Juli werde ich vierzig	assimil_24
-18	Et alors ? On a l'âge qu'on se sent avoir.	Na, und? Man ist son alt, wie man sich fühlt.	assimil_24
-19	Bonjour ! Je m’appelle Marie.	Hallo! Mein Name ist Marie.	basic_1
-20	J’ai 25 ans et j’habite à Paris, en France.	Ich bin 25 Jahre alt und lebe in Paris, Frankreich.	basic_1
-21	Je suis française.	Ich bin ein Franzose.	basic_1
-22	Je vis dans un petit appartement avec mon chat.	Ich wohne in einer kleinen Wohnung mit meiner Katze.	basic_1
-23	Mon chat s’appelle Minou.	Meine Katze heißt Minou.	basic_1
-24	Il est blanc avec des yeux verts.	Er ist weiß mit grünen Augen.	basic_1
-25	Il est très gentil, mais parfois il est un peu paresseux.	Er ist sehr nett, aber manchmal ein bisschen faul.	basic_1
-26	Il aime dormir toute la journée sur le canapé ou près de la fenêtre.	Er schläft am liebsten den ganzen Tag auf dem Sofa oder in der Nähe des Fensters.	basic_1
-27	Mon appartement est petit mais confortable.	Meine Wohnung ist klein, aber gemütlich.	basic_1
-28	Il y a une chambre, une cuisine, une salle de bain et un salon.	Es gibt ein Schlafzimmer, eine Küche, ein Badezimmer und ein Wohnzimmer.	basic_1
-29	Dans le salon, il y a un canapé, une table et une télévision.	Im Wohnzimmer befinden sich ein Sofa, ein Tisch und ein Fernseher.	basic_1
-30	Dans la cuisine, il y a un frigo, un four et une petite table.	In der Küche befinden sich ein Kühlschrank, ein Backofen und ein kleiner Tisch.	basic_1
-31	J’aime mon appartement parce qu’il est calme et lumineux.	Ich mag meine Wohnung, weil sie ruhig und hell ist.	basic_1
-32	Je travaille dans un café qui s’appelle “Le Bon Café”.	Ich arbeite in einem Café namens „Le Bon Café“.	basic_1
-33	Le café est près de chez moi.	Das Café ist in der Nähe meines Hauses.	basic_1
-34	Je marche environ dix minutes pour aller au travail.	Ich brauche etwa zehn Minuten zu Fuß zur Arbeit.	basic_1
-35	J’aime mon travail parce que j’aime parler avec les gens.	Ich liebe meinen Job, weil ich gerne mit Menschen rede.	basic_1
-36	Je vois beaucoup de clients chaque jour.	Ich sehe jeden Tag viele Kunden.	basic_1
-37	Certains clients viennent tous les jours.	Manche Kunden kommen jeden Tag.	basic_1
-38	Je connais leurs habitudes.	Ich kenne ihre Gewohnheiten.	basic_1
-39	Par exemple, Monsieur Dupont prend toujours un café noir sans sucre.	Herr Dupont trinkt beispielsweise immer schwarzen Kaffee ohne Zucker.	basic_1
-40	Madame Martin aime le thé avec du lait.	Frau Martin trinkt ihren Tee gern mit Milch.	basic_1
-41	Le matin, je me lève à 7 heures.	Morgens stehe ich um 7 Uhr auf.	basic_1
-42	Parfois, je suis fatiguée, mais je me lève vite.	Manchmal bin ich müde, aber ich stehe schnell wieder auf.	basic_1
-43	Je vais dans la salle de bain.	Ich gehe auf die Toilette.	basic_1
-44	Je prends une douche et je me brosse les dents.	Ich dusche und putze mir die Zähne.	basic_1
-45	Ensuite, je m’habille.	Dann ziehe ich mich an.	basic_1
-46	Je choisis des vêtements simples : un jean, un t-shirt et des chaussures confortables.	Ich wähle einfache Kleidung: Jeans, ein T-Shirt und bequeme Schuhe.	basic_1
-47	Après, je prends mon petit déjeuner.	Anschließend frühstücke ich.	basic_1
-48	Je mange du pain avec du beurre et de la confiture.	Ich esse Brot mit Butter und Marmelade.	basic_1
-49	Parfois, je mange un croissant.	Manchmal esse ich ein Croissant.	basic_1
-50	Je bois du café ou du thé.	Ich trinke Kaffee oder Tee.	basic_1
+1	Ceci est une salle de classe.	Das ist ein Klassenzimmer.	a1_01
+2	Le nom du professeur est M. Müller.	Der Lehrer heißt Herr Müller.	a1_01
+3	L'élève s'appelle Anna.	Die Schülerin heißt Anna.	a1_01
+4	La fenêtre est grande.	Das Fenster ist groß.	a1_01
+5	La table est marron.	Der Tisch ist braun.	a1_01
+6	Le plateau est noir.	Die Tafel ist schwarz.	a1_01
+7	La chaise est à côté de la table.	Der Stuhl steht neben dem Tisch.	a1_01
+8	Le livre est posé sur la table.	Das Buch liegt auf dem Tisch.	a1_01
+9	La porte est ouverte.	Die Tür ist offen.	a1_01
+10	Le crayon est court.	Der Bleistift ist kurz.	a1_01
+11	La lampe est brillante.	Die Lampe ist hell.	a1_01
+12	Le magazine est nouveau.	Das Heft ist neu.	a1_01
+13	L'enseignant écrit au tableau.	Der Lehrer schreibt an die Tafel.	a1_01
+14	L'élève lit le livre.	Die Schülerin liest das Buch.	a1_01
+15	Le mot est écrit au tableau.	Das Wort steht auf der Tafel.	a1_01
+16	La gomme est posée par terre.	Der Radiergummi liegt auf dem Boden.	a1_01
+17	C'est une question difficile.	Die Frage ist schwer.	a1_01
+18	Le résultat est correct.	Das Ergebnis ist richtig.	a1_01
+19	La journée est ensoleillée.	Der Tag ist sonnig.	a1_01
+20	Le cours commence à huit heures.	Die Klasse beginnt um acht Uhr.	a1_01
+21	Apprendre, c'est amusant.	Das Lernen macht Spaß.	a1_01
+22	Le professeur explique la grammaire.	Der Lehrer erklärt die Grammatik.	a1_01
+23	Les élèves écoutent.	Die Schüler hören zu.	a1_01
+24	L'exemple est clair.	Das Beispiel ist klar.	a1_01
+25	Le cours se termine à neuf heures.	Die Stunde endet um neun Uhr.	a1_01
+26	Les leçons sont intéressantes.	Der Unterricht ist interessant.	a1_01
+27	Le dictionnaire est sur l'étagère.	Das Wörterbuch liegt auf dem Regal.	a1_01
+28	La craie est blanche.	Die Kreide ist weiß.	a1_01
+29	Je suis étudiant.	Ich bin ein Student.	a1_02
+30	J'ai un appartement.	Ich habe eine Wohnung.	a1_02
+31	Il y a un café à proximité.	Es gibt ein Café in der Nähe.	a1_02
+32	J'achète un livre.	Ich kaufe ein Buch.	a1_02
+33	C'est une bonne idée.	Das ist eine gute Idee.	a1_02
+34	Je prends un café.	Ich trinke einen Kaffee.	a1_02
+35	Un homme se tient là.	Dort steht ein Mann.	a1_02
+36	Voici une femme avec un enfant.	Das ist eine Frau mit einem Kind.	a1_02
+37	J'ai besoin d'un stylo.	Ich brauche einen Stift.	a1_02
+38	C'est un chien.	Das ist ein Hund.	a1_02
+39	Il a un chat.	Er hat eine Katze.	a1_02
+40	Nous regardons un film.	Wir sehen einen Film.	a1_02
+41	C'est une belle ville.	Das ist eine schöne Stadt.	a1_02
+42	Je cherche un hôtel.	Ich suche ein Hotel.	a1_02
+43	Elle achète un sac.	Sie kauft eine Tasche.	a1_02
+44	Il y a un parc là-bas.	Dort ist ein Park.	a1_02
+45	Il lit un journal.	Er liest eine Zeitung.	a1_02
+46	Je mange un petit pain.	Ich esse ein Brötchen.	a1_02
+47	C'est un bon restaurant.	Das ist ein gutes Restaurant.	a1_02
+48	Nous avons une heure.	Wir haben eine Stunde Zeit.	a1_02
+49	La journée a été longue.	Das ist ein langer Tag.	a1_02
+50	Elle écrit une lettre.	Sie schreibt einen Brief.	a1_02
