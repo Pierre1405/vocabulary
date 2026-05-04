@@ -45,6 +45,7 @@ fun ReviewSelectionScreen(
     dictionaryRepository: DictionaryRepository,
     onReviewClick: (sourceLocale: String, targetLocale: String, sourceBlurred: Boolean) -> Unit,
     onWordReviewClick: (sourceLocale: String, targetLocale: String) -> Unit,
+    onConjugationReviewClick: () -> Unit,
     onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -55,6 +56,7 @@ fun ReviewSelectionScreen(
     val countLearnedToNative by viewModel.countLearnedToNative.collectAsState()
     val countWordLearnedToNative by viewModel.countWordLearnedToNative.collectAsState()
     val countWordNativeToLearned by viewModel.countWordNativeToLearned.collectAsState()
+    val countConjugation by viewModel.countConjugation.collectAsState()
     val upcomingGroups by viewModel.upcomingGroups.collectAsState()
     val upcomingWordItems by viewModel.upcomingWordItems.collectAsState()
 
@@ -133,6 +135,22 @@ fun ReviewSelectionScreen(
                     }
                 }
             }
+            item { HorizontalDivider() }
+            item {
+                Text(text = strings.reviewConjugation, style = MaterialTheme.typography.titleMedium)
+            }
+            item {
+                Button(
+                    onClick = onConjugationReviewClick,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        if (countConjugation > 0) "🇩🇪 ${strings.reviewConjugation} ($countConjugation)"
+                        else "🇩🇪 ${strings.reviewConjugation}"
+                    )
+                }
+            }
+
             val upcomingSentenceGroups = upcomingGroups.filter { it.type == "sentence" }
             if (upcomingSentenceGroups.isNotEmpty() || upcomingWordItems.isNotEmpty()) {
                 item { HorizontalDivider() }

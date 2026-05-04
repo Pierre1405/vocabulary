@@ -47,6 +47,9 @@ class StoryViewModel(
     private val _countWordNativeToLearned = MutableStateFlow(0L)
     val countWordNativeToLearned: StateFlow<Long> = _countWordNativeToLearned
 
+    private val _countConjugation = MutableStateFlow(0L)
+    val countConjugation: StateFlow<Long> = _countConjugation
+
     private val _upcomingGroups = MutableStateFlow<List<UpcomingGroup>>(emptyList())
     val upcomingGroups: StateFlow<List<UpcomingGroup>> = _upcomingGroups
 
@@ -87,6 +90,7 @@ class StoryViewModel(
             _countLearnedToNative.value = learningRepository.countByDirection(learnedLang, nativeLang)
             _countWordLearnedToNative.value = learningRepository.countWordsByDirection(learnedLang, nativeLang)
             _countWordNativeToLearned.value = learningRepository.countWordsByDirection(nativeLang, learnedLang)
+            _countConjugation.value = learningRepository.countConjugationDue()
             _upcomingGroups.value = learningRepository.getUpcomingGroups()
             if (dictionaryRepository != null) {
                 val raws = learningRepository.getUpcomingWordRaws()

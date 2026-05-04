@@ -62,6 +62,8 @@ class LearningRepository(driver: SqlDriver) {
 
     private val TYPE_SENTENCE = "sentence"
     private val TYPE_WORD = "word"
+    private val TYPE_CONJUGATION = "conjugation"
+    private val LOCALE_CONJ = "de"
 
     // --- Virtual clock -------------------------------------------------
 
@@ -160,6 +162,31 @@ class LearningRepository(driver: SqlDriver) {
         withContext(Dispatchers.Default) {
             queries.countDue(sourceLocale, targetLocale, TYPE_WORD, currentUsageHours()).executeAsOne()
         }
+
+    // --- Conjugaison ---------------------------------------------------
+
+    suspend fun saveConjugationGrade(key: String, grade: Int) = withContext(Dispatchers.Default) {
+        val current = queries.getGrade(key, LOCALE_CONJ, LOCALE_CONJ, TYPE_CONJUGATION).executeAsOneOrNull()
+        val newInterval = computeNextIntervalHours(current?.interval_hours?.toInt() ?: 0, grade)
+        val nextReview = if (current == null) currentUsageHours() else currentUsageHours() + newInterval
+        queries.upsertGrade(key, LOCALE_CONJ, LOCALE_CONJ, grade.toLong(), TYPE_CONJUGATION, newInterval.toLong(), nextReview)
+    }
+
+    suspend fun countConjugationDue(): Long = withContext(Dispatchers.Default) {
+        queries.countDue(LOCALE_CONJ, LOCALE_CONJ, TYPE_CONJUGATION, currentUsageHours()).executeAsOne()
+    }
+
+    /** All conjugation entries ever graded (including future-scheduled), key → grade. */
+    suspend fun getAllConjugationGrades(): Map<String, Int> = withContext(Dispatchers.Default) {
+        queries.getGradesByDirection(LOCALE_CONJ, LOCALE_CONJ, TYPE_CONJUGATION).executeAsList()
+            .associate { it.key to it.grade.toInt() }
+    }
+
+    /** Only conjugation entries due now, key → grade. */
+    suspend fun getDueConjugationGrades(): Map<String, Int> = withContext(Dispatchers.Default) {
+        queries.getAllDue(LOCALE_CONJ, LOCALE_CONJ, TYPE_CONJUGATION, currentUsageHours()).executeAsList()
+            .associate { it.key to it.grade.toInt() }
+    }
 
     // --- Upcoming ------------------------------------------------------
 

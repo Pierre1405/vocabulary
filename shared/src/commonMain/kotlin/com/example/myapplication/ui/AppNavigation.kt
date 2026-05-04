@@ -17,6 +17,7 @@ import com.example.myapplication.data.LearningRepository
 import com.example.myapplication.data.SpeechRecognizer
 import com.example.myapplication.data.VocabularyRepository
 import com.example.myapplication.ui.conjugation.ConjugationScreen
+import com.example.myapplication.ui.review.ConjugationReviewScreen
 import com.example.myapplication.ui.dictionary.DictionaryDetailScreen
 import com.example.myapplication.ui.practice.StoryViewModel
 import com.example.myapplication.ui.dictionary.DictionaryScreen
@@ -41,6 +42,9 @@ data class DictionaryRoute(val initialQuery: String = "")
 
 @Serializable
 object ConjugationRoute
+
+@Serializable
+object ConjugationReviewRoute
 
 @Serializable
 data class DictionaryDetailRoute(val entryId: Long, val groupKey: String? = null)
@@ -107,6 +111,16 @@ fun AppNavigation(
                 dictionaryRepository = dictionaryRepository,
                 onReviewClick = { source, target, sourceBlurred -> navController.navigate(ReviewRoute(source, target, sourceBlurred)) },
                 onWordReviewClick = { source, target -> navController.navigate(WordReviewRoute(source, target)) },
+                onConjugationReviewClick = { navController.navigate(ConjugationReviewRoute) },
+                onBack = { navController.popBackStack() }
+            )
+        }
+        composable<ConjugationReviewRoute> {
+            ConjugationReviewScreen(
+                dictionaryRepository = dictionaryRepository,
+                learningRepository = learningRepository,
+                ttsPlayer = ttsPlayer,
+                speechRecognizer = speechRecognizer,
                 onBack = { navController.popBackStack() }
             )
         }
