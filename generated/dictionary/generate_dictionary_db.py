@@ -27,7 +27,8 @@ def load_locale_configs() -> dict[str, dict]:
         groups_by_pos = {}
         for pos, entries in data.get("groups", {}).items():
             groups_by_pos[pos] = [
-                {"key": e["key"], "tags": set(e["tags"])} for e in entries
+                {"key": e["key"], "tags": set(e["tags"]), "exclude_tags": set(e.get("exclude_tags", []))}
+                for e in entries
             ]
         aux_det = data.get("auxiliary_detection", {})
         result[locale] = {
@@ -61,10 +62,10 @@ def detect_auxiliary(forms_data: list[dict], etre_forms: set) -> str | None:
 
 
 def assign_group_key(features: str, groups: list[dict]) -> str | None:
-    """Retourne la clé du premier groupe dont tous les tags sont présents dans features."""
+    """Retourne la clé du premier groupe dont tous les tags sont présents dans features et aucun exclude_tag."""
     tags = set(features.split(","))
     for group in groups:
-        if group["tags"].issubset(tags):
+        if group["tags"].issubset(tags) and not (group.get("exclude_tags", set()) & tags):
             return group["key"]
     return None
 

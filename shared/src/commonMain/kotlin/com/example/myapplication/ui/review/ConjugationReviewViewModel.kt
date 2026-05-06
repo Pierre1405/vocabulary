@@ -101,7 +101,7 @@ class ConjugationReviewViewModel(
                     break
                 }
 
-                val batchMastered = keys.all { (allGrades[it] ?: 0) >= 5 }
+                val batchMastered = keys.all { (allGrades[it] ?: 0) >= 4 }
                 if (!batchMastered) break  // still working on this batch
 
                 lastBatchMastered = true  // mastered, continue to next

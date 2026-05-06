@@ -38,7 +38,7 @@ class DictionaryDetailViewModel(
                 val translations = dictionaryRepository.getTranslations(entryId)
                 val forms = dictionaryRepository.getForms(entryId)
                 val config = getFormsConfig(entry?.locale ?: "")
-                val formGroups = buildFormGroups(forms.map { Triple(it.form, it.groupKey, it.pronouns) }, config, entry?.lemma ?: "")
+                val formGroups = buildFormGroups(forms.map { Triple(it.form, it.groupKey, it.pronouns) }, config, entry?.lemma ?: "", entry?.pos)
                 val sourceLocale = entry?.locale ?: ""
                 val targetLocale = translations.firstOrNull()?.targetLocale ?: ""
                 val wordGrades = learningRepository.getWordGradesForTranslations(translations.map { it.id }, sourceLocale, targetLocale)

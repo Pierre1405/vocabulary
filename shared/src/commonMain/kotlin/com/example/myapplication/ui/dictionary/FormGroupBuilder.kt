@@ -7,9 +7,12 @@ import com.example.myapplication.data.forms.FormsConfig
 internal fun buildFormGroups(
     forms: List<Triple<String, String?, String?>>, // form, group_key, pronouns
     config: FormsConfig,
-    lemma: String
+    lemma: String,
+    pos: String? = null
 ): List<FormGroup> {
-    val groupByKey = config.groups.associateBy { it.key }
+    val groupByKey = config.groups
+        .filter { it.pos == null || pos == null || pos in it.pos }
+        .associateBy { it.key }
 
     val groupedFromDb = forms
         .filter { (_, groupKey, _) -> groupKey != null && groupKey in groupByKey }

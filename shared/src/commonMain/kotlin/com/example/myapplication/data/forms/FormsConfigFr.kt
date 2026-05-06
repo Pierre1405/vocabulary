@@ -31,35 +31,39 @@ private fun compoundWith(
         ?: emptyList()
 }
 
+private val VERB = setOf("verb")
+private val ADJ  = setOf("adj")
+private val NOUN = setOf("noun")
+
 val FormsConfigFr = FormsConfig(
     groups = listOf(
         // Indicatif — simple / composé alternés
-        GroupConfig("indicative_present",    "Présent"),
-        GroupConfig("passe_compose",         "Passé composé",       derive = compoundWith(AVOIR_PRESENT,      ETRE_PRESENT)),
-        GroupConfig("indicative_imperfect",  "Imparfait"),
-        GroupConfig("plus_que_parfait",      "Plus-que-parfait",    derive = compoundWith(AVOIR_IMPARFAIT,    ETRE_IMPARFAIT)),
-        GroupConfig("indicative_past",       "Passé simple"),
-        GroupConfig("futur_anterieur",       "Futur antérieur",     derive = compoundWith(AVOIR_FUTUR,        ETRE_FUTUR)),
-        GroupConfig("indicative_future",     "Futur simple"),
+        GroupConfig("indicative_present",    "Présent",              pos = VERB),
+        GroupConfig("passe_compose",         "Passé composé",        pos = VERB, derive = compoundWith(AVOIR_PRESENT,      ETRE_PRESENT)),
+        GroupConfig("indicative_imperfect",  "Imparfait",            pos = VERB),
+        GroupConfig("plus_que_parfait",      "Plus-que-parfait",     pos = VERB, derive = compoundWith(AVOIR_IMPARFAIT,    ETRE_IMPARFAIT)),
+        GroupConfig("indicative_past",       "Passé simple",         pos = VERB),
+        GroupConfig("futur_anterieur",       "Futur antérieur",      pos = VERB, derive = compoundWith(AVOIR_FUTUR,        ETRE_FUTUR)),
+        GroupConfig("indicative_future",     "Futur simple",         pos = VERB),
         // Conditionnel
-        GroupConfig("conditional",           "Conditionnel présent"),
-        GroupConfig("conditionnel_passe",    "Conditionnel passé",  derive = compoundWith(AVOIR_CONDITIONNEL, ETRE_CONDITIONNEL)),
+        GroupConfig("conditional",           "Conditionnel présent", pos = VERB),
+        GroupConfig("conditionnel_passe",    "Conditionnel passé",   pos = VERB, derive = compoundWith(AVOIR_CONDITIONNEL, ETRE_CONDITIONNEL)),
         // Subjonctif
-        GroupConfig("subjunctive_present",   "Subjonctif présent"),
-        GroupConfig("subjonctif_passe",      "Subjonctif passé",    derive = compoundWith(AVOIR_SUBJONCTIF,   ETRE_SUBJONCTIF)),
+        GroupConfig("subjunctive_present",   "Subjonctif présent",   pos = VERB),
+        GroupConfig("subjonctif_passe",      "Subjonctif passé",     pos = VERB, derive = compoundWith(AVOIR_SUBJONCTIF,   ETRE_SUBJONCTIF)),
         // Impératif & formes nominales
-        GroupConfig("imperative",            "Impératif"),
-        GroupConfig("participle_present",    "Participe présent"),
-        GroupConfig("participle_past",       "Participe passé"),
+        GroupConfig("imperative",            "Impératif",            pos = VERB),
+        GroupConfig("participle_present",    "Participe présent",    pos = VERB),
+        GroupConfig("participle_past",       "Participe passé",      pos = VERB),
         // Adjectifs
-        GroupConfig("masculine_singular",    "Masc. Sg."),
-        GroupConfig("masculine_plural",      "Masc. Pl."),
-        GroupConfig("feminine_singular",     "Fém. Sg."),
-        GroupConfig("feminine_plural",       "Fém. Pl."),
+        GroupConfig("masculine_singular",    "Masc. Sg.",            pos = ADJ),
+        GroupConfig("masculine_plural",      "Masc. Pl.",            pos = ADJ),
+        GroupConfig("feminine_singular",     "Fém. Sg.",             pos = ADJ),
+        GroupConfig("feminine_plural",       "Fém. Pl.",             pos = ADJ),
         // Noms
-        GroupConfig("plural",               "Pluriel"),
+        GroupConfig("plural",               "Pluriel",               pos = NOUN),
         // Auxiliaire (utilisé par les lambdas, affiché pour info)
-        GroupConfig("auxiliary",            "Auxiliaire"),
+        GroupConfig("auxiliary",            "Auxiliaire",            pos = VERB),
     ),
     pronounOrder = listOf("je", "tu", "il/elle/on", "nous", "vous", "ils/elles")
 )

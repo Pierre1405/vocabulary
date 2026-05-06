@@ -11,5 +11,6 @@ data class FormsConfig(
 data class GroupConfig(
     val key: String,
     val label: String,
+    val pos: Set<String>? = null,
     val derive: ((lemma: String, dbForms: Map<String, List<FormRow>>) -> List<FormRow>)? = null
 )

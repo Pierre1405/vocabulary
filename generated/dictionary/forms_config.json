@@ -40,9 +40,9 @@
         {"key": "genitive",   "tags": ["genitive"]}
       ],
       "adj": [
-        {"key": "positive",    "tags": ["positive"]},
-        {"key": "comparative", "tags": ["comparative"]},
-        {"key": "superlative", "tags": ["superlative"]}
+        {"key": "positive",    "tags": ["positive"],    "exclude_tags": ["nominative","accusative","dative","genitive","singular","plural","masculine","feminine","neuter","strong","weak","mixed"]},
+        {"key": "comparative", "tags": ["comparative"], "exclude_tags": ["nominative","accusative","dative","genitive","singular","plural","masculine","feminine","neuter","strong","weak","mixed"]},
+        {"key": "superlative", "tags": ["superlative"], "exclude_tags": ["nominative","accusative","dative","genitive","singular","plural","masculine","feminine","neuter","strong","weak","mixed"]}
       ]
     }
   },

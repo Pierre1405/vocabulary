@@ -45,3 +45,9 @@ SELECT key, source_locale, target_locale, next_review
 FROM learning
 WHERE next_review > :now AND type = 'word'
 ORDER BY next_review ASC;
+
+getUpcomingConjugationItems:
+SELECT key, grade, next_review
+FROM learning
+WHERE next_review > :now AND type = 'conjugation' AND source_locale = 'de' AND target_locale = 'de'
+ORDER BY next_review ASC;

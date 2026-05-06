@@ -46,6 +46,12 @@ data class UpcomingWordRaw(
     val hoursUntilDue: Long
 )
 
+data class UpcomingConjugationRaw(
+    val key: String,
+    val grade: Int,
+    val hoursUntilDue: Long
+)
+
 data class UpcomingGroup(
     val sourceLocale: String,
     val targetLocale: String,
@@ -210,6 +216,17 @@ class LearningRepository(driver: SqlDriver) {
                 translationId = it.key.toLong(),
                 sourceLocale = it.source_locale,
                 targetLocale = it.target_locale,
+                hoursUntilDue = it.next_review - now
+            )
+        }
+    }
+
+    suspend fun getUpcomingConjugationRaws(): List<UpcomingConjugationRaw> = withContext(Dispatchers.Default) {
+        val now = currentUsageHours()
+        queries.getUpcomingConjugationItems(now).executeAsList().map {
+            UpcomingConjugationRaw(
+                key = it.key,
+                grade = it.grade.toInt(),
                 hoursUntilDue = it.next_review - now
             )
         }

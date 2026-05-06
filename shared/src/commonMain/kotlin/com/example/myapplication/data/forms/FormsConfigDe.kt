@@ -8,22 +8,26 @@ private val DE_PRONOUNS    = listOf("ich", "du", "er,sie,es", "wir", "ihr", "sie
 private fun conjugateWith(auxiliaryForms: List<String>, nonFinite: String): List<FormRow> =
     DE_PRONOUNS.zip(auxiliaryForms) { pronoun, aux -> FormRow(pronoun, "$aux $nonFinite") }
 
+private val VERB = setOf("verb")
+private val NOUN = setOf("noun")
+private val ADJ  = setOf("adj")
+
 val FormsConfigDe = FormsConfig(
     groups = listOf(
-        GroupConfig("indicative_present",  "Präsens"),
-        GroupConfig("indicative_past",     "Präteritum"),
-        GroupConfig("indicative_future",   "Futur I", derive = { lemma, _ ->
+        GroupConfig("indicative_present",  "Präsens",      pos = VERB),
+        GroupConfig("indicative_past",     "Präteritum",   pos = VERB),
+        GroupConfig("indicative_future",   "Futur I",      pos = VERB, derive = { lemma, _ ->
             conjugateWith(WERDEN_PRESENT, lemma)
         }),
-        GroupConfig("subjunctive_i",       "Konjunktiv I"),
-        GroupConfig("subjunctive_ii",      "Konjunktiv II"),
-        GroupConfig("participle_present",  "Partizip I", derive = { lemma, _ ->
+        GroupConfig("subjunctive_i",       "Konjunktiv I",  pos = VERB),
+        GroupConfig("subjunctive_ii",      "Konjunktiv II", pos = VERB),
+        GroupConfig("participle_present",  "Partizip I",    pos = VERB, derive = { lemma, _ ->
             val form = if (lemma.endsWith("en")) lemma + "d" else lemma.dropLast(1) + "end"
             listOf(FormRow(label = null, form = form))
         }),
-        GroupConfig("participle_past",     "Partizip II"),
-        GroupConfig("auxiliary",           "Hilfsverb"),
-        GroupConfig("perfect",             "Perfekt", derive = { _, dbForms ->
+        GroupConfig("participle_past",     "Partizip II",  pos = VERB),
+        GroupConfig("auxiliary",           "Hilfsverb",    pos = VERB),
+        GroupConfig("perfect",             "Perfekt",      pos = VERB, derive = { _, dbForms ->
             val partizipII = dbForms["participle_past"]?.firstOrNull()?.form
             partizipII?.let { pp ->
                 val auxiliary = dbForms["auxiliary"]?.firstOrNull()?.form ?: "haben"
@@ -31,14 +35,16 @@ val FormsConfigDe = FormsConfig(
                 conjugateWith(auxForms, pp)
             } ?: emptyList()
         }),
-        GroupConfig("imperative",          "Imperativ"),
-        GroupConfig("nominative",          "Nominativ"),
-        GroupConfig("accusative",          "Akkusativ"),
-        GroupConfig("dative",              "Dativ"),
-        GroupConfig("genitive",            "Genitiv"),
-        GroupConfig("positive",            "Positiv"),
-        GroupConfig("comparative",         "Komparativ"),
-        GroupConfig("superlative",         "Superlativ"),
+        GroupConfig("imperative",          "Imperativ",    pos = VERB),
+        GroupConfig("nominative",          "Nominativ",    pos = NOUN),
+        GroupConfig("accusative",          "Akkusativ",    pos = NOUN),
+        GroupConfig("dative",              "Dativ",        pos = NOUN),
+        GroupConfig("genitive",            "Genitiv",      pos = NOUN),
+        GroupConfig("positive",            "Positiv",      pos = ADJ, derive = { lemma, _ ->
+            listOf(FormRow(label = null, form = lemma))
+        }),
+        GroupConfig("comparative",         "Komparativ",   pos = ADJ),
+        GroupConfig("superlative",         "Superlativ",   pos = ADJ),
     ),
     pronounOrder = listOf("ich", "du", "er,sie,es", "wir", "ihr", "sie")
 )

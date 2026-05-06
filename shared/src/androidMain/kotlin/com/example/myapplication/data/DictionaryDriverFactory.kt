@@ -6,7 +6,7 @@ import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import com.example.myapplication.db.dictionary.DictionaryDatabase
 
 // Incrémenter à chaque fois que dictionary.db est regénéré
-const val DICTIONARY_DB_VERSION = 3
+const val DICTIONARY_DB_VERSION = 6
 
 actual class DictionaryDriverFactory(private val context: Context) {
     actual fun createDriver(): SqlDriver {

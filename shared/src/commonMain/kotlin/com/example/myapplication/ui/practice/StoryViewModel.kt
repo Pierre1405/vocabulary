@@ -6,6 +6,7 @@ import com.example.myapplication.data.DictionaryRepository
 import com.example.myapplication.data.LearningRepository
 import com.example.myapplication.data.UpcomingGroup
 import com.example.myapplication.data.VocabularyRepository
+import com.example.myapplication.data.forms.FormsConfigDe
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,6 +18,14 @@ data class UpcomingWordItem(
     val targetText: String,
     val sourceLocale: String,
     val targetLocale: String,
+    val hoursUntilDue: Long
+)
+
+data class UpcomingConjugationItem(
+    val lemma: String,
+    val tenseLabel: String,
+    val pronouns: String?,
+    val grade: Int,
     val hoursUntilDue: Long
 )
 
@@ -55,6 +64,9 @@ class StoryViewModel(
 
     private val _upcomingWordItems = MutableStateFlow<List<UpcomingWordItem>>(emptyList())
     val upcomingWordItems: StateFlow<List<UpcomingWordItem>> = _upcomingWordItems
+
+    private val _upcomingConjugationItems = MutableStateFlow<List<UpcomingConjugationItem>>(emptyList())
+    val upcomingConjugationItems: StateFlow<List<UpcomingConjugationItem>> = _upcomingConjugationItems
 
     init {
         viewModelScope.launch {
@@ -106,6 +118,26 @@ class StoryViewModel(
                             targetText = if (isReversed) entry.lemma else translation.text,
                             sourceLocale = raw.sourceLocale,
                             targetLocale = raw.targetLocale,
+                            hoursUntilDue = raw.hoursUntilDue
+                        )
+                    }
+                }
+
+                val conjRaws = learningRepository.getUpcomingConjugationRaws()
+                _upcomingConjugationItems.value = withContext(Dispatchers.Default) {
+                    val tenseLabels = FormsConfigDe.groups.associate { it.key to it.label }
+                    conjRaws.mapNotNull { raw ->
+                        val parts = raw.key.split("|")
+                        if (parts.size != 3) return@mapNotNull null
+                        val entryId = parts[0].toLongOrNull() ?: return@mapNotNull null
+                        val tenseKey = parts[1]
+                        val pronounsStr = parts[2].ifEmpty { null }
+                        val entry = dictionaryRepository.getById(entryId) ?: return@mapNotNull null
+                        UpcomingConjugationItem(
+                            lemma = entry.lemma,
+                            tenseLabel = tenseLabels[tenseKey] ?: tenseKey,
+                            pronouns = pronounsStr,
+                            grade = raw.grade,
                             hoursUntilDue = raw.hoursUntilDue
                         )
                     }

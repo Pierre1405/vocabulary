@@ -35,6 +35,7 @@ import com.example.myapplication.ui.LocalStrings
 import com.example.myapplication.ui.Strings
 import com.example.myapplication.ui.localeToFlag
 import com.example.myapplication.ui.practice.StoryViewModel
+import com.example.myapplication.ui.practice.UpcomingConjugationItem
 import com.example.myapplication.ui.practice.UpcomingWordItem
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -59,6 +60,7 @@ fun ReviewSelectionScreen(
     val countConjugation by viewModel.countConjugation.collectAsState()
     val upcomingGroups by viewModel.upcomingGroups.collectAsState()
     val upcomingWordItems by viewModel.upcomingWordItems.collectAsState()
+    val upcomingConjugationItems by viewModel.upcomingConjugationItems.collectAsState()
 
     LifecycleResumeEffect(Unit) {
         viewModel.refreshCounts()
@@ -152,7 +154,7 @@ fun ReviewSelectionScreen(
             }
 
             val upcomingSentenceGroups = upcomingGroups.filter { it.type == "sentence" }
-            if (upcomingSentenceGroups.isNotEmpty() || upcomingWordItems.isNotEmpty()) {
+            if (upcomingSentenceGroups.isNotEmpty() || upcomingWordItems.isNotEmpty() || upcomingConjugationItems.isNotEmpty()) {
                 item { HorizontalDivider() }
                 item {
                     Text(text = strings.reviewUpcomingTitle, style = MaterialTheme.typography.titleMedium)
@@ -177,6 +179,9 @@ fun ReviewSelectionScreen(
                 }
                 items(upcomingWordItems) { item ->
                     UpcomingWordRow(item = item, strings = strings)
+                }
+                items(upcomingConjugationItems) { item ->
+                    UpcomingConjugationRow(item = item, strings = strings)
                 }
             }
         }
@@ -203,6 +208,40 @@ private fun UpcomingWordRow(item: UpcomingWordItem, strings: Strings) {
                 text = "${localeToFlag(item.targetLocale)} ${item.targetText}",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.primary
+            )
+        }
+        Text(
+            text = strings.reviewUpcomingIn(item.hoursUntilDue),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.outline
+        )
+    }
+}
+
+@Composable
+private fun UpcomingConjugationRow(item: UpcomingConjugationItem, strings: Strings) {
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Row(
+            modifier = Modifier.weight(1f),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            Text(
+                text = "🇩🇪 ${item.lemma}",
+                style = MaterialTheme.typography.bodyMedium
+            )
+            Text(
+                text = item.tenseLabel + if (item.pronouns != null) " (${item.pronouns})" else "",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.primary
+            )
+            Text(
+                text = "★${item.grade}",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.outline
             )
         }
         Text(
