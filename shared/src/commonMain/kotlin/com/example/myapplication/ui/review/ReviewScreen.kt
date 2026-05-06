@@ -1,6 +1,8 @@
 ﻿package com.example.myapplication.ui.review
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -231,7 +233,11 @@ fun ReviewCard(
                 modifier = Modifier.weight(1f),
                 placeholder = { Text("${localeToFlag(targetLocale)} ${LocalStrings.current.reviewSpeakHint}") },
                 singleLine = false,
-                maxLines = 3
+                maxLines = 3,
+                keyboardOptions = KeyboardOptions(
+                    autoCorrect = false,
+                    capitalization = KeyboardCapitalization.None
+                )
             )
             IconButton(onClick = {
                 if (isListening) {
