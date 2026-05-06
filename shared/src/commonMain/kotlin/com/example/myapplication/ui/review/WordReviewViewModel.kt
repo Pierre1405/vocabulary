@@ -10,12 +10,40 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+fun definiteArticle(locale: String, pos: String?, gender: String?, word: String = ""): String? {
+    if (pos != "noun" || gender == null) return null
+    return when (locale) {
+        "de" -> when (gender) {
+            "masculine" -> "der"
+            "feminine"  -> "die"
+            "neuter"    -> "das"
+            else        -> null
+        }
+        "fr" -> {
+            val startsWithVowelOrH = word.firstOrNull()?.lowercaseChar()?.let {
+                it in "aeiouyhàâéèêëîïôùûü"
+            } ?: false
+            when {
+                startsWithVowelOrH  -> "l'"
+                gender == "masculine" -> "le"
+                gender == "feminine"  -> "la"
+                else -> null
+            }
+        }
+        else -> null
+    }
+}
+
 data class WordReviewItem(
     val entryId: Long,
     val translationId: Long,
     val lemma: String,
+    val lemmaWithArticle: String,
     val wordLocale: String,
+    val pos: String?,
+    val gender: String?,
     val translationText: String,
+    val translationWithArticle: String,
     val translationLocale: String
 )
 
@@ -57,12 +85,19 @@ class WordReviewViewModel(
                     grades[translationId] = grade
                     val translation = dictionaryRepository.getTranslationById(translationId) ?: return@mapNotNull null
                     val entry = dictionaryRepository.getById(translation.entryId) ?: return@mapNotNull null
+                    val article = definiteArticle(entry.locale, entry.pos, entry.gender, entry.lemma)
+                    val transEntry = dictionaryRepository.getByLemma(translation.text, translation.targetLocale).firstOrNull()
+                    val transArticle = definiteArticle(translation.targetLocale, transEntry?.pos, transEntry?.gender, translation.text)
                     WordReviewItem(
                         entryId = entry.id,
                         translationId = translationId,
                         lemma = entry.lemma,
+                        lemmaWithArticle = if (article != null) "$article ${entry.lemma}" else entry.lemma,
                         wordLocale = entry.locale,
+                        pos = entry.pos,
+                        gender = entry.gender,
                         translationText = translation.text,
+                        translationWithArticle = if (transArticle != null) "$transArticle${if (transArticle.endsWith("'")) "" else " "}${translation.text}" else translation.text,
                         translationLocale = translation.targetLocale
                     )
                 }

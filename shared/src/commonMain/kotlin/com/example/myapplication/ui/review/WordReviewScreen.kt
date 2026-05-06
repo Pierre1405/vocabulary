@@ -117,10 +117,10 @@ fun WordReviewScreen(
         } else {
             val item = items[currentIndex]
             val reversed = viewModel.sourceLocale != item.wordLocale
-            val sourceText = if (reversed) "${localeToFlag(item.translationLocale)}  ${item.translationText}"
-                             else "${localeToFlag(item.wordLocale)}  ${item.lemma}"
-            val targetText = if (reversed) "${localeToFlag(item.wordLocale)}  ${item.lemma}"
-                             else "${localeToFlag(item.translationLocale)}  ${item.translationText}"
+            val sourceText = if (reversed) "${localeToFlag(item.translationLocale)}  ${item.translationWithArticle}"
+                             else "${localeToFlag(item.wordLocale)}  ${item.lemmaWithArticle}"
+            val targetText = if (reversed) "${localeToFlag(item.wordLocale)}  ${item.lemmaWithArticle}"
+                             else "${localeToFlag(item.translationLocale)}  ${item.translationWithArticle}"
             val srcLocale = if (reversed) item.translationLocale else item.wordLocale
             val tgtLocale = if (reversed) item.wordLocale else item.translationLocale
 
@@ -131,8 +131,8 @@ fun WordReviewScreen(
                 targetLocale = tgtLocale,
                 currentGrade = currentGrade,
                 forceShowTarget = isPlayingAll,
-                onPlaySource = { ttsPlayer.speak(if (reversed) item.translationText else item.lemma, srcLocale) },
-                onPlayTarget = { ttsPlayer.speak(if (reversed) item.lemma else item.translationText, tgtLocale) },
+                onPlaySource = { ttsPlayer.speak(if (reversed) item.translationWithArticle else item.lemmaWithArticle, srcLocale) },
+                onPlayTarget = { ttsPlayer.speak(if (reversed) item.lemmaWithArticle else item.translationWithArticle, tgtLocale) },
                 speechRecognizer = speechRecognizer,
                 onGradeSelected = { grade -> viewModel.saveGrade(item.translationId, grade) },
                 onNext = { viewModel.moveToNext() },

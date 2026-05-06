@@ -46,9 +46,9 @@ class WordReviewPlayer(
             val item = items.getOrNull(index) ?: break
             onIndexChanged(index)
             val reversed = sourceLocale != item.wordLocale
-            val srcText = if (reversed) item.translationText else item.lemma
+            val srcText = if (reversed) item.translationWithArticle else item.lemmaWithArticle
             val srcLocale = if (reversed) item.translationLocale else item.wordLocale
-            val tgtText = if (reversed) item.lemma else item.translationText
+            val tgtText = if (reversed) item.lemmaWithArticle else item.translationWithArticle
             val tgtLocale = if (reversed) item.wordLocale else item.translationLocale
 
             ttsPlayer.speak(srcText, srcLocale)
