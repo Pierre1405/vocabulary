@@ -78,6 +78,12 @@ class DictionaryRepository(driver: SqlDriver) {
             DictForm(form = it.form, groupKey = it.group_key, pronouns = it.pronouns)
         }
 
+    /** Retourne uniquement les formes de conjugaison (group_key dans GERMAN_TENSE_LIST). */
+    fun getConjugationForms(entryId: Long): List<DictForm> =
+        formQueries.getConjugationForms(entryId).executeAsList().map {
+            DictForm(form = it.form, groupKey = it.group_key, pronouns = it.pronouns)
+        }
+
     /**
      * Lookup depuis une forme fléchie : retourne l'entrée correspondante.
      * Ex: "liebte" → entrée "lieben"

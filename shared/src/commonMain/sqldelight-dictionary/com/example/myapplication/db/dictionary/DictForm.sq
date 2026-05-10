@@ -45,3 +45,14 @@ getFormsByEntryId:
 SELECT f.form, f.group_key, f.pronouns
 FROM dict_form f
 WHERE f.entry_id = ?;
+
+-- Formes de conjugaison uniquement (group_key dans la liste des temps appris)
+getConjugationForms:
+SELECT f.form, f.group_key, f.pronouns
+FROM dict_form f
+WHERE f.entry_id = ?
+  AND f.group_key IN (
+    'indicative_present', 'perfect', 'indicative_past', 'imperative',
+    'indicative_future', 'subjunctive_ii', 'participle_past',
+    'participle_present', 'subjunctive_i'
+  );
