@@ -6,7 +6,8 @@
       "Bash(./gradlew :shared:testDebugUnitTest)",
       "Bash(./gradlew :shared:jvmTest --info)",
       "Bash(./gradlew :shared:jvmTest)",
-      "Bash(python3 *)"
+      "Bash(python3 *)",
+      "Bash(python *)"
     ]
   }
 }

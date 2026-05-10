@@ -51,3 +51,8 @@ SELECT key, grade, next_review
 FROM learning
 WHERE next_review > :now AND type = 'conjugation' AND source_locale = 'de' AND target_locale = 'de'
 ORDER BY next_review ASC;
+
+getLowGradeItems:
+SELECT key, grade FROM learning
+WHERE source_locale = :sourceLocale AND target_locale = :targetLocale AND type = :type AND grade <= :maxGrade
+ORDER BY grade ASC;

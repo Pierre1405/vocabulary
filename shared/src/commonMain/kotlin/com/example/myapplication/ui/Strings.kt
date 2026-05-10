@@ -32,6 +32,9 @@ interface Strings {
     val reviewSentences: String
     val reviewWords: String
     val reviewConjugation: String
+    val reviewTabReview: String
+    val reviewTabLowGrade: String
+    val reviewTabSchedule: String
 
     // Review card
     val reviewEmpty: String
@@ -89,6 +92,9 @@ object StringsFr : Strings {
     override val reviewSentences   = "Phrases"
     override val reviewWords       = "Mots"
     override val reviewConjugation = "Conjugaisons"
+    override val reviewTabReview   = "Réviser"
+    override val reviewTabLowGrade = "Non maîtrisé"
+    override val reviewTabSchedule = "Planifier"
 
     override val reviewEmpty       = "Rien à réviser pour aujourd'hui."
     override val reviewPrevious    = "← Précédent"
@@ -145,6 +151,9 @@ object StringsEn : Strings {
     override val reviewSentences   = "Sentences"
     override val reviewWords       = "Words"
     override val reviewConjugation = "Conjugations"
+    override val reviewTabReview   = "Review"
+    override val reviewTabLowGrade = "Not mastered"
+    override val reviewTabSchedule = "Schedule"
 
     override val reviewEmpty       = "Nothing to review today."
     override val reviewPrevious    = "← Previous"

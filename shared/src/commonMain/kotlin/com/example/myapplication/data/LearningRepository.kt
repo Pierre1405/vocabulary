@@ -52,6 +52,8 @@ data class UpcomingConjugationRaw(
     val hoursUntilDue: Long
 )
 
+data class LowGradeRaw(val key: String, val grade: Int)
+
 data class UpcomingGroup(
     val sourceLocale: String,
     val targetLocale: String,
@@ -231,6 +233,12 @@ class LearningRepository(driver: SqlDriver) {
             )
         }
     }
+
+    suspend fun getLowGradeRaws(type: String, sourceLocale: String, targetLocale: String, maxGrade: Int = 2): List<LowGradeRaw> =
+        withContext(Dispatchers.Default) {
+            queries.getLowGradeItems(sourceLocale, targetLocale, type, maxGrade.toLong()).executeAsList()
+                .map { LowGradeRaw(it.key, it.grade.toInt()) }
+        }
 
     // --- Intervalle SRS ------------------------------------------------
 
