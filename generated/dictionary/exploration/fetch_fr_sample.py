@@ -8,9 +8,11 @@ Explore le dump français de kaikki.org :
 import urllib.request
 import gzip
 import json
+import os
 
+_HERE = os.path.dirname(os.path.abspath(__file__))
 URL = "https://kaikki.org/dictionary/downloads/fr/fr-extract.jsonl.gz"
-OUTPUT = "generated/dictionary/sample_fr.json"
+OUTPUT = os.path.join(_HERE, "sample_fr.json")
 TARGET = 5  # entrées fr avec traductions vers DE
 
 print(f"Streaming depuis {URL} ...")
@@ -76,7 +78,7 @@ else:
 print("\n=== Rappel : 'lieben' (de-extract) ===")
 print("  Charger sample_de_verbs.json pour comparer...")
 try:
-    with open("generated/dictionary/sample_de_verbs.json", encoding="utf-8") as f:
+    with open(os.path.join(_HERE, "sample_de_verbs.json"), encoding="utf-8") as f:
         verbs = json.load(f)
     lieben = next((v for v in verbs if v["word"] == "lieben"), None)
     if lieben:

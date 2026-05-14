@@ -2,6 +2,28 @@
 
 Ce répertoire contient les scripts pour générer les ressources nécessaires à l'application. Tout est piloté par `step 0 source/config.properties`.
 
+## Setup de l'environnement
+
+**Python 3.10+** requis.
+
+Créer et activer un virtualenv, puis installer les dépendances :
+```bash
+cd generated/
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -e .
+```
+
+Authentification via Application Default Credentials :
+```bash
+gcloud auth application-default login
+gcloud auth application-default set-quota-project TON_PROJECT_ID
+```
+
+`TON_PROJECT_ID` est visible avec `gcloud projects list`.
+
+> Les scripts utilisent les ADC implicitement — pas besoin de passer une clé de service manuellement.
+
 ## Configuration (`step 0 source/config.properties`)
 
 ```properties

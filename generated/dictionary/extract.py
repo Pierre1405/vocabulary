@@ -17,18 +17,13 @@ from pathlib import Path
 
 
 def load_forms_config(locale, pos):
-    """Charge les combinaisons de tags essentiels pour une locale et un POS donnés."""
+    """Charge les groupes de tags essentiels pour une locale et un POS donnés.
+    Retourne une liste de (required_tags, excluded_tags)."""
     config_path = Path(__file__).parent / "forms_config.json"
     with open(config_path, encoding="utf-8") as f:
         config = json.load(f)
-    locale_config = config.get(locale, {})
-    # Retire les clés commençant par _ (commentaires)
-    return [
-        set(tags)
-        for key, tags_list in locale_config.items()
-        if not key.startswith("_")
-        for tags in (tags_list if key == pos else [])
-    ]
+    groups = config.get(locale, {}).get("groups", {}).get(pos, [])
+    return [(set(g["tags"]), set(g.get("exclude_tags", []))) for g in groups]
 
 
 EXCLUDED_TAGS = {"processual-passive", "multiword-construction", "anterior", "predicative",
@@ -36,12 +31,15 @@ EXCLUDED_TAGS = {"processual-passive", "multiword-construction", "anterior", "pr
 ACCEPTED_POS  = {"noun", "verb", "adj", "adv", "pron", "prep", "conj", "intj", "det", "num", "particle"}
 
 def is_essential_form(form_tags, essential_tag_sets):
-    """Retourne True si la forme contient tous les tags d'au moins un groupe essentiel,
-    et ne contient aucun tag exclu (voix passive DE, formes analytiques FR)."""
+    """Retourne True si la forme correspond à au moins un groupe :
+    tous les tags requis présents, aucun exclude_tag présent, aucun EXCLUDED_TAG global."""
     form_tag_set = set(form_tags)
     if form_tag_set & EXCLUDED_TAGS:
         return False
-    return any(essential <= form_tag_set for essential in essential_tag_sets)
+    return any(
+        req <= form_tag_set and not (excl & form_tag_set)
+        for req, excl in essential_tag_sets
+    )
 
 
 def extract_forms(entry, locale, pos):

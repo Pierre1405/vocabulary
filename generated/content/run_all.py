@@ -36,14 +36,15 @@ def main():
     Exécute tous les scripts de génération dans l'ordre.
     """
     print("Démarrage du processus de génération...")
-    
+
+    base = os.path.dirname(os.path.abspath(__file__))
+
     # Chemin vers les scripts
     scripts = [
-        ("generated/content/step 1 translation/translate_text.py", "Traduction des phrases"),
-        ("generated/content/step 2 generate_tsv/generate_tsv.py", "Génération du fichier TSV"),
-        ("generated/content/step 3 chunk/split_tsv.py", "Division en chunks"),
-        ("generated/content/step 4 sqlite/generate_sqlite.py", "Génération de la base de données SQLite"),
-        ("generated/content/step 5 audio/generate_audio.py", "Génération des fichiers audio")
+        (os.path.join(base, "step 1 translation", "translate_text.py"), "Traduction des phrases"),
+        (os.path.join(base, "step 2 generate_tsv", "generate_tsv.py"), "Génération du fichier TSV"),
+        (os.path.join(base, "step 3 chunk", "split_tsv.py"), "Division en chunks"),
+        (os.path.join(base, "step 4 sqlite", "generate_sqlite.py"), "Génération de la base de données SQLite")
     ]
     
     # Exécuter chaque script

@@ -65,6 +65,20 @@ interface Strings {
     val dictionaryTranslations: String
     val dictionaryForms: String
     val dictionaryListen: String
+
+    // Conversation
+    val homeConversation: String
+    val conversationTitle: String
+    val conversationStart: String
+    val conversationStartBtn: String
+    val conversationInputHint: String
+    val conversationNoKey: String
+
+    // Settings
+    val settingsTitle: String
+    val settingsProvider: String
+    val settingsApiKey: String
+    val settingsSave: String
 }
 
 object StringsFr : Strings {
@@ -124,6 +138,18 @@ object StringsFr : Strings {
     override val dictionaryTranslations = "Traductions"
     override val dictionaryForms        = "Formes"
     override val dictionaryListen       = "Écouter"
+
+    override val homeConversation      = "Conversation"
+    override val conversationTitle     = "Agent bilingue"
+    override val conversationStart     = "Pratiquez avec un agent IA qui parle votre langue cible et traduit en temps réel."
+    override val conversationStartBtn  = "Commencer"
+    override val conversationInputHint = "Écrivez en allemand…"
+    override val conversationNoKey     = "Configurez votre clé API pour utiliser l'agent."
+
+    override val settingsTitle    = "Paramètres IA"
+    override val settingsProvider = "Fournisseur"
+    override val settingsApiKey   = "Clé API"
+    override val settingsSave     = "Enregistrer"
 }
 
 object StringsEn : Strings {
@@ -183,6 +209,18 @@ object StringsEn : Strings {
     override val dictionaryTranslations = "Translations"
     override val dictionaryForms        = "Forms"
     override val dictionaryListen       = "Listen"
+
+    override val homeConversation      = "Conversation"
+    override val conversationTitle     = "Bilingual agent"
+    override val conversationStart     = "Practice with an AI agent that speaks your target language and translates in real time."
+    override val conversationStartBtn  = "Start"
+    override val conversationInputHint = "Write in German…"
+    override val conversationNoKey     = "Configure your API key to use the agent."
+
+    override val settingsTitle    = "AI Settings"
+    override val settingsProvider = "Provider"
+    override val settingsApiKey   = "API Key"
+    override val settingsSave     = "Save"
 }
 
 fun stringsForLocale(locale: String): Strings = when (locale) {

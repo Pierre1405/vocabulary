@@ -11,12 +11,14 @@ import argparse
 
 sys.stdout.reconfigure(line_buffering=True)
 
-# Chemins par défaut
-DEFAULT_CHUNKS_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\content\\step 3 chunk\\"
-DEFAULT_OUTPUT_DB = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\app\\src\\main\\assets\\vocabulary.db"
-DEFAULT_VERSION_FILE = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\shared\\src\\commonMain\\kotlin\\com\\example\\myapplication\\data\\DatabaseVersion.kt"
-DEFAULT_SOURCE_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\content\\step 0 source\\"
-DEFAULT_TRANSLATION_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\content\\step 1 translation\\"
+# Chemins par défaut (relatifs à l'emplacement de ce script)
+_HERE = os.path.dirname(os.path.abspath(__file__))
+_ROOT = os.path.join(_HERE, "..", "..", "..")
+DEFAULT_CHUNKS_DIR = os.path.join(_HERE, "..", "step 3 chunk")
+DEFAULT_OUTPUT_DB = os.path.join(_ROOT, "app", "src", "main", "assets", "vocabulary.db")
+DEFAULT_VERSION_FILE = os.path.join(_ROOT, "shared", "src", "commonMain", "kotlin", "com", "example", "myapplication", "data", "DatabaseVersion.kt")
+DEFAULT_SOURCE_DIR = os.path.join(_HERE, "..", "step 0 source")
+DEFAULT_TRANSLATION_DIR = os.path.join(_HERE, "..", "step 1 translation")
 
 def increment_db_version(version_file):
     with open(version_file, 'r', encoding='utf-8') as f:
@@ -56,7 +58,7 @@ def load_file_metadata(file_name, locale_columns, source_dir, translation_dir):
             metadata[locale] = read_first_two_lines(path)
     return metadata
 
-def create_database(chunks_dir, output_db, source_dir, translation_dir):
+def create_database(chunks_dir, output_db, source_dir, translation_dir, version_file=None):
     os.makedirs(os.path.dirname(output_db), exist_ok=True)
 
     conn = sqlite3.connect(output_db)
@@ -203,7 +205,8 @@ def create_database(chunks_dir, output_db, source_dir, translation_dir):
     conn.commit()
     conn.close()
     print(f"Base de données générée avec succès : {output_db}")
-    increment_db_version(DEFAULT_VERSION_FILE)
+    if version_file:
+        increment_db_version(version_file)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Générer une base de données SQLite à partir des chunks TSV.')
@@ -211,5 +214,6 @@ if __name__ == "__main__":
     parser.add_argument('--output_db', type=str, default=DEFAULT_OUTPUT_DB)
     parser.add_argument('--source_dir', type=str, default=DEFAULT_SOURCE_DIR)
     parser.add_argument('--translation_dir', type=str, default=DEFAULT_TRANSLATION_DIR)
+    parser.add_argument('--version_file', type=str, default=DEFAULT_VERSION_FILE)
     args = parser.parse_args()
-    create_database(args.chunks_dir, args.output_db, args.source_dir, args.translation_dir)
+    create_database(args.chunks_dir, args.output_db, args.source_dir, args.translation_dir, args.version_file)

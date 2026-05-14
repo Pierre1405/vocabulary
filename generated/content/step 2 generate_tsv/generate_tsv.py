@@ -10,10 +10,11 @@ import configparser
 
 sys.stdout.reconfigure(line_buffering=True)
 
-# Chemins par défaut
-DEFAULT_SOURCE_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\content\\step 0 source\\"
-DEFAULT_TRANSLATION_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\content\\step 1 translation\\"
-DEFAULT_OUTPUT_FILE = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\content\\step 2 generate_tsv\\Sentence pairs with ID.tsv"
+# Chemins par défaut (relatifs à l'emplacement de ce script)
+_HERE = os.path.dirname(os.path.abspath(__file__))
+DEFAULT_SOURCE_DIR = os.path.join(_HERE, "..", "step 0 source")
+DEFAULT_TRANSLATION_DIR = os.path.join(_HERE, "..", "step 1 translation")
+DEFAULT_OUTPUT_FILE = os.path.join(_HERE, "Sentence pairs with ID.tsv")
 
 def load_config(source_dir):
     config = configparser.ConfigParser()

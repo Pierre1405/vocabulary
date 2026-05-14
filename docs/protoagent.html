@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deutschkurs A1</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Source+Serif+4:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+    <style>
+        :root {
+          --gold: #f0c040;
+          --gold-dim: rgba(240,192,64,0.15);
+          --gold-border: rgba(240,192,64,0.25);
+          --bg: #0c0c14;
+          --bg2: #11111e;
+          --text: #ede8d8;
+          --text-dim: rgba(237,232,216,0.5);
+          --green: rgba(74,222,128,0.9);
+          --green-bg: rgba(74,222,128,0.08);
+          --green-border: rgba(74,222,128,0.2);
+          --blue: rgba(150,180,255,0.85);
+          --blue-bg: rgba(100,150,255,0.08);
+          --blue-border: rgba(100,150,255,0.2);
+          --orange: rgba(255,170,100,0.9);
+          --orange-bg: rgba(255,150,80,0.08);
+          --orange-border: rgba(255,150,80,0.2);
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+          background: var(--bg);
+          font-family: 'Source Serif 4', Georgia, serif;
+          color: var(--text);
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 0 16px 40px;
+        }
+        /* Header */
+        .header {
+          width: 100%; max-width: 680px;
+          padding: 32px 0 20px;
+          text-align: center;
+          border-bottom: 1px solid rgba(240,192,64,0.12);
+          margin-bottom: 20px;
+        }
+        .header-flag { font-size: 42px; margin-bottom: 6px; }
+        .header h1 {
+          font-family: 'Playfair Display', serif;
+          font-size: clamp(22px, 5vw, 32px);
+          color: var(--gold);
+          letter-spacing: 0.04em;
+          text-shadow: 0 0 40px rgba(240,192,64,0.3);
+          margin-bottom: 6px;
+        }
+        .header p { color: var(--text-dim); font-size: 13px; font-style: italic; }
+        .badges { display: flex; justify-content: center; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+        .badge {
+          display: inline-flex; align-items: center; gap: 5px;
+          padding: 4px 12px; border-radius: 20px; font-size: 12px;
+          font-family: 'Source Serif 4', serif;
+        }
+        .badge-active { background: var(--gold-dim); border: 1px solid var(--gold-border); color: var(--gold); }
+        .badge-saved { background: var(--green-bg); border: 1px solid var(--green-border); color: var(--green); }
+        .badge-stats { background: var(--blue-bg); border: 1px solid var(--blue-border); color: var(--blue); cursor: pointer; }
+        .dot { width: 6px; height: 6px; border-radius: 50%; background: #4ade80; display: inline-block; }
+
+        /* Main */
+        .main { width: 100%; max-width: 680px; display: flex; flex-direction: column; gap: 14px; }
+
+        /* Welcome card */
+        .welcome-card {
+          background: rgba(255,255,255,0.02);
+          border: 1px solid var(--gold-border);
+          border-radius: 20px;
+          padding: 36px 28px;
+          text-align: center;
+        }
+        .welcome-icon { font-size: 54px; margin-bottom: 14px; }
+        .welcome-card h2 { font-family: 'Playfair Display', serif; color: var(--gold); font-size: 20px; margin-bottom: 10px; }
+        .welcome-card p { color: var(--text-dim); font-size: 14px; line-height: 1.8; }
+        .returning-info { margin-bottom: 20px; }
+        .returning-info strong { color: var(--gold); }
+        .returning-sub { font-size: 12px; color: rgba(200,180,100,0.4); margin-top: 4px; }
+        .intro-text { margin-bottom: 24px; }
+
+        .btn-start {
+          background: linear-gradient(135deg, #c89010, var(--gold));
+          color: #0c0c14;
+          border: none; border-radius: 12px;
+          padding: 13px 32px; font-size: 16px; font-weight: 700;
+          cursor: pointer; font-family: 'Playfair Display', serif;
+          letter-spacing: 0.03em;
+          box-shadow: 0 4px 24px rgba(240,192,64,0.25);
+          transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .btn-start:hover { transform: scale(1.04); box-shadow: 0 6px 32px rgba(240,192,64,0.4); }
+        .btn-start:disabled { background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.3); box-shadow: none; cursor: not-allowed; transform: none; }
+
+        /* Stats panel */
+        .stats-panel {
+          background: var(--blue-bg);
+          border: 1px solid var(--blue-border);
+          border-radius: 16px;
+          padding: 16px 20px;
+          display: none;
+        }
+        .stats-panel.open { display: block; }
+        .stats-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+        .stats-header h3 { color: #b0c4ff; font-size: 15px; font-family: 'Playfair Display', serif; font-weight: 400; }
+        .btn-close { background: none; border: none; color: rgba(150,150,200,0.6); cursor: pointer; font-size: 18px; line-height: 1; }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+        .stat-box { background: rgba(255,255,255,0.03); border-radius: 10px; padding: 10px 14px; }
+        .stat-label { color: rgba(200,200,255,0.4); font-size: 11px; margin-bottom: 3px; letter-spacing: 0.04em; text-transform: uppercase; }
+        .stat-value { color: #d0d8ff; font-size: 18px; font-family: 'Playfair Display', serif; }
+        .tags-section { margin-bottom: 10px; }
+        .tags-label { color: rgba(200,200,255,0.4); font-size: 11px; margin-bottom: 7px; letter-spacing: 0.06em; text-transform: uppercase; }
+        .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+        .tag {
+          border-radius: 10px; padding: 2px 10px; font-size: 12px; display: inline-block;
+        }
+        .tag-green { background: var(--green-bg); border: 1px solid var(--green-border); color: var(--green); }
+        .tag-orange { background: var(--orange-bg); border: 1px solid var(--orange-border); color: var(--orange); }
+        .tag-blue { background: var(--blue-bg); border: 1px solid var(--blue-border); color: var(--blue); }
+        .btn-reset {
+          margin-top: 6px; background: rgba(255,80,80,0.07);
+          border: 1px solid rgba(255,80,80,0.2); border-radius: 10px;
+          padding: 6px 16px; font-size: 12px; color: rgba(255,150,150,0.8);
+          cursor: pointer; font-family: 'Source Serif 4', serif;
+        }
+
+        /* Chat */
+        .chat-box {
+          background: rgba(255,255,255,0.02);
+          border: 1px solid rgba(255,255,255,0.06);
+          border-radius: 20px;
+          padding: 18px 14px;
+          min-height: 280px; max-height: 440px;
+          overflow-y: auto;
+          display: flex; flex-direction: column; gap: 14px;
+        }
+        .chat-box::-webkit-scrollbar { width: 4px; }
+        .chat-box::-webkit-scrollbar-thumb { background: rgba(240,192,64,0.2); border-radius: 4px; }
+
+        .msg { display: flex; flex-direction: column; }
+        .msg.user { align-items: flex-end; }
+        .msg.agent { align-items: flex-start; }
+        .bubble {
+          max-width: 85%; padding: 11px 15px; font-size: 14px; line-height: 1.7;
+        }
+        .bubble.user {
+          background: linear-gradient(135deg, rgba(240,192,64,0.18), rgba(200,144,16,0.12));
+          border: 1px solid rgba(240,192,64,0.3);
+          border-radius: 18px 18px 4px 18px;
+          color: #f5e8b8;
+        }
+        .bubble.agent {
+          background: rgba(255,255,255,0.05);
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 18px 18px 18px 4px;
+          color: #f0f0ee;
+        }
+        .bubble-fr {
+          margin-top: 8px; color: rgba(180,160,100,0.75); font-size: 12px;
+          font-style: italic; border-top: 1px solid rgba(255,255,255,0.07);
+          padding-top: 7px; line-height: 1.6;
+        }
+        .msg-label { font-size: 10px; color: rgba(150,130,80,0.5); margin-top: 3px; }
+        .msg.user .msg-label { margin-right: 4px; }
+        .msg.agent .msg-label { margin-left: 4px; }
+
+        /* Typing */
+        .typing { display: flex; align-items: center; gap: 6px; padding: 6px 14px; }
+        .typing-dot {
+          width: 7px; height: 7px; border-radius: 50%;
+          background: rgba(240,192,64,0.6);
+          animation: bounce 1.2s ease infinite;
+        }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes bounce {
+          0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+          40% { transform: translateY(-6px); opacity: 1; }
+        }
+
+        /* Topics */
+        .topics-label { color: rgba(200,180,120,0.4); font-size: 11px; margin-bottom: 7px; letter-spacing: 0.06em; text-transform: uppercase; }
+        .topics { display: flex; flex-wrap: wrap; gap: 7px; }
+        .btn-topic {
+          background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+          border-radius: 20px; padding: 5px 13px;
+          color: rgba(220,200,140,0.8); font-size: 12px;
+          cursor: pointer; font-family: 'Source Serif 4', serif;
+          transition: all 0.15s;
+        }
+        .btn-topic:hover { background: var(--gold-dim); border-color: var(--gold-border); }
+        .btn-topic:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        /* Input row */
+        .input-row { display: flex; gap: 9px; }
+        .chat-input {
+          flex: 1; background: rgba(255,255,255,0.05);
+          border: 1px solid rgba(255,255,255,0.12); border-radius: 12px;
+          padding: 12px 16px; color: var(--text); font-size: 14px;
+          font-family: 'Source Serif 4', serif; outline: none;
+          transition: border-color 0.2s;
+        }
+        .chat-input:focus { border-color: rgba(240,192,64,0.4); }
+        .chat-input::placeholder { color: var(--text-dim); }
+        .chat-input:disabled { opacity: 0.5; }
+        .btn-send {
+          background: linear-gradient(135deg, #c89010, var(--gold));
+          border: none; border-radius: 12px; padding: 12px 18px;
+          color: #0c0c14; font-size: 18px; font-weight: 700;
+          cursor: pointer; transition: all 0.2s;
+        }
+        .btn-send:disabled { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.3); cursor: not-allowed; }
+        .hint { text-align: center; color: rgba(150,130,80,0.4); font-size: 11px; font-style: italic; }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <div class="header-flag">🇩🇪</div>
+    <h1>Deutschkurs A1</h1>
+    <p>Votre professeur d'allemand personnel · Niveau débutant</p>
+    <div class="badges">
+        <div class="badge badge-active"><span class="dot"></span> Agent IA actif</div>
+        <div class="badge badge-saved hidden" id="badge-saved">✓ Sauvegardé</div>
+        <div class="badge badge-stats hidden" id="badge-stats" onclick="toggleStats()">
+            📊 <span id="badge-stats-text">0 msg · 0 mots</span>
+        </div>
+    </div>
+</div>
+
+<div class="main">
+
+    <!-- STATS PANEL -->
+    <div class="stats-panel" id="stats-panel">
+        <div class="stats-header">
+            <h3>📈 Votre progression</h3>
+            <button class="btn-close" onclick="toggleStats()">✕</button>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-box"><div class="stat-label">Sessions</div><div class="stat-value" id="stat-sessions">0</div></div>
+            <div class="stat-box"><div class="stat-label">Messages</div><div class="stat-value" id="stat-messages">0</div></div>
+            <div class="stat-box"><div class="stat-label">Dernière session</div><div class="stat-value" id="stat-date" style="font-size:14px">—</div></div>
+            <div class="stat-box"><div class="stat-label">Sujets abordés</div><div class="stat-value" id="stat-topics">0</div></div>
+        </div>
+        <div class="tags-section" id="section-words">
+            <div class="tags-label">Mots appris</div>
+            <div class="tags" id="tags-words"></div>
+        </div>
+        <div class="tags-section" id="section-errors">
+            <div class="tags-label">Points à travailler</div>
+            <div class="tags" id="tags-errors"></div>
+        </div>
+        <div class="tags-section" id="section-topics-seen">
+            <div class="tags-label">Sujets vus</div>
+            <div class="tags" id="tags-topics"></div>
+        </div>
+        <button class="btn-reset" onclick="resetProgress()">🗑️ Réinitialiser la progression</button>
+    </div>
+
+    <!-- WELCOME SCREEN -->
+    <div class="welcome-card" id="welcome-card">
+        <div class="welcome-icon" id="welcome-icon">🎓</div>
+        <h2 id="welcome-title">Bereit zum Lernen?</h2>
+        <div id="welcome-body">
+            <p class="intro-text">Votre agent mémorise votre progression : mots appris, erreurs fréquentes, sujets abordés. Chaque session est personnalisée !</p>
+        </div>
+        <button class="btn-start" id="btn-start" onclick="startConversation()" disabled>Chargement...</button>
+    </div>
+
+    <!-- CHAT AREA (hidden initially) -->
+    <div id="chat-area" class="hidden">
+        <div class="chat-box" id="chat-box"></div>
+    </div>
+
+    <!-- TOPICS (hidden initially) -->
+    <div id="topics-area" class="hidden">
+        <div class="topics-label">Changer de sujet</div>
+        <div class="topics">
+            <button class="btn-topic" onclick="useTopic('Stell dich vor! Wie heißt du?')">👋 Se présenter</button>
+            <button class="btn-topic" onclick="useTopic('Beschreib dein Haus oder deine Wohnung.')">🏠 La maison</button>
+            <button class="btn-topic" onclick="useTopic('Was isst du gern?')">🍕 La nourriture</button>
+            <button class="btn-topic" onclick="useTopic('Wie ist das Wetter heute?')">🌤️ La météo</button>
+            <button class="btn-topic" onclick="useTopic('Erzähl mir von deiner Familie!')">👨‍👩‍👧 La famille</button>
+            <button class="btn-topic" onclick="useTopic('Was machst du in deiner Freizeit?')">🎯 Les hobbies</button>
+        </div>
+    </div>
+
+    <!-- INPUT (hidden initially) -->
+    <div id="input-area" class="hidden">
+        <div class="input-row">
+            <input class="chat-input" id="chat-input" type="text"
+                   placeholder="Schreib auf Deutsch... (Écris en allemand...)"
+                   onkeydown="if(event.key==='Enter')sendMessage()" />
+            <button class="btn-send" id="btn-send" onclick="sendMessage()" disabled>➤</button>
+        </div>
+        <p class="hint" style="margin-top:10px">Progression sauvegardée automatiquement 💾 · Cliquez sur 📊 pour voir votre bilan</p>
+    </div>
+
+</div>
+
+<script>
+    const STORAGE_KEY = "deutschkurs-progress";
+
+    let progress = {
+      wordsLearned: [], commonErrors: [], topicsSeen: [],
+      sessionsCount: 0, totalMessages: 0, lastSession: null
+    };
+    let history = [];
+    let isLoading = false;
+
+    // ---- Storage ----
+    async function loadProgress() {
+      try {
+        const r = await window.storage.get(STORAGE_KEY);
+        if (r?.value) progress = JSON.parse(r.value);
+      } catch {}
+      initWelcome();
+      document.getElementById('btn-start').disabled = false;
+      document.getElementById('btn-start').textContent =
+        progress.sessionsCount > 0 ? "Continuer l'apprentissage 🚀" : "Los geht's! 🚀";
+    }
+
+    async function saveProgress() {
+      try {
+        await window.storage.set(STORAGE_KEY, JSON.stringify(progress));
+        showBadge('badge-saved', 2000);
+      } catch {}
+    }
+
+    async function resetProgress() {
+      progress = { wordsLearned: [], commonErrors: [], topicsSeen: [], sessionsCount: 0, totalMessages: 0, lastSession: null };
+      history = [];
+      try { await window.storage.delete(STORAGE_KEY); } catch {}
+      document.getElementById('stats-panel').classList.remove('open');
+      document.getElementById('chat-area').classList.add('hidden');
+      document.getElementById('topics-area').classList.add('hidden');
+      document.getElementById('input-area').classList.add('hidden');
+      document.getElementById('welcome-card').classList.remove('hidden');
+      document.getElementById('badge-stats').classList.add('hidden');
+      initWelcome();
+    }
+
+    // ---- UI helpers ----
+    function showBadge(id, duration) {
+      const el = document.getElementById(id);
+      el.classList.remove('hidden');
+      if (duration) setTimeout(() => el.classList.add('hidden'), duration);
+    }
+
+    function toggleStats() {
+      document.getElementById('stats-panel').classList.toggle('open');
+      updateStatsPanel();
+    }
+
+    function updateStatsPanel() {
+      document.getElementById('stat-sessions').textContent = progress.sessionsCount;
+      document.getElementById('stat-messages').textContent = progress.totalMessages;
+      document.getElementById('stat-date').textContent = progress.lastSession || '—';
+      document.getElementById('stat-topics').textContent = progress.topicsSeen.length;
+
+      const renderTags = (ids, items, cls) => {
+        const el = document.getElementById(ids[0]);
+        const sec = document.getElementById(ids[1]);
+        el.innerHTML = items.map(w => `<span class="tag ${cls}">${w}</span>`).join('');
+        sec.style.display = items.length ? 'block' : 'none';
+      };
+      renderTags(['tags-words','section-words'], progress.wordsLearned, 'tag-green');
+      renderTags(['tags-errors','section-errors'], progress.commonErrors, 'tag-orange');
+      renderTags(['tags-topics','section-topics-seen'], progress.topicsSeen, 'tag-blue');
+    }
+
+    function updateBadgeStats() {
+      const el = document.getElementById('badge-stats');
+      if (progress.totalMessages > 0) {
+        el.classList.remove('hidden');
+        document.getElementById('badge-stats-text').textContent =
+          `${progress.totalMessages} msg · ${progress.wordsLearned.length} mots`;
+      }
+    }
+
+    function initWelcome() {
+      const returning = progress.sessionsCount > 0;
+      document.getElementById('welcome-icon').textContent = returning ? '👋' : '🎓';
+      document.getElementById('welcome-title').textContent = returning ? 'Willkommen zurück !' : 'Bereit zum Lernen?';
+      const body = document.getElementById('welcome-body');
+      if (returning) {
+        body.innerHTML = `
+          <p class="returning-info">
+            Vous avez déjà fait <strong>${progress.sessionsCount} session${progress.sessionsCount>1?'s':''}</strong>
+            et appris <strong>${progress.wordsLearned.length} mot${progress.wordsLearned.length>1?'s':''}</strong>.
+          </p>
+          <p class="returning-sub">L'agent reprend là où vous vous étiez arrêté · Dernière session : ${progress.lastSession || '—'}</p>
+          <br>`;
+      } else {
+        body.innerHTML = `<p class="intro-text">Votre agent mémorise votre progression : mots appris, erreurs fréquentes, sujets abordés. Chaque session est personnalisée !</p>`;
+      }
+    }
+
+    // ---- Message parsing ----
+    function parseBilan(text) {
+      const m = text.match(/📊 BILAN:(.*)/s);
+      if (!m) return null;
+      const extract = (key) => {
+        const r = m[1].match(new RegExp(`${key}=\\[([^\\]]*)\\]`));
+        if (!r || !r[1].trim()) return [];
+        return r[1].split(',').map(s => s.trim()).filter(Boolean);
+      };
+      return { wordsLearned: extract('mots_appris'), commonErrors: extract('erreurs_frequentes'), topicsSeen: extract('sujets_vus') };
+    }
+
+    function parseMessage(text) {
+      const clean = text.replace(/📊 BILAN:[\s\S]*$/, '').trim();
+      const de = clean.match(/🇩🇪\s*([\s\S]*?)(?=🇫🇷|$)/);
+      const fr = clean.match(/🇫🇷\s*([\s\S]*?)$/);
+      return { de: de ? de[1].trim() : clean, fr: fr ? fr[1].trim() : null };
+    }
+
+    // ---- Chat UI ----
+    function addMessage(role, content) {
+      const box = document.getElementById('chat-box');
+      const parsed = role === 'assistant' ? parseMessage(content) : null;
+      const div = document.createElement('div');
+      div.className = `msg ${role === 'user' ? 'user' : 'agent'}`;
+
+      if (role === 'user') {
+        div.innerHTML = `
+          <div class="bubble user">${escHtml(content)}</div>
+          <span class="msg-label">Vous</span>`;
+      } else {
+        div.innerHTML = `
+          <div class="bubble agent">
+            <span>${escHtml(parsed.de)}</span>
+            ${parsed.fr ? `<div class="bubble-fr">🇫🇷 ${escHtml(parsed.fr)}</div>` : ''}
+          </div>
+          <span class="msg-label">🇩🇪 Lehrer</span>`;
+      }
+      box.appendChild(div);
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function showTyping() {
+      const box = document.getElementById('chat-box');
+      const div = document.createElement('div');
+      div.id = 'typing-indicator';
+      div.className = 'typing';
+      div.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+      box.appendChild(div);
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function hideTyping() {
+      document.getElementById('typing-indicator')?.remove();
+    }
+
+    function escHtml(s) {
+      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+    }
+
+    function setLoading(val) {
+      isLoading = val;
+      document.getElementById('btn-send').disabled = val;
+      document.getElementById('chat-input').disabled = val;
+      document.querySelectorAll('.btn-topic').forEach(b => b.disabled = val);
+    }
+
+    // ---- API ----
+    function buildSystemPrompt() {
+      return `Du bist ein freundlicher Deutschlehrer für Anfänger (Niveau A1). Deine Aufgabe ist es, mit dem Lernenden auf Deutsch zu sprechen und dabei:
+
+    1. NUR einfaches A1-Deutsch zu verwenden (kurze Sätze, häufige Wörter)
+    2. Langsam und klar zu schreiben
+    3. Nach jeder Antwort des Lernenden eine kleine Korrektur oder ein Lob zu geben
+    4. Immer eine einfache Frage zu stellen, um das Gespräch fortzusetzen
+    5. Am Ende jeder Nachricht eine kurze französische Übersetzung anzugeben
+
+    Format STRIKT einhalten - IMMER diese 3 Blöcke:
+    🇩🇪 [Deine Nachricht auf Deutsch]
+    🇫🇷 [Traduction française brève]
+    📊 BILAN: mots_appris=[mot1,mot2] erreurs_frequentes=[erreur1] sujets_vus=[sujet1]
+
+    Für BILAN: liste ALLE bisher gelernten Wörter kumulativ auf.
+    ${progress.wordsLearned.length > 0 ? `\nMots déjà connus: ${progress.wordsLearned.join(', ')}` : ''}
+    ${progress.commonErrors.length > 0 ? `\nErreurs fréquentes: ${progress.commonErrors.join(', ')}` : ''}
+    ${progress.topicsSeen.length > 0 ? `\nSujets déjà abordés: ${progress.topicsSeen.join(', ')}` : ''}
+    ${progress.sessionsCount > 0 ? `\nC'est la session numéro ${progress.sessionsCount}. Accueille l'élève chaleureusement en mentionnant qu'il revient !` : ''}
+
+    Bleib ermutigend, geduldig und freundlich!`;
+    }
+
+    async function callClaude(userMessage) {
+      history.push({ role: 'user', content: userMessage });
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          system: buildSystemPrompt(),
+          messages: history,
+        })
+      });
+      const data = await response.json();
+      const reply = data.content?.[0]?.text || 'Entschuldigung, ein Fehler ist passiert.';
+      history.push({ role: 'assistant', content: reply });
+      return reply;
+    }
+
+    function applyBilan(reply) {
+      const bilan = parseBilan(reply);
+      if (!bilan) return;
+      const merge = (a, b) => [...new Set([...a, ...b])];
+      progress.wordsLearned = merge(progress.wordsLearned, bilan.wordsLearned);
+      progress.commonErrors = merge(progress.commonErrors, bilan.commonErrors);
+      progress.topicsSeen = merge(progress.topicsSeen, bilan.topicsSeen);
+      progress.totalMessages++;
+      progress.lastSession = new Date().toLocaleDateString('fr-FR');
+      updateBadgeStats();
+      saveProgress();
+    }
+
+    // ---- Actions ----
+    async function startConversation() {
+      progress.sessionsCount++;
+      document.getElementById('welcome-card').classList.add('hidden');
+      document.getElementById('chat-area').classList.remove('hidden');
+      document.getElementById('topics-area').classList.remove('hidden');
+      document.getElementById('input-area').classList.remove('hidden');
+
+      setLoading(true);
+      showTyping();
+      const reply = await callClaude("Commence la conversation. Salue l'élève et propose de pratiquer.");
+      hideTyping();
+      addMessage('assistant', reply);
+      applyBilan(reply);
+      setLoading(false);
+      document.getElementById('btn-send').disabled = false;
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById('chat-input');
+      const text = input.value.trim();
+      if (!text || isLoading) return;
+      input.value = '';
+      addMessage('user', text);
+      setLoading(true);
+      showTyping();
+      const reply = await callClaude(text);
+      hideTyping();
+      addMessage('assistant', reply);
+      applyBilan(reply);
+      setLoading(false);
+    }
+
+    function useTopic(prompt) {
+      if (isLoading) return;
+      document.getElementById('chat-input').value = prompt;
+      sendMessage();
+    }
+
+    // ---- Init ----
+    loadProgress();
+</script>
+</body>
+</html>

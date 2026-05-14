@@ -10,8 +10,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
+import com.example.myapplication.data.AiServiceImpl
 import com.example.myapplication.data.AudioPlayer
 import com.example.myapplication.data.TtsPlayer
+import com.example.myapplication.data.ConversationStoreImpl
 import com.example.myapplication.data.DatabaseDriverFactory
 import com.example.myapplication.data.DictionaryDriverFactory
 import com.example.myapplication.data.DictionaryRepository
@@ -26,6 +28,8 @@ class MainActivity : ComponentActivity() {
     private val audioPlayer by lazy { AudioPlayer(applicationContext) }
     private val ttsPlayer by lazy { TtsPlayer(applicationContext) }
     private val speechRecognizer by lazy { SpeechRecognizer(applicationContext) }
+    private val aiService by lazy { AiServiceImpl() }
+    private val conversationStore by lazy { ConversationStoreImpl(applicationContext) }
 
     private val requestMicPermission = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -50,6 +54,8 @@ class MainActivity : ComponentActivity() {
                         audioPlayer = audioPlayer,
                         ttsPlayer = ttsPlayer,
                         speechRecognizer = speechRecognizer,
+                        aiService = aiService,
+                        conversationStore = conversationStore,
                         modifier = Modifier.padding(innerPadding)
                     )
                 }

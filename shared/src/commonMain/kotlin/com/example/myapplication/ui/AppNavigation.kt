@@ -10,13 +10,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.example.myapplication.data.AiService
 import com.example.myapplication.data.AudioPlayer
 import com.example.myapplication.data.TtsPlayer
+import com.example.myapplication.data.ConversationStore
 import com.example.myapplication.data.DictionaryRepository
 import com.example.myapplication.data.LearningRepository
 import com.example.myapplication.data.SpeechRecognizer
 import com.example.myapplication.data.VocabularyRepository
 import com.example.myapplication.ui.conjugation.ConjugationScreen
+import com.example.myapplication.ui.conversation.ConversationScreen
+import com.example.myapplication.ui.settings.ApiSettingsScreen
 import com.example.myapplication.ui.review.ConjugationReviewScreen
 import com.example.myapplication.ui.dictionary.DictionaryDetailScreen
 import com.example.myapplication.ui.practice.StoryViewModel
@@ -58,6 +62,12 @@ data class ReviewRoute(val sourceLocale: String, val targetLocale: String, val s
 @Serializable
 data class WordReviewRoute(val sourceLocale: String, val targetLocale: String)
 
+@Serializable
+object ConversationRoute
+
+@Serializable
+object ApiSettingsRoute
+
 @Composable
 fun AppNavigation(
     repository: VocabularyRepository,
@@ -66,6 +76,8 @@ fun AppNavigation(
     audioPlayer: AudioPlayer,
     ttsPlayer: TtsPlayer,
     speechRecognizer: SpeechRecognizer,
+    aiService: AiService,
+    conversationStore: ConversationStore,
     modifier: Modifier = Modifier
 ) {
     val appViewModel: StoryViewModel = viewModel { StoryViewModel(repository, learningRepository) }
@@ -84,7 +96,26 @@ fun AppNavigation(
                 onLectureClick = { navController.navigate(StoriesRoute) },
                 onRevisionClick = { navController.navigate(ReviewSelectionRoute) },
                 onDictionnaireClick = { navController.navigate(DictionaryRoute()) },
-                onConjugaisonsClick = { navController.navigate(ConjugationRoute) }
+                onConjugaisonsClick = { navController.navigate(ConjugationRoute) },
+                onConversationClick = { navController.navigate(ConversationRoute) }
+            )
+        }
+        composable<ConversationRoute> {
+            ConversationScreen(
+                aiService = aiService,
+                conversationStore = conversationStore,
+                vocabularyRepository = repository,
+                learningRepository = learningRepository,
+                dictionaryRepository = dictionaryRepository,
+                onSettingsClick = { navController.navigate(ApiSettingsRoute) },
+                onWordClick = { word -> navController.navigate(DictionaryRoute(word)) },
+                onBack = { navController.popBackStack() }
+            )
+        }
+        composable<ApiSettingsRoute> {
+            ApiSettingsScreen(
+                conversationStore = conversationStore,
+                onBack = { navController.popBackStack() }
             )
         }
         composable<ConjugationRoute> {

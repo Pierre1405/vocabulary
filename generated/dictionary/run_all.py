@@ -96,9 +96,10 @@ def main():
 
     # Étape 3 — Génération de la DB
     print("\n--- Étape 3 : Génération dictionary.db ---")
+    output_db = BASE.parent.parent / "app" / "src" / "main" / "assets" / "dictionary.db"
     run("generate DB", ["generate_dictionary_db.py",
         "--inputs", "normalized_de.json", "normalized_fr.json",
-        "--output", "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\app\\src\\main\\assets\\dictionary.db"])
+        "--output", str(output_db)])
 
     total = time.time() - total_start
     print(f"\n{'=' * 60}")

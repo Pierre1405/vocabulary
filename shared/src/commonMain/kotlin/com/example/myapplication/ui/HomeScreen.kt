@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.AutoStories
 import androidx.compose.material.icons.filled.Book
 import androidx.compose.material.icons.filled.MenuBook
 import androidx.compose.material.icons.filled.School
+import androidx.compose.material.icons.filled.SmartToy
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -28,6 +29,7 @@ fun HomeScreen(
     onRevisionClick: () -> Unit,
     onDictionnaireClick: () -> Unit,
     onConjugaisonsClick: () -> Unit,
+    onConversationClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -72,6 +74,14 @@ fun HomeScreen(
             label = LocalStrings.current.homeConjugation,
             icon = { Icon(Icons.Filled.MenuBook, contentDescription = null, modifier = Modifier.size(28.dp)) },
             onClick = onConjugaisonsClick
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        HomeButton(
+            label = LocalStrings.current.homeConversation,
+            icon = { Icon(Icons.Filled.SmartToy, contentDescription = null, modifier = Modifier.size(28.dp)) },
+            onClick = onConversationClick
         )
     }
 }

@@ -8,6 +8,9 @@ import sys
 import glob
 import argparse
 
+_HERE = os.path.dirname(os.path.abspath(__file__))
+_ROOT = os.path.join(_HERE, "..", "..")
+
 sys.stdout.reconfigure(line_buffering=True)
 
 def clean_generated():
@@ -15,7 +18,7 @@ def clean_generated():
     Supprime les fichiers générés (chunks, TSV, base de données, fichiers audio).
     """
     # Supprimer les fichiers texte traduits
-    text_files = glob.glob("generated/content/step 1 translation/*.txt")
+    text_files = glob.glob(os.path.join(_HERE, "step 1 translation", "*.txt"))
     for text_file in text_files:
         if os.path.exists(text_file):
             print(f"Suppression du fichier : {text_file}")
@@ -23,9 +26,9 @@ def clean_generated():
             print(f"Fichier supprimé : {text_file}")
         else:
             print(f"Fichier non trouvé : {text_file}")
-    
+
     # Supprimer les fichiers audio
-    audio_files = glob.glob("app/src/main/res/raw/sentence_*.mp3")
+    audio_files = glob.glob(os.path.join(_ROOT, "app", "src", "main", "res", "raw", "sentence_*.mp3"))
     for audio_file in audio_files:
         if os.path.exists(audio_file):
             print(f"Suppression du fichier : {audio_file}")
@@ -33,9 +36,9 @@ def clean_generated():
             print(f"Fichier supprimé : {audio_file}")
         else:
             print(f"Fichier non trouvé : {audio_file}")
-    
+
     # Supprimer les chunks
-    chunk_files = glob.glob("generated/content/step 3 chunk/chunk_*.tsv")
+    chunk_files = glob.glob(os.path.join(_HERE, "step 3 chunk", "chunk_*.tsv"))
     for chunk_file in chunk_files:
         if os.path.exists(chunk_file):
             print(f"Suppression du fichier : {chunk_file}")
@@ -43,18 +46,18 @@ def clean_generated():
             print(f"Fichier supprimé : {chunk_file}")
         else:
             print(f"Fichier non trouvé : {chunk_file}")
-    
+
     # Supprimer le fichier TSV généré
-    tsv_file = "generated/content/step 2 generate_tsv/Sentence pairs with ID.tsv"
+    tsv_file = os.path.join(_HERE, "step 2 generate_tsv", "Sentence pairs with ID.tsv")
     if os.path.exists(tsv_file):
         print(f"Suppression du fichier : {tsv_file}")
         os.remove(tsv_file)
         print(f"Fichier supprimé : {tsv_file}")
     else:
         print(f"Fichier non trouvé : {tsv_file}")
-    
+
     # Supprimer la base de données
-    db_file = "app/src/main/assets/vocabulary.db"
+    db_file = os.path.join(_ROOT, "app", "src", "main", "assets", "vocabulary.db")
     if os.path.exists(db_file):
         print(f"Suppression du fichier : {db_file}")
         os.remove(db_file)

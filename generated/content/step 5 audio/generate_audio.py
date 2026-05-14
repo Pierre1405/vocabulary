@@ -12,10 +12,12 @@ from google.cloud import texttospeech
 
 sys.stdout.reconfigure(line_buffering=True)
 
-# Chemins par défaut
-DEFAULT_CHUNKS_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\content\\step 3 chunk\\"
-DEFAULT_OUTPUT_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\app\\src\\main\\res\\raw\\"
-DEFAULT_CONFIG_DIR = "C:\\Users\\Pierre corbel\\Desktop\\code\\Android app\\vocabulary\\generated\\content\\step 0 source\\"
+# Chemins par défaut (relatifs à l'emplacement de ce script)
+_HERE = os.path.dirname(os.path.abspath(__file__))
+_ROOT = os.path.join(_HERE, "..", "..", "..")
+DEFAULT_CHUNKS_DIR = os.path.join(_HERE, "..", "step 3 chunk")
+DEFAULT_OUTPUT_DIR = os.path.join(_ROOT, "app", "src", "main", "res", "raw")
+DEFAULT_CONFIG_DIR = os.path.join(_HERE, "..", "step 0 source")
 
 def load_voices(config_dir):
     config = configparser.ConfigParser()

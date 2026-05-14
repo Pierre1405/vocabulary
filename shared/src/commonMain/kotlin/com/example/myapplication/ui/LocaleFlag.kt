@@ -11,6 +11,22 @@ fun gradeColor(grade: Int): Color = when (grade) {
     else -> Color.Gray
 }
 
+fun localeToName(locale: String): String = when (locale) {
+    "de" -> "German"
+    "fr" -> "French"
+    "en" -> "English"
+    "es" -> "Spanish"
+    "it" -> "Italian"
+    "pt" -> "Portuguese"
+    "nl" -> "Dutch"
+    "pl" -> "Polish"
+    "ru" -> "Russian"
+    "zh" -> "Chinese"
+    "ja" -> "Japanese"
+    "ko" -> "Korean"
+    else -> locale
+}
+
 fun localeToFlag(locale: String): String = when (locale) {
     "fr" -> "🇫🇷"
     "de" -> "🇩🇪"

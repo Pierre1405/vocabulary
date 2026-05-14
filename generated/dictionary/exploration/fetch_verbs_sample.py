@@ -6,7 +6,7 @@ import urllib.request
 import gzip
 import json
 
-URL = "https://kaikki.org/dictionary/downloads/de/de-extract.jsonl.gz"
+URL = "dictionary/source/de-extract.jsonl.gz"
 OUTPUT = "sample_de_verbs.json"
 TARGET = 20
 

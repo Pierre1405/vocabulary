@@ -14,6 +14,22 @@ import sqlite3
 from pathlib import Path
 
 FORMS_CONFIG_PATH = Path(__file__).parent / "forms_config.json"
+DEFAULT_VERSION_FILE = Path(__file__).parent.parent.parent / "shared" / "src" / "androidMain" / "kotlin" / "com" / "example" / "myapplication" / "data" / "DictionaryDriverFactory.kt"
+
+
+def increment_db_version(version_file):
+    import re
+    path = Path(version_file)
+    content = path.read_text(encoding="utf-8")
+    match = re.search(r'(DICTIONARY_DB_VERSION\s*=\s*)(\d+)', content)
+    if not match:
+        print("Impossible de trouver DICTIONARY_DB_VERSION dans le fichier.")
+        return
+    current = int(match.group(2))
+    new_version = current + 1
+    content = re.sub(r'(DICTIONARY_DB_VERSION\s*=\s*)\d+', f'\\g<1>{new_version}', content)
+    path.write_text(content, encoding="utf-8")
+    print(f"DICTIONARY_DB_VERSION incrementee : {current} -> {new_version}")
 
 
 def load_locale_configs() -> dict[str, dict]:
@@ -215,6 +231,7 @@ def main():
     parser = argparse.ArgumentParser(description="Genere dictionary.db depuis les fichiers normalises.")
     parser.add_argument("--inputs", nargs="+", required=True, help="Fichiers JSON normalises")
     parser.add_argument("--output", required=True, help="Fichier SQLite de sortie")
+    parser.add_argument("--version-file", default=str(DEFAULT_VERSION_FILE), help="Chemin vers DictionaryDriverFactory.kt")
     args = parser.parse_args()
 
     output_path = Path(args.output)
@@ -280,6 +297,8 @@ def main():
     print(f"  {total_translations} traductions")
     print(f"  {actual_forms} formes inserees ({unique_features} features uniques)")
     print(f"  Taille : {size_kb:.1f} KB -> {args.output}")
+
+    increment_db_version(args.version_file)
 
     # Verification rapide
     conn = sqlite3.connect(args.output)

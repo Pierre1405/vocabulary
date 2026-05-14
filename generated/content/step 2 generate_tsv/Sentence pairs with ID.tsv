@@ -188,580 +188,579 @@ id	fr	de	file_name
 187	Il fait toujours la grasse matinée.	Immer schläft er lange.	a1_07
 188	Nous allons souvent nous promener.	Wir gehen oft spazieren.	a1_07
 189	Nous allons souvent nous promener.	Oft gehen wir spazieren.	a1_07
-190	Malheureusement, je ne peux pas venir.	Leider komme ich nicht.	a1_07
+190	Malheureusement, je ne pourrai pas venir.	Leider komme ich nicht.	a1_07
 191	Je cuisine pour toi ce soir.	Heute Abend koche ich für dich.	a1_07
 192	Parfois, il ne prend pas de petit-déjeuner.	Manchmal isst er kein Frühstück.	a1_07
 193	Néanmoins, il va à l'école.	Trotzdem geht er zur Schule.	a1_07
-194	Je rentre chez moi la semaine prochaine.	Nächste Woche fahre ich nach Hause.	a1_07
-195	Je ne suis pas fatigué.	Ich bin nicht müde.	a1_08
-196	Il n'est pas chez lui.	Er ist nicht zu Hause.	a1_08
-197	Elle ne viendra pas aujourd'hui.	Sie kommt heute nicht.	a1_08
-198	Ce n'est pas correct.	Das ist nicht richtig.	a1_08
-199	Je n'aime pas lire.	Ich lese nicht gerne.	a1_08
-200	Vous n'êtes pas endormi.	Du schläfst nicht.	a1_08
-201	Nous n'y allons pas aujourd'hui.	Wir fahren heute nicht.	a1_08
-202	Il ne fait pas beau.	Das Wetter ist nicht schön.	a1_08
-203	Je n'ai pas de voiture.	Ich habe kein Auto.	a1_08
-204	Vous n'avez pas le temps.	Du hast keine Zeit.	a1_08
-205	Il n'a pas faim.	Er hat keinen Hunger.	a1_08
-206	Elle n'a pas d'argent.	Sie hat kein Geld.	a1_08
-207	Nous n'avons pas de chat.	Wir haben keine Katze.	a1_08
-208	Vous n'avez pas de café.	Ihr habt keinen Kaffee.	a1_08
-209	Ils n'en ont aucune idée.	Sie haben keine Idee.	a1_08
-210	Ce n'est pas un problème.	Das ist kein Problem.	a1_08
-211	Il ne parle pas fort.	Er spricht nicht laut.	a1_08
-212	Elle n'a pas de livre avec elle.	Sie hat kein Buch dabei.	a1_08
-213	Le restaurant est fermé.	Das Restaurant ist nicht offen.	a1_08
-214	Je ne le connais pas.	Ich kenne ihn nicht.	a1_08
-215	Vous n'avez pas besoin de dictionnaire.	Du brauchst kein Wörterbuch.	a1_08
-216	Il ne conduit pas vite.	Er fährt nicht schnell.	a1_08
-217	Ce n'est pas une bonne idée.	Das ist keine gute Idee.	a1_08
-218	Nous n'avons plus d'eau.	Wir haben kein Wasser mehr.	a1_08
-219	Je ne comprends pas.	Ich verstehe das nicht.	a1_08
-220	Il ne viendra pas, il est malade.	Er kommt nicht, er ist krank.	a1_08
-221	L'enfant ne pleure pas.	Das Kind weint nicht.	a1_08
-222	Elle n'est pas encore endormie.	Sie schläft noch nicht.	a1_08
-223	Tu viens aujourd'hui ?	Kommst du heute?	a1_09
-224	Oui, je viens aujourd'hui.	Ja, ich komme heute.	a1_09
-225	Avez-vous le temps ?	Hast du Zeit?	a1_09
-226	Non, je n'ai pas le temps.	Nein, ich habe keine Zeit.	a1_09
-227	Est-il chez lui ?	Ist er zu Hause?	a1_09
-228	Oui, il est chez lui.	Ja, er ist zu Hause.	a1_09
-229	Parlez-vous allemand ?	Sprichst du Deutsch?	a1_09
-230	Oui, je parle un peu allemand.	Ja, ich spreche ein bisschen Deutsch.	a1_09
-231	Avez-vous faim?	Habt ihr Hunger?	a1_09
-232	Oui, nous avons faim.	Ja, wir haben Hunger.	a1_09
-233	Qui es-tu?	Wer bist du?	a1_09
-234	Je m'appelle Maria.	Ich heiße Maria.	a1_09
-235	Que fais-tu?	Was machst du?	a1_09
-236	J'apprends l'allemand.	Ich lerne Deutsch.	a1_09
-237	Où  habites-tu?	Wo wohnst du?	a1_09
-238	J'habite à Munich.	Ich wohne in München.	a1_09
-239	Quand arrives-tu ?	Wann kommst du?	a1_09
-240	J'arriverai à trois heures.	Ich komme um drei Uhr.	a1_09
-241	Quel est ton nom?	Wie heißt du?	a1_09
-242	Je m'appelle Thomas.	Ich heiße Thomas.	a1_09
-243	Pourquoi apprenez-vous l'allemand ?	Warum lernst du Deutsch?	a1_09
-244	Parce que je veux visiter l'Allemagne.	Weil ich Deutschland besuchen möchte.	a1_09
-245	Combien ça coûte ?	Wie viel kostet das?	a1_09
-246	Cela coûte cinq euros.	Das kostet fünf Euro.	a1_09
-247	D'où viens-tu?	Woher kommst du?	a1_09
-248	Je viens de France.	Ich komme aus Frankreich.	a1_09
-249	Où vas-tu?	Wohin gehst du?	a1_09
-250	Je vais au supermarché.	Ich gehe in den Supermarkt.	a1_09
-251	Quel âge as-tu?	Wie alt bist du?	a1_09
-252	J'ai vingt ans.	Ich bin zwanzig Jahre alt.	a1_09
-253	Quel livre lis-tu ?	Welches Buch liest du?	a1_09
-254	Je vois l'homme.	Ich sehe den Mann.	a1_10
-255	Je vois la femme.	Ich sehe die Frau.	a1_10
-256	Je vois l'enfant.	Ich sehe das Kind.	a1_10
-257	J'achèterai la pomme.	Ich kaufe den Apfel.	a1_10
-258	Il achète le journal.	Er kauft die Zeitung.	a1_10
-259	Elle achète le livre.	Sie kauft das Buch.	a1_10
-260	Nous rendons visite au professeur.	Wir besuchen den Lehrer.	a1_10
-261	Je prends le bus.	Ich nehme den Bus.	a1_10
-262	Il boit le café.	Er trinkt den Kaffee.	a1_10
-263	Elle mange le gâteau.	Sie isst den Kuchen.	a1_10
-264	Nous avons besoin d'un ordinateur.	Wir brauchen einen Computer.	a1_10
-265	Je cherche un appartement.	Ich suche eine Wohnung.	a1_10
-266	Il a un chien.	Er hat einen Hund.	a1_10
-267	Elle achète un billet.	Sie kauft ein Ticket.	a1_10
-268	Je connais quelqu'un ici.	Ich kenne einen Mann hier.	a1_10
-269	Il lit un roman.	Er liest einen Roman.	a1_10
-270	Elle a une sœur.	Sie hat eine Schwester.	a1_10
-271	Nous partons en voyage.	Wir machen einen Ausflug.	a1_10
-272	Je ne vois aucune erreur.	Ich sehe keinen Fehler.	a1_10
-273	Il n'a pas de chat.	Er hat keine Katze.	a1_10
-274	Elle n'a pas besoin de voiture.	Sie braucht kein Auto.	a1_10
-275	Nous n'avons pas faim.	Wir haben keinen Hunger.	a1_10
-276	Je vais demander au professeur.	Ich frage den Lehrer.	a1_10
-277	Il appelle sa mère.	Er ruft die Mutter an.	a1_10
-278	Elle ouvre la fenêtre.	Sie öffnet das Fenster.	a1_10
-279	Je prendrai la route de gauche.	Ich nehme die Straße links.	a1_10
-280	Il observe l'oiseau dans l'arbre.	Er beobachtet den Vogel im Baum.	a1_10
-281	Nous allons visiter le zoo samedi.	Wir besuchen den Zoo am Samstag.	a1_10
-282	Je sais nager.	Ich kann schwimmen.	a1_11
-283	Vous êtes un bon cuisinier.	Du kannst gut kochen.	a1_11
-284	Malheureusement, il ne peut pas venir.	Er kann leider nicht kommen.	a1_11
-285	Nous pouvons nous rencontrer demain.	Wir können uns morgen treffen.	a1_11
-286	Puis-je vous aider?	Kann ich Ihnen helfen?	a1_11
-287	Je dois travailler aujourd'hui.	Ich muss heute arbeiten.	a1_11
-288	Tu dois faire tes devoirs.	Du musst die Hausaufgaben machen.	a1_11
-289	Il doit aller chez le médecin.	Er muss zum Arzt gehen.	a1_11
-290	Nous devons nous lever tôt.	Wir müssen früh aufstehen.	a1_11
-291	Vous devez partir maintenant ?	Musst du jetzt gehen?	a1_11
-292	Je veux apprendre l'allemand.	Ich will Deutsch lernen.	a1_11
-293	Vous souhaitez voyager en Allemagne.	Du willst nach Deutschland reisen.	a1_11
-294	Il veut acheter une voiture.	Er will ein Auto kaufen.	a1_11
-295	Nous voulons manger ensemble.	Wir wollen zusammen essen.	a1_11
-296	Tu veux venir ?	Willst du mitkommen?	a1_11
-297	Je voudrais un café, s'il vous plaît.	Ich möchte einen Kaffee, bitte.	a1_11
-298	Voulez-vous du thé ?	Möchtest du Tee?	a1_11
-299	Il veut dormir.	Er möchte schlafen.	a1_11
-300	Nous aimerions visiter le musée.	Wir möchten das Museum besuchen.	a1_11
-301	Je n'ai pas le droit de fumer ici.	Ich darf hier nicht rauchen.	a1_11
-302	Vous ne devez pas faire ça.	Du darfst das nicht machen.	a1_11
-303	Il est censé être là à huit heures.	Er soll um acht Uhr hier sein.	a1_11
-304	C'est à elle d'écrire la lettre.	Sie soll den Brief schreiben.	a1_11
-305	Je crains que non.	Ich kann leider nicht.	a1_11
-306	Nous devons malheureusement partir maintenant.	Wir müssen jetzt leider gehen.	a1_11
-307	Puis-je vous poser une question ?	Darf ich Sie etwas fragen?	a1_11
-308	Il n'en a pas envie, mais il doit le faire.	Er will nicht, aber er muss.	a1_11
-309	Pourriez-vous répéter, s'il vous plaît?	Können Sie das wiederholen, bitte?	a1_11
-310	Je me promène dans le parc.	Ich gehe durch den Park.	a1_12
-311	Il traverse la ville à pied.	Er läuft durch die Stadt.	a1_12
-312	Nous traversons le tunnel en voiture.	Wir fahren durch den Tunnel.	a1_12
-313	Ceci est un cadeau pour vous.	Das ist ein Geschenk für dich.	a1_12
-314	J'achète quelque chose pour ma mère.	Ich kaufe etwas für meine Mutter.	a1_12
-315	Il travaille pour une grande entreprise.	Er arbeitet für eine große Firma.	a1_12
-316	Ce cadeau est pour le professeur.	Das Geschenk ist für die Lehrerin.	a1_12
-317	J'achète ce livre pour mon frère.	Ich kaufe das Buch für meinen Bruder.	a1_12
-318	Je suis contre le bruit.	Ich bin gegen Lärm.	a1_12
-319	Il percute un mur.	Er fährt gegen die Wand.	a1_12
-320	Nous nous opposons à cette décision.	Wir sind gegen diese Entscheidung.	a1_12
-321	Je suis triste sans toi.	Ohne dich bin ich traurig.	a1_12
-322	Il sort sans son manteau.	Er geht ohne seinen Mantel raus.	a1_12
-323	Elle voyage sans bagages.	Sie reist ohne Gepäck.	a1_12
-324	Nous ne partirons pas sans vous.	Wir gehen nicht ohne dich.	a1_12
-325	La voiture tourne au coin de la rue.	Das Auto fährt um die Ecke.	a1_12
-326	Nous sommes assis autour de la table.	Wir sitzen um den Tisch.	a1_12
-327	Il fait le tour de la maison.	Er läuft um das Haus.	a1_12
-328	Les enfants jouent autour de la fontaine.	Die Kinder spielen um den Brunnen.	a1_12
-329	Elle court autour du lac.	Sie läuft um den See.	a1_12
-330	Il arrivera à quatre heures.	Er kommt um vier Uhr.	a1_12
-331	À quelle heure commence le film ?	Um wie viel Uhr beginnt der Film?	a1_12
-332	Je suis contre cette idée.	Ich bin gegen diese Idee.	a1_12
-333	Nous traversons l'Allemagne en voiture.	Wir fahren durch Deutschland.	a1_12
-334	Elle franchit la porte.	Sie geht durch die Tür.	a1_12
-335	Il achète des fleurs pour sa femme.	Er kauft Blumen für seine Frau.	a1_12
-336	On ne peut pas vivre sans eau.	Ohne Wasser kann man nicht leben.	a1_12
-337	Je prends le bus.	Ich fahre mit dem Bus.	a1_13
-338	Vous venez en train.	Du kommst mit dem Zug.	a1_13
-339	Il y va avec sa petite amie.	Er geht mit seiner Freundin.	a1_13
-340	Nous y allons en voiture.	Wir fahren mit dem Auto.	a1_13
-341	Tu viens avec moi ?	Kommst du mit mir?	a1_13
-342	Après avoir mangé, je vais me promener.	Nach dem Essen gehe ich spazieren.	a1_13
-343	Elle va à Berlin.	Sie fährt nach Berlin.	a1_13
-344	Il rentre à la maison.	Er kommt nach Hause.	a1_13
-345	Nous allons faire les courses après l'école.	Wir gehen nach der Schule einkaufen.	a1_13
-346	Tu vas en Allemagne ?	Fährst du nach Deutschland?	a1_13
-347	Je vis chez mes parents.	Ich wohne bei meinen Eltern.	a1_13
-348	Il travaille pour une grande entreprise.	Er arbeitet bei einer großen Firma.	a1_13
-349	Le café est situé près de la gare.	Das Café ist beim Bahnhof.	a1_13
-350	Elle dort chez une amie ce soir.	Sie schläft heute bei ihrer Freundin.	a1_13
-351	Ça vient de ma mère.	Das kommt von meiner Mutter.	a1_13
-352	Il rentre du travail.	Er kommt von der Arbeit.	a1_13
-353	Le livre est écrit par un auteur allemand.	Das Buch ist von einem deutschen Autor.	a1_13
-354	Nous revenons de l'école.	Wir kommen von der Schule.	a1_13
-355	Je vais chez mon ami.	Ich gehe zu meinem Freund.	a1_13
-356	Elle va au supermarché.	Sie geht zum Supermarkt.	a1_13
-357	Il va travailler.	Er fährt zur Arbeit.	a1_13
-358	Nous allons chez le médecin.	Wir gehen zum Arzt.	a1_13
-359	J'apprends l'allemand depuis un an.	Ich lerne seit einem Jahr Deutsch.	a1_13
-360	Il vit ici depuis trois mois.	Er wohnt seit drei Monaten hier.	a1_13
-361	Elle est malade depuis hier.	Sie ist seit gestern krank.	a1_13
-362	De quel pays êtes-vous originaire ?	Aus welchem Land kommst du?	a1_13
-363	Je viens de France.	Ich komme aus Frankreich.	a1_13
-364	C'est un cadeau de ma sœur.	Das ist ein Geschenk von meiner Schwester.	a1_13
-365	Le livre est posé sur la table.	Das Buch liegt auf dem Tisch.	a1_14
-366	J'ai posé le livre sur la table.	Ich lege das Buch auf den Tisch.	a1_14
-367	Le chat est assis sur la chaise.	Die Katze sitzt auf dem Stuhl.	a1_14
-368	Il pose le chat sur la chaise.	Er setzt die Katze auf den Stuhl.	a1_14
-369	Nous sommes dans la cuisine.	Wir sind in der Küche.	a1_14
-370	Je vais dans la cuisine.	Ich gehe in die Küche.	a1_14
-371	La voiture est dans le garage.	Das Auto steht in der Garage.	a1_14
-372	Il gare la voiture dans le garage.	Er fährt das Auto in die Garage.	a1_14
-373	Le tableau est accroché au mur.	Das Bild hängt an der Wand.	a1_14
-374	J'accroche le tableau au mur.	Ich hänge das Bild an die Wand.	a1_14
-375	Le chien est couché sous la table.	Der Hund liegt unter dem Tisch.	a1_14
-376	Elle place le sac sous la table.	Sie stellt die Tasche unter den Tisch.	a1_14
-377	La lampe est suspendue au-dessus de la table.	Die Lampe hängt über dem Tisch.	a1_14
-378	Il suspend la lampe au-dessus de la table.	Er hängt die Lampe über den Tisch.	a1_14
-379	Les chaussures sont dehors, devant la porte.	Die Schuhe stehen vor der Tür.	a1_14
-380	Je vais mettre les chaussures devant la porte.	Ich stelle die Schuhe vor die Tür.	a1_14
-381	Le canapé est à côté de la fenêtre.	Das Sofa steht neben dem Fenster.	a1_14
-382	Elle place le canapé près de la fenêtre.	Sie stellt das Sofa neben das Fenster.	a1_14
-383	L'enfant est assis derrière la table.	Das Kind sitzt hinter dem Tisch.	a1_14
-384	Il passe derrière la maison.	Er geht hinter das Haus.	a1_14
-385	Où est le livre ? Il est posé sur la table.	Wo ist das Buch? Es liegt auf dem Tisch.	a1_14
-386	Où poses-tu le livre ? Sur la table.	Wohin legst du das Buch? Auf den Tisch.	a1_14
-387	Où est-elle ? Elle est à l'école.	Wo ist sie? Sie ist in der Schule.	a1_14
-388	Où va-t-elle ? À l'école.	Wohin geht sie? In die Schule.	a1_14
-389	Où est la voiture ? Elle est garée à côté de la maison.	Wo ist das Auto? Es steht neben dem Haus.	a1_14
-390	Où pose-t-on le verre ? Sur la table.	Wohin stellst du das Glas? Auf den Tisch.	a1_14
-391	Le sac est accroché à la porte.	Die Tasche hängt an der Tür.	a1_14
-392	La maison est grande.	Das Haus ist groß.	a1_15
-393	La ville est magnifique.	Die Stadt ist schön.	a1_15
-394	L'homme est vieux.	Der Mann ist alt.	a1_15
-395	Il fait beau.	Das Wetter ist gut.	a1_15
-396	La soupe est chaude.	Die Suppe ist heiß.	a1_15
-397	Le café est froid.	Der Kaffee ist kalt.	a1_15
-398	Le livre est intéressant.	Das Buch ist interessant.	a1_15
-399	La tâche est difficile.	Die Aufgabe ist schwer.	a1_15
-400	Le film est ennuyeux.	Der Film ist langweilig.	a1_15
-401	L'enfant est fatigué.	Das Kind ist müde.	a1_15
-402	Le nom de cet homme de grande taille est Pierre.	Der große Mann heißt Peter.	a1_15
-403	Cette magnifique ville s'appelle Heidelberg.	Die schöne Stadt heißt Heidelberg.	a1_15
-404	La vieille maison est située au bord du lac.	Das alte Haus steht am See.	a1_15
-405	Un petit chien joue dans le jardin.	Ein kleiner Hund spielt im Garten.	a1_15
-406	Une jeune femme lit un livre.	Eine junge Frau liest ein Buch.	a1_15
-407	Un livre intéressant est posé sur la table.	Ein interessantes Buch liegt auf dem Tisch.	a1_15
-408	Le nouveau professeur est très gentil.	Der neue Lehrer ist sehr nett.	a1_15
-409	La vieille dame marche lentement.	Die alte Dame geht langsam.	a1_15
-410	La voiture rouge est rapide.	Das rote Auto ist schnell.	a1_15
-411	Une journée froide commence.	Ein kalter Tag beginnt.	a1_15
-412	Je bois du thé chaud.	Ich trinke heißen Tee.	a1_15
-413	Il achète du pain frais.	Er kauft frisches Brot.	a1_15
-414	Elle lit un bon livre.	Sie liest ein gutes Buch.	a1_15
-415	Nous regardons un beau film.	Wir sehen einen schönen Film.	a1_15
-416	C'est encore loin.	Das ist ein langer Weg.	a1_15
-417	Elle porte une robe bleue.	Sie trägt ein blaues Kleid.	a1_15
-418	Le petit enfant dort.	Das kleine Kind schläft.	a1_15
-419	Il a les cheveux courts et les yeux bleus.	Er hat kurze Haare und blaue Augen.	a1_15
-420	Il y a un parc dans ma ville.	Es gibt einen Park in meiner Stadt.	a1_16
-421	Il y a beaucoup de cafés ici.	Es gibt viele Cafés hier.	a1_16
-422	Il n'y a pas d'hôtel dans ce village.	Es gibt kein Hotel in diesem Dorf.	a1_16
-423	Il y a trois écoles dans cette ville.	Es gibt drei Schulen in dieser Stadt.	a1_16
-424	Y a-t-il un restaurant ici ?	Gibt es hier ein Restaurant?	a1_16
-425	J'apprends l'allemand et l'anglais.	Ich lerne Deutsch und Englisch.	a1_16
-426	Il cuisine et elle fait le ménage.	Er kocht und sie putzt.	a1_16
-427	Nous mangeons et buvons ensemble.	Wir essen und trinken zusammen.	a1_16
-428	Je suis fatigué(e), mais je continue d'apprendre.	Ich bin müde, aber ich lerne weiter.	a1_16
-429	Il a faim, mais il ne mange pas.	Er hat Hunger, aber er isst nicht.	a1_16
-430	Elle est jeune, mais elle est très intelligente.	Sie ist jung, aber sie ist sehr klug.	a1_16
-431	Vous venez avec nous ou vous restez ici ?	Kommst du mit oder bleibst du hier?	a1_16
-432	Buvez-vous du café ou du thé ?	Trinken Sie Kaffee oder Tee?	a1_16
-433	Vous voyagez en bus ou en train ?	Fährst du mit dem Bus oder mit dem Zug?	a1_16
-434	J'aime les chats, mais je n'en ai pas.	Ich mag Katzen, aber ich habe keine.	a1_16
-435	Il ne vient pas parce qu'il est malade.	Er kommt nicht, denn er ist krank.	a1_16
-436	Je reste à la maison parce qu'il pleut.	Ich bleibe zu Hause, denn es regnet.	a1_16
-437	Elle étudie beaucoup parce qu'elle a un examen.	Sie lernt viel, denn sie hat eine Prüfung.	a1_16
-438	Il y a ici une gare et un aéroport.	Es gibt hier einen Bahnhof und einen Flughafen.	a1_16
-439	Je bois du café, mais pas de bière.	Ich trinke Kaffee, aber kein Bier.	a1_16
-440	Il n'y a pas école aujourd'hui.	Es gibt heute keine Schule.	a1_16
-441	Il lit et elle écrit.	Er liest und sie schreibt.	a1_16
-442	Il existe de nombreuses possibilités.	Es gibt viele Möglichkeiten.	a1_16
-443	Soit je pars, soit je reste – je ne sais pas encore.	Ich gehe, oder ich bleibe - ich weiß noch nicht.	a1_16
-444	Je suis fatiguée, mais heureuse.	Ich bin müde, aber glücklich.	a1_16
-445	Il y a du pain frais à la boulangerie.	Es gibt frisches Brot beim Bäcker.	a1_16
-446	Il n'a pas d'argent, mais il est content.	Er hat kein Geld, aber er ist zufrieden.	a1_16
-447	Y a t-il une pharmacie ici?	Gibt es hier eine Apotheke?	a1_16
-448	J'ai vingt et un ans.	Ich bin einundzwanzig Jahre alt.	a1_17
-449	Il a deux enfants.	Er hat zwei Kinder.	a1_17
-450	Il y a cinq pommes sur la table.	Es gibt fünf Äpfel auf dem Tisch.	a1_17
-451	Cela coûte dix euros.	Das kostet zehn Euro.	a1_17
-452	J'ai cent euros.	Ich habe hundert Euro.	a1_17
-453	Il est huit heures.	Es ist acht Uhr.	a1_17
-454	Le train arrive à neuf heures et demie.	Der Zug kommt um neun Uhr dreißig.	a1_17
-455	Je me lève à sept heures.	Ich stehe um sieben Uhr auf.	a1_17
-456	Les cours commencent à 8h15.	Die Schule beginnt um acht Uhr fünfzehn.	a1_17
-457	Je déjeune à midi.	Ich esse um zwölf Uhr zu Mittag.	a1_17
-458	C'est lundi aujourd'hui.	Heute ist Montag.	a1_17
-459	Demain, c'est mardi.	Morgen ist Dienstag.	a1_17
-460	Je travaille du lundi au vendredi.	Ich arbeite von Montag bis Freitag.	a1_17
-461	Je fais la grasse matinée le samedi.	Am Samstag schlafe ich lange.	a1_17
-462	Je vais faire une promenade dimanche.	Am Sonntag gehe ich spazieren.	a1_17
-463	Aujourd'hui, nous sommes le 1er janvier.	Heute ist der erste Januar.	a1_17
-464	Mon anniversaire est le 15 mars.	Mein Geburtstag ist am fünfzehnten März.	a1_17
-465	Nous sommes en mai.	Wir haben jetzt Mai.	a1_17
-466	L'année compte douze mois.	Das Jahr hat zwölf Monate.	a1_17
-467	La semaine compte sept jours.	Die Woche hat sieben Tage.	a1_17
-468	Il est trois heures et quart.	Es ist Viertel nach drei.	a1_17
-469	Il est cinq heures et demie.	Es ist halb sechs.	a1_17
-470	Il est vingt heures moins huit.	Es ist zwanzig vor acht.	a1_17
-471	La classe compte trente élèves.	Es sind dreißig Schüler in der Klasse.	a1_17
-472	L'avion décolle à deux heures.	Das Flugzeug startet um vierzehn Uhr.	a1_17
-473	Il me faut cinquante centimes.	Ich brauche fünfzig Cent.	a1_17
-474	Le concert commence à 19h30.	Das Konzert beginnt um neunzehn Uhr dreißig.	a1_17
-475	Nous nous rencontrerons le 3 octobre.	Wir treffen uns am dritten Oktober.	a1_17
-476	Est-ce que tu me connais?	Kennst du mich?	a1_18
-477	Oui, je te connais.	Ja, ich kenne dich.	a1_18
-478	Il me voit tous les jours.	Er sieht mich jeden Tag.	a1_18
-479	Je le vois aussi.	Ich sehe ihn auch.	a1_18
-480	Elle l'aime.	Sie liebt ihn.	a1_18
-481	Il l'aime.	Er liebt sie.	a1_18
-482	Je t'appellerai.	Ich rufe dich an.	a1_18
-483	Tu ne m'appelles pas.	Du rufst mich nicht an.	a1_18
-484	Il vient nous rendre visite demain.	Er besucht uns morgen.	a1_18
-485	Nous viendrons vous voir la semaine prochaine.	Wir besuchen euch nächste Woche.	a1_18
-486	Vous la connaissez ? L'institutrice ?	Kennst du sie? Die Lehrerin?	a1_18
-487	Oui, je la connais bien.	Ja, ich kenne sie gut.	a1_18
-488	Avez-vous le livre ? J'en ai besoin.	Hast du das Buch? Ich brauche es.	a1_18
-489	Je l'ai. Le voici.	Ich habe es. Hier ist es.	a1_18
-490	Pouvez-vous nous voir ?	Siehst du uns?	a1_18
-491	Oui, je te vois.	Ja, ich sehe euch.	a1_18
-492	Il me demande son chemin.	Er fragt mich nach dem Weg.	a1_18
-493	Je lui demande son adresse.	Ich frage ihn nach seiner Adresse.	a1_18
-494	Elle ne nous connaît pas.	Sie kennt uns nicht.	a1_18
-495	Nous ne les connaissons pas non plus.	Wir kennen sie auch nicht.	a1_18
-496	L'enfant l'aime bien.	Das Kind mag ihn.	a1_18
-497	Il aime ça aussi.	Er mag es auch.	a1_18
-498	Pouvez-vous m'aider?	Kannst du mir helfen?	a1_18
-499	Je suis heureux de vous aider.	Ich helfe dir gerne.	a1_18
-500	Tu nous manques.	Wir vermissen euch.	a1_18
-501	Je te verrai demain.	Ich sehe dich morgen.	a1_18
-502	Il ne me comprend pas.	Er versteht mich nicht.	a1_18
-503	Elle nous appelle.	Sie ruft uns an.	a1_18
-504	Voici mon livre.	Das ist mein Buch.	a1_19
-505	Voici votre stylo.	Das ist dein Stift.	a1_19
-506	Voici sa voiture.	Das ist sein Auto.	a1_19
-507	Voici leur maison.	Das ist ihr Haus.	a1_19
-508	Voici notre chien.	Das ist unser Hund.	a1_19
-509	Voici votre professeur.	Das ist euer Lehrer.	a1_19
-510	Voici leur école.	Das ist ihre Schule.	a1_19
-511	J'aime ma famille.	Ich liebe meine Familie.	a1_19
-512	Il rend visite à ses parents.	Er besucht seine Eltern.	a1_19
-513	Elle achète son billet.	Sie kauft ihr Ticket.	a1_19
-514	Nous faisons nos devoirs.	Wir machen unsere Hausaufgaben.	a1_19
-515	Tu manges ton pain.	Ihr esst euer Brot.	a1_19
-516	Ils écrivent leurs noms.	Sie schreiben ihre Namen.	a1_19
-517	Mon frère est grand.	Mein Bruder ist groß.	a1_19
-518	Ta sœur est gentille.	Deine Schwester ist nett.	a1_19
-519	Son père travaille beaucoup.	Sein Vater arbeitet viel.	a1_19
-520	Sa mère est enseignante.	Ihre Mutter ist Lehrerin.	a1_19
-521	Notre maison est petite mais confortable.	Unser Haus ist klein aber gemütlich.	a1_19
-522	Votre voiture est neuve.	Euer Auto ist neu.	a1_19
-523	Votre professeur parle clairement et distinctement.	Ihr Lehrer spricht klar und deutlich.	a1_19
-524	J'oublie souvent mes clés.	Ich vergesse meinen Schlüssel oft.	a1_19
-525	Il cherche son sac à dos.	Er sucht seinen Rucksack.	a1_19
-526	Elle ne trouve pas son sac.	Sie findet ihre Tasche nicht.	a1_19
-527	Nous avons besoin de notre ordinateur.	Wir brauchen unseren Computer.	a1_19
-528	Avez-vous apporté vos livres ?	Habt ihr eure Bücher dabei?	a1_19
-529	Ce n'est pas mon manteau, c'est le sien.	Das ist nicht mein Mantel, das ist seiner.	a1_19
-530	Je prendrai ma veste.	Ich nehme meine Jacke.	a1_19
-531	C'est ton vélo ou le sien ?	Ist das dein Fahrrad oder seins?	a1_19
-532	Je viendrai demain.	Ich werde morgen kommen.	a1_20
-533	Vous comprendrez.	Du wirst es verstehen.	a1_20
-534	Il deviendra médecin.	Er wird Arzt werden.	a1_20
-535	Elle deviendra enseignante.	Sie wird Lehrerin werden.	a1_20
-536	Nous apprendrons ensemble.	Wir werden zusammen lernen.	a1_20
-537	Tu vas y arriver.	Ihr werdet es schaffen.	a1_20
-538	Ils vont gagner.	Sie werden gewinnen.	a1_20
-539	Il pleuvra demain.	Morgen wird es regnen.	a1_20
-540	La semaine prochaine, j'irai à Berlin.	Nächste Woche werde ich nach Berlin fahren.	a1_20
-541	Il sera bientôt de retour à la maison.	Er wird bald nach Hause kommen.	a1_20
-542	Que ferez-vous?	Was wirst du machen?	a1_20
-543	Je vais apprendre l'allemand.	Ich werde Deutsch lernen.	a1_20
-544	Nous allons acheter une maison.	Wir werden ein Haus kaufen.	a1_20
-545	Elle partira en voyage.	Sie wird eine Reise machen.	a1_20
-546	Il va faire froid.	Es wird kalt werden.	a1_20
-547	Vous serez fatigué.	Du wirst müde sein.	a1_20
-548	Il lira le livre.	Er wird das Buch lesen.	a1_20
-549	Nous voyagerons cet été.	Wir werden im Sommer reisen.	a1_20
-550	Je ne l'oublierai pas.	Ich werde es nicht vergessen.	a1_20
-551	Ils seront à l'heure.	Sie werden pünktlich sein.	a1_20
-552	Tu viendras ?	Werdet ihr kommen?	a1_20
-553	Il travaillera dur.	Er wird viel arbeiten.	a1_20
-554	Que feras-tu demain ?	Was werden Sie morgen machen?	a1_20
-555	Je resterai à la maison.	Ich werde zu Hause bleiben.	a1_20
-556	Il va faire beau.	Es wird ein schöner Tag werden.	a1_20
-557	M'écriras-tu ?	Wirst du mir schreiben?	a1_20
-558	Je vais vous expliquer cela.	Das werde ich dir erklären.	a1_20
-559	On verra.	Wir werden sehen.	a1_20
-560	Stationnement interdit ici !	Hier darf man nicht parken!	assimil_23
-561	Tu ne sais pas lire ?	Kannst du nicht lessen?	assimil_23
-562	Le panneau indique : Stationnement interdit.	Hier steht: Parken verboten.	assimil_23
-563	Hahaha ! Très drôle !	Hahaha! Sehr witzig!	assimil_23
-564	Que dois-je faire?	Was soll ich machen?	assimil_23
-565	Tout est complètement rempli de voitures garées.	Alles ist vollgeparkt.	assimil_23
-566	Ou préférez-vous porter les valises jusqu'ici ?	Oder willst du die Koffer bis hierher tragen?	assimil_23
-567	Désolé, vous avez raison.	Sorry, du hast recht.	assimil_23
-568	Déchargeons rapidement la voiture.	Lass uns dans schnell das Auto ausladen.	assimil_23
-569	avant l'arrivée de la police.	bevor die Polizei kommt.	assimil_23
-570	Ce sera assurément génial !	Es wird bestimmt toll	assimil_24
-571	Viens avec moi!	Komm doch mit!	assimil_24
-572	Nous partons le 30 juin.	Wir fahren am dreissigsten Juni los.	assimil_24
-573	Merci, mais je suis trop vieux pour ce genre de choses.	Danke, ich bin aber zu alt fûr sowas.	assimil_24
-574	Oh, allez ! Quel âge as-tu, au fait ?	Ach was! Wie alt bist eigentlich?	assimil_24
-575	Trente-neuf ans, mais plus maintenant.	Neununddreissig, aber nich mehr lage.	assimil_24
-576	J'aurai quarante ans le 2 juillet.	Am zweiten Juli werde ich vierzig	assimil_24
-577	Et alors ? On a l'âge qu'on se sent avoir.	Na, und? Man ist son alt, wie man sich fühlt.	assimil_24
-578	Bonjour ! Je m’appelle Marie.	Hallo! Mein Name ist Marie.	basic_1
-579	J’ai 25 ans et j’habite à Paris, en France.	Ich bin 25 Jahre alt und lebe in Paris, Frankreich.	basic_1
-580	Je suis française.	Ich bin ein Franzose.	basic_1
-581	Je vis dans un petit appartement avec mon chat.	Ich wohne in einer kleinen Wohnung mit meiner Katze.	basic_1
-582	Mon chat s’appelle Minou.	Meine Katze heißt Minou.	basic_1
-583	Il est blanc avec des yeux verts.	Er ist weiß mit grünen Augen.	basic_1
-584	Il est très gentil, mais parfois il est un peu paresseux.	Er ist sehr nett, aber manchmal ein bisschen faul.	basic_1
-585	Il aime dormir toute la journée sur le canapé ou près de la fenêtre.	Er schläft am liebsten den ganzen Tag auf dem Sofa oder in der Nähe des Fensters.	basic_1
-586	Mon appartement est petit mais confortable.	Meine Wohnung ist klein, aber gemütlich.	basic_1
-587	Il y a une chambre, une cuisine, une salle de bain et un salon.	Es gibt ein Schlafzimmer, eine Küche, ein Badezimmer und ein Wohnzimmer.	basic_1
-588	Dans le salon, il y a un canapé, une table et une télévision.	Im Wohnzimmer befinden sich ein Sofa, ein Tisch und ein Fernseher.	basic_1
-589	Dans la cuisine, il y a un frigo, un four et une petite table.	In der Küche befinden sich ein Kühlschrank, ein Backofen und ein kleiner Tisch.	basic_1
-590	J’aime mon appartement parce qu’il est calme et lumineux.	Ich mag meine Wohnung, weil sie ruhig und hell ist.	basic_1
-591	Je travaille dans un café qui s’appelle “Le Bon Café”.	Ich arbeite in einem Café namens „Le Bon Café“.	basic_1
-592	Le café est près de chez moi.	Das Café ist in der Nähe meines Hauses.	basic_1
-593	Je marche environ dix minutes pour aller au travail.	Ich brauche etwa zehn Minuten zu Fuß zur Arbeit.	basic_1
-594	J’aime mon travail parce que j’aime parler avec les gens.	Ich liebe meinen Job, weil ich gerne mit Menschen rede.	basic_1
-595	Je vois beaucoup de clients chaque jour.	Ich sehe jeden Tag viele Kunden.	basic_1
-596	Certains clients viennent tous les jours.	Manche Kunden kommen jeden Tag.	basic_1
-597	Je connais leurs habitudes.	Ich kenne ihre Gewohnheiten.	basic_1
-598	Par exemple, Monsieur Dupont prend toujours un café noir sans sucre.	Herr Dupont trinkt beispielsweise immer schwarzen Kaffee ohne Zucker.	basic_1
-599	Madame Martin aime le thé avec du lait.	Frau Martin trinkt ihren Tee gern mit Milch.	basic_1
-600	Le matin, je me lève à 7 heures.	Morgens stehe ich um 7 Uhr auf.	basic_1
-601	Parfois, je suis fatiguée, mais je me lève vite.	Manchmal bin ich müde, aber ich stehe schnell wieder auf.	basic_1
-602	Je vais dans la salle de bain.	Ich gehe auf die Toilette.	basic_1
-603	Je prends une douche et je me brosse les dents.	Ich dusche und putze mir die Zähne.	basic_1
-604	Ensuite, je m’habille.	Dann ziehe ich mich an.	basic_1
-605	Je choisis des vêtements simples : un jean, un t-shirt et des chaussures confortables.	Ich wähle einfache Kleidung: Jeans, ein T-Shirt und bequeme Schuhe.	basic_1
-606	Après, je prends mon petit déjeuner.	Anschließend frühstücke ich.	basic_1
-607	Je mange du pain avec du beurre et de la confiture.	Ich esse Brot mit Butter und Marmelade.	basic_1
-608	Parfois, je mange un croissant.	Manchmal esse ich ein Croissant.	basic_1
-609	Je bois du café ou du thé.	Ich trinke Kaffee oder Tee.	basic_1
-610	Mon chat est toujours avec moi dans la cuisine.	Meine Katze ist immer bei mir in der Küche.	basic_1
-611	Il regarde ma nourriture, mais je ne lui donne pas de croissant.	Er schaut auf mein Essen, aber ich gebe ihm kein Croissant.	basic_1
-612	À 8 heures, je quitte mon appartement.	Um 8 Uhr verlasse ich meine Wohnung.	basic_1
-613	Je ferme la porte et je descends les escaliers.	Ich schließe die Tür und gehe die Treppe hinunter.	basic_1
-614	Dans la rue, il y a déjà beaucoup de monde.	Es sind bereits viele Menschen auf der Straße.	basic_1
-615	Les gens vont au travail.	Die Menschen gehen zur Arbeit.	basic_1
-616	Il y a des voitures, des bus et des vélos.	Es gibt Autos, Busse und Fahrräder.	basic_1
-617	J’aime marcher le matin parce que l’air est frais.	Ich gehe gerne morgens spazieren, weil die Luft dann frisch ist.	basic_1
-618	J’arrive au café à 8h15.	Ich komme um 8:15 Uhr im Café an.	basic_1
-619	Je dis bonjour à mes collègues.	Ich grüße meine Kollegen.	basic_1
-620	Nous préparons le café pour la journée.	Wir bereiten den Kaffee für heute zu.	basic_1
-621	Nous nettoyons les tables et nous préparons les tasses.	Wir reinigen die Tische und bereiten die Tassen vor.	basic_1
-622	À 8h30, le café ouvre.	Das Café öffnet um 8:30 Uhr.	basic_1
-623	Je travaille avec deux collègues.	Ich arbeite mit zwei Kollegen zusammen.	basic_1
-624	Ils s’appellent Paul et Sophie.	Sie heißen Paul und Sophie.	basic_1
-625	Paul est grand et il a les cheveux bruns.	Paul ist groß und hat braune Haare.	basic_1
-626	Il est très drôle.	Er ist sehr witzig.	basic_1
-627	Il fait souvent des blagues.	Er macht oft Witze.	basic_1
-628	Sophie est petite et elle a les cheveux blonds.	Sophie ist klein und hat blonde Haare.	basic_1
-629	Elle est très gentille et organisée.	Sie ist sehr freundlich und organisiert.	basic_1
-630	Nous travaillons bien ensemble.	Wir arbeiten gut zusammen.	basic_1
-631	Pendant la matinée, il y a beaucoup de clients.	Morgens sind viele Kunden da.	basic_1
-632	Je prends les commandes, je prépare les boissons et je donne les cafés aux clients.	Ich nehme Bestellungen entgegen, bereite Getränke zu und serviere Kaffee an die Kunden.	basic_1
-633	Je dis toujours “bonjour” et “merci”.	Ich sage immer „Hallo“ und „Danke“.	basic_1
-634	J’aime être polie avec les gens.	Ich bin gerne höflich zu anderen Menschen.	basic_1
-635	Parfois, il y a des touristes.	Manchmal sind Touristen da.	basic_1
-636	Ils parlent anglais ou une autre langue.	Sie sprechen Englisch oder eine andere Sprache.	basic_1
-637	Je parle un peu anglais, donc je peux aider.	Ich spreche ein bisschen Englisch, daher kann ich helfen.	basic_1
-638	Les touristes aiment Paris.	Touristen lieben Paris.	basic_1
-639	Ils prennent beaucoup de photos.	Sie machen viele Fotos.	basic_1
-640	À midi, je prends une pause.	Mittags mache ich Pause.	basic_1
-641	Je suis souvent fatiguée, mais contente.	Ich bin oft müde, aber glücklich.	basic_1
-642	Je mange un sandwich ou une salade.	Ich esse ein Sandwich oder einen Salat.	basic_1
-643	Je bois de l’eau ou un jus d’orange.	Ich trinke Wasser oder Orangensaft.	basic_1
-644	Je m’assois avec Paul et Sophie.	Ich setze mich zu Paul und Sophie.	basic_1
-645	Nous parlons de notre journée, de nos amis et de nos plans pour le week-end.	Wir unterhalten uns über unseren Tag, unsere Freunde und unsere Pläne fürs Wochenende.	basic_1
-646	Après la pause, je retourne au travail.	Nach der Pause gehe ich wieder an die Arbeit.	basic_1
-647	L’après-midi est plus calme.	Der Nachmittag ist ruhiger.	basic_1
-648	Il y a moins de clients.	Es gibt weniger Kunden.	basic_1
-649	Je nettoie les tables, je range la cuisine et je prépare des gâteaux.	Ich putze die Tische, ich räume die Küche auf und ich backe Kuchen.	basic_1
-650	J’aime préparer des gâteaux.	Ich backe gerne Kuchen.	basic_1
-651	C’est simple et amusant.	Es ist einfach und macht Spaß.	basic_1
-652	Je finis le travail à 17 heures.	Ich habe um 17 Uhr Feierabend.	basic_1
-653	Je dis au revoir à mes collègues et je quitte le café.	Ich verabschiede mich von meinen Kollegen und verlasse das Café.	basic_1
-654	Je marche jusqu’à mon appartement.	Ich gehe zu meiner Wohnung.	basic_1
-655	Parfois, je passe au supermarché pour acheter de la nourriture.	Manchmal gehe ich in den Supermarkt, um Lebensmittel einzukaufen.	basic_1
-656	Au supermarché, j’achète des légumes, du pain, du lait et des fruits.	Im Supermarkt kaufe ich Gemüse, Brot, Milch und Obst.	basic_1
-657	J’aime les pommes, les bananes et les oranges.	Ich mag Äpfel, Bananen und Orangen.	basic_1
-658	Je n’achète pas beaucoup de choses parce que mon appartement est petit.	Ich kaufe nicht viele Dinge, weil meine Wohnung klein ist.	basic_1
-659	Quand je rentre à la maison, mon chat vient me voir.	Wenn ich nach Hause komme, kommt meine Katze, um mich zu begrüßen.	basic_1
-660	Il est content.	Er ist glücklich.	basic_1
-661	Je joue un peu avec lui.	Ich necke ihn ein bisschen.	basic_1
-662	Ensuite, je me repose sur le canapé.	Dann entspanne ich mich auf dem Sofa.	basic_1
-663	Le soir, je prépare le dîner.	Am Abend bereite ich das Abendessen zu.	basic_1
-664	Je cuisine des choses simples.	Ich koche einfache Gerichte.	basic_1
-665	Je fais des pâtes, du riz ou des légumes.	Ich koche Nudeln, Reis oder Gemüse.	basic_1
-666	Parfois, je cuisine du poulet ou du poisson.	Manchmal koche ich Hähnchen oder Fisch.	basic_1
-667	J’aime manger sainement.	Ich ernähre mich gerne gesund.	basic_1
-668	Après le dîner, je lave la vaisselle.	Nach dem Abendessen spüle ich das Geschirr.	basic_1
-669	Je n’aime pas ça, mais c’est nécessaire.	Ich mag es nicht, aber es ist notwendig.	basic_1
-670	Ensuite, je regarde la télévision.	Dann schaue ich fern.	basic_1
-671	J’aime les films et les séries simples.	Ich mag einfache Filme und Serien.	basic_1
-672	Parfois, je lis un livre.	Manchmal lese ich ein Buch.	basic_1
-673	J’aime les histoires courtes.	Ich mag Kurzgeschichten.	basic_1
-674	J’écoute aussi de la musique.	Ich höre auch Musik.	basic_1
-675	J’aime la musique française.	Ich mag französische Musik.	basic_1
-676	Je chante parfois dans mon salon.	Ich singe manchmal in meinem Wohnzimmer.	basic_1
-677	Mon chat me regarde, mais il ne chante pas avec moi.	Meine Katze schaut mich an, aber sie singt nicht mit.	basic_1
-678	Le week-end, je ne travaille pas.	Ich arbeite nicht am Wochenende.	basic_1
-679	Le samedi, je me lève plus tard.	Samstags stehe ich später auf.	basic_1
-680	Je prends un bon petit déjeuner.	Ich frühstücke gerade ausgiebig.	basic_1
-681	Je bois du café et je mange des croissants.	Ich trinke Kaffee und esse Croissants.	basic_1
-682	Le samedi, je vois mes amis.	Samstags treffe ich meine Freunde.	basic_1
-683	J’ai trois bons amis : Julie, Marc et Anna.	Ich habe drei gute Freunde: Julie, Marc und Anna.	basic_1
-684	Nous aimons passer du temps ensemble.	Wir genießen es, Zeit miteinander zu verbringen.	basic_1
-685	Nous allons au parc quand il fait beau.	Wir gehen in den Park, wenn das Wetter schön ist.	basic_1
-686	Nous marchons, nous parlons et nous rions.	Wir gehen, wir unterhalten uns und wir lachen.	basic_1
-687	Parfois, nous allons au cinéma.	Manchmal gehen wir ins Kino.	basic_1
-688	Nous regardons un film et nous mangeons du popcorn.	Wir schauen einen Film und essen Popcorn.	basic_1
-689	J’aime les films comiques et romantiques.	Ich mag Komödien und romantische Filme.	basic_1
-690	Le soir, nous allons au restaurant.	Am Abend gehen wir in ein Restaurant.	basic_1
-691	Nous mangeons des pizzas, des salades ou des plats français.	Wir essen Pizza, Salate oder französische Gerichte.	basic_1
-692	Nous parlons beaucoup.	Wir reden viel.	basic_1
-693	C’est un moment agréable.	Es ist ein angenehmer Moment.	basic_1
-694	Le dimanche, je reste souvent à la maison.	Sonntags bleibe ich oft zu Hause.	basic_1
-695	Je me repose.	Ich ruhe mich aus.	basic_1
-696	Je nettoie mon appartement.	Ich putze meine Wohnung.	basic_1
-697	Je fais le ménage : je passe l’aspirateur, je nettoie la cuisine et la salle de bain.	Ich erledige die Hausarbeit: Ich sauge Staub, putze die Küche und das Badezimmer.	basic_1
-698	Je fais aussi la lessive.	Ich wasche auch die Wäsche.	basic_1
-699	Je lave mes vêtements et je les sèche.	Ich wasche meine Wäsche und trockne sie.	basic_1
-700	Ce n’est pas amusant, mais c’est important.	Es macht keinen Spaß, aber es ist wichtig.	basic_1
-701	L’après-midi, je prends un café et je lis un livre.	Am Nachmittag trinke ich einen Kaffee und lese ein Buch.	basic_1
-702	Parfois, je téléphone à ma famille.	Manchmal rufe ich meine Familie an.	basic_1
-703	Mes parents habitent dans une autre ville.	Meine Eltern leben in einer anderen Stadt.	basic_1
-704	Je parle avec eux chaque semaine.	Ich spreche jede Woche mit ihnen.	basic_1
-705	J’aime ma vie à Paris.	Ich liebe mein Leben in Paris.	basic_1
-706	C’est une grande ville avec beaucoup de choses à faire.	Es ist eine große Stadt mit vielen Freizeitmöglichkeiten.	basic_1
-707	Il y a des musées, des parcs, des magasins et des restaurants.	Es gibt Museen, Parks, Geschäfte und Restaurants.	basic_1
-708	Parfois, je me promène dans la ville.	Manchmal mache ich einen Spaziergang durch die Stadt.	basic_1
-709	Je marche dans les rues et je regarde les bâtiments.	Ich gehe durch die Straßen und betrachte die Gebäude.	basic_1
-710	J’aime voir les touristes et entendre différentes langues.	Ich freue mich, Touristen zu sehen und verschiedene Sprachen zu hören.	basic_1
-711	Je rêve aussi de voyager.	Ich träume auch vom Reisen.	basic_1
-712	Je veux visiter d’autres pays.	Ich möchte andere Länder besuchen.	basic_1
-713	Par exemple, je veux aller en Espagne, en Italie et en Allemagne.	Ich möchte zum Beispiel nach Spanien, Italien und Deutschland reisen.	basic_1
-714	J’aime découvrir de nouvelles cultures.	Ich genieße es, neue Kulturen zu entdecken.	basic_1
-715	Mais pour le moment, je suis contente de ma vie.	Aber im Moment bin ich zufrieden mit meinem Leben.	basic_1
-716	J’ai un travail, un appartement, des amis et un chat.	Ich habe einen Job, eine Wohnung, Freunde und eine Katze.	basic_1
-717	C’est une vie simple, mais heureuse.	Es ist ein einfaches, aber glückliches Leben.	basic_1
-718	Chaque jour est un peu différent, mais j’aime ma routine.	Jeder Tag ist ein bisschen anders, aber ich mag meine Routine.	basic_1
-719	Je travaille, je mange, je parle avec les gens et je me repose.	Ich arbeite, ich esse, ich unterhalte mich mit Leuten und ich ruhe mich aus.	basic_1
-720	Je pense que la vie est belle quand on apprécie les petites choses : un bon café, un sourire, un moment avec des amis.	Ich finde, das Leben ist schön, wenn man die kleinen Dinge zu schätzen weiß: einen guten Kaffee, ein Lächeln, einen Moment mit Freunden.	basic_1
-721	Et toi, quelle est ta vie ?	Und du, wie sieht dein Leben aus?	basic_1
-722	Lorsque j’avais six ans j’ai vu, une fois, une magnifique image, dans un livre sur la forêt vierge qui s’appelait Histoires vécues.	Als ich sechs Jahre alt war, sah ich einmal ein großartiges Bild in einem Buch über den Regenwald mit dem Titel „Wahre Geschichten“.	le_petit_prince_1
-723	Ça représentait un serpent boa qui avalait un fauve.	Es zeigte eine Boa Constrictor, die ein wildes Tier verschlang.	le_petit_prince_1
-724	Voilà la copie du dessin.	Hier ist eine Kopie der Zeichnung.	le_petit_prince_1
-725	On disait dans le livre :	Im Buch stand:	le_petit_prince_1
-726	Les serpents boas avalent leur proie tout entière, sans la mâcher.	Boas verschlingen ihre Beute im Ganzen, ohne sie zu zerkauen.	le_petit_prince_1
-727	Ensuite ils ne peuvent plus bouger et ils dorment pendant les six mois de leur digestion.	Dann können sie sich nicht mehr bewegen und schlafen die sechs Monate ihrer Verdauung.	le_petit_prince_1
-728	J’ai alors beaucoup réfléchi sur les aventures de la jungle et, à mon tour, j’ai réussi, avec un crayon de couleur, à tracer mon premier dessin.	Ich habe dann viel über die Abenteuer im Dschungel nachgedacht und es ist mir schließlich gelungen, mit einem Buntstift mein erstes Bild zu zeichnen.	le_petit_prince_1
-729	Mon dessin numéro 1.	Meine Zeichnung Nummer 1.	le_petit_prince_1
-730	Il était comme ça :	Er war so:	le_petit_prince_1
-731	J’ai montré mon chef-d’œuvre aux grandes personnes et je leur ai demandé si mon dessin leur faisait peur.	Ich zeigte den Erwachsenen mein Meisterwerk und fragte sie, ob meine Zeichnung ihnen Angst mache.	le_petit_prince_1
-732	Elles m’ont répondu : «Pourquoi un chapeau ferait-il peur?»	Sie antworteten: „Warum sollte ein Hut gruselig sein?“	le_petit_prince_1
-733	Mon dessin ne représentait pas un chapeau.	Meine Zeichnung zeigte keinen Hut.	le_petit_prince_1
-734	Il représentait un serpent boa qui digérait un éléphant.	Es zeigte eine Boa Constrictor, die einen Elefanten verdaute.	le_petit_prince_1
-735	J’ai alors dessiné l’intérieur du serpent boa, afin que les grandes personnes puissent comprendre.	Anschließend zeichnete ich das Innere der Boa Constrictor, damit auch Erwachsene es verstehen konnten.	le_petit_prince_1
-736	Elles ont toujours besoin d’explications.	Sie brauchen immer Erklärungen.	le_petit_prince_1
-737	Mon dessin numéro 2 était comme ça :	Meine zweite Zeichnung sah so aus:	le_petit_prince_1
-738	Les grandes personnes m’ont conseillé de laisser de côté les dessins de serpents boas ouverts ou fermés, et de m’intéresser plutôt à la géographie, à l’histoire, au calcul et à la grammaire.	Die Erwachsenen rieten mir, Zeichnungen von offenen oder geschlossenen Boa Constrictors beiseite zu legen und mich stattdessen auf Geographie, Geschichte, Arithmetik und Grammatik zu konzentrieren.	le_petit_prince_1
-739	C’est ainsi que j’ai abandonné, à l’âge de six ans, une magnifique carrière de peintre.	So gab ich im Alter von sechs Jahren eine großartige Karriere als Malerin auf.	le_petit_prince_1
-740	J’avais été découragé par l’insuccès de mon dessin numéro 1 et de mon dessin numéro 2.	Ich war durch das Scheitern meiner Zeichnung Nummer 1 und meiner Zeichnung Nummer 2 entmutigt.	le_petit_prince_1
-741	Les grandes personnes ne comprennent jamais rien toutes seules, et c’est fatigant, pour les enfants, de toujours et toujours leur donner des explications...	Erwachsene verstehen nie etwas von selbst, und es ist anstrengend für Kinder, ihnen ständig alles erklären zu müssen...	le_petit_prince_1
-742	J’ai donc dû choisir un autre métier et j’ai appris à piloter des avions.	Deshalb musste ich mir einen anderen Beruf suchen und habe gelernt, Flugzeuge zu fliegen.	le_petit_prince_1
-743	J’ai volé un peu partout dans le monde.	Ich bin schon in der ganzen Welt herumgeflogen.	le_petit_prince_1
-744	Et la géographie, c’est exact, m’a beaucoup servi.	Und die Geographie, das stimmt, war mir sehr nützlich.	le_petit_prince_1
-745	Je savais reconnaître, du premier coup d’œil, la Chine de l’Arizona.	Ich konnte auf den ersten Blick das China von Arizona erkennen.	le_petit_prince_1
-746	C’est très utile, si l’on s’est égaré pendant la nuit.	Das ist sehr nützlich, falls man sich nachts verirrt.	le_petit_prince_1
-747	J’ai ainsi eu, au cours de ma vie, des tas de contacts avec des tas de gens sérieux.	Im Laufe meines Lebens hatte ich viele Kontakte zu vielen ernsthaften Menschen.	le_petit_prince_1
-748	J’ai beaucoup vécu chez les grandes personnes.	Ich habe viel Zeit mit Erwachsenen zusammengelebt.	le_petit_prince_1
-749	Je les ai vues de très près.	Ich habe sie ganz genau beobachtet.	le_petit_prince_1
-750	Ça n’a pas trop amélioré mon opinion.	Das hat meine Meinung nicht wesentlich verbessert.	le_petit_prince_1
-751	Quand j’en rencontrais une qui me paraissait un peu lucide, je faisais l’expérience sur elle de mon dessin numéro 1 que j’ai toujours conservé je voulais savoir si elle était vraiment compréhensive.	Wenn ich eine traf, die einen halbwegs klaren Eindruck machte, experimentierte ich an ihr mit meiner Zeichnung Nummer 1, die ich immer aufbewahrt hatte; ich wollte wissen, ob sie wirklich verständnisvoll war.	le_petit_prince_1
-752	Mais toujours elle me répondait : «C’est un chapeau.»	Aber sie antwortete mir immer: „Es ist ein Hut.“	le_petit_prince_1
-753	Alors je ne lui parlais ni de serpents boas, ni de forêts vierges, ni d’étoiles.	Deshalb habe ich mit ihm nicht über Boa Constrictors, Urwälder oder Sterne gesprochen.	le_petit_prince_1
-754	Je me mettais à sa portée.	Ich habe mich auf sein Niveau herabgelassen.	le_petit_prince_1
-755	Je lui parlais de bridge, de golf, de politique et de cravates.	Ich unterhielt mich mit ihm über Bridge, Golf, Politik und Krawatten.	le_petit_prince_1
-756	Et la grande personne était bien contente de connaître un homme aussi raisonnable...	Und der Erwachsene freute sich sehr, einen so vernünftigen Mann kennengelernt zu haben...	le_petit_prince_1
-757	À Léon Werth.	An Leon Werth.	le_petit_prince_intro
-758	Je demande pardon aux enfants d’avoir dédié ce livre à une grande personne.	Ich entschuldige mich bei den Kindern dafür, dass ich dieses Buch einem Erwachsenen widme.	le_petit_prince_intro
-759	J’ai une excuse sérieuse : cette grande personne est le meilleur ami que j’ai au monde.	Ich habe eine triftige Entschuldigung: Diese großartige Person ist mein bester Freund auf der Welt.	le_petit_prince_intro
-760	J’ai une autre excuse : cette grande personne peut tout comprendre, même les livres pour enfants.	Ich habe noch eine andere Ausrede: Dieser Erwachsene kann alles verstehen, sogar Kinderbücher.	le_petit_prince_intro
-761	J’ai une troisième excuse : cette grande personne habite la France où elle a faim et froid.	Ich habe noch eine dritte Ausrede: Diese erwachsene Frau lebt in Frankreich, wo sie Hunger leidet und friert.	le_petit_prince_intro
-762	Elle a bien besoin d’être consolée.	Sie braucht dringend Trost.	le_petit_prince_intro
-763	Si toutes ces excuses ne suffisent pas, je veux bien dédier ce livre à l’enfant qu’a été autrefois cette grande personne.	Sollten all diese Ausreden nicht ausreichen, widme ich dieses Buch gerne dem Kind, das dieser Erwachsene einst war.	le_petit_prince_intro
-764	Toutes les grandes personnes ont d’abord été des enfants. (Mais peu d’entre elles s’en souviennent.).	Alle Erwachsenen waren einmal Kinder. (Aber nur wenige erinnern sich daran.)	le_petit_prince_intro
-765	Je corrige donc ma dédicace :	Ich korrigiere daher meine Widmung:	le_petit_prince_intro
-766	À Léon Werth quand il était petit garçon.	An Léon Werth, als er noch ein kleiner Junge war.	le_petit_prince_intro
+194	Je ne suis pas fatigué.	Ich bin nicht müde.	a1_08
+195	Il n'est pas chez lui.	Er ist nicht zu Hause.	a1_08
+196	Elle ne viendra pas aujourd'hui.	Sie kommt heute nicht.	a1_08
+197	Ce n'est pas correct.	Das ist nicht richtig.	a1_08
+198	Je n'aime pas lire.	Ich lese nicht gerne.	a1_08
+199	Vous n'êtes pas endormi.	Du schläfst nicht.	a1_08
+200	Nous n'y allons pas aujourd'hui.	Wir fahren heute nicht.	a1_08
+201	Il ne fait pas beau.	Das Wetter ist nicht schön.	a1_08
+202	Je n'ai pas de voiture.	Ich habe kein Auto.	a1_08
+203	Vous n'avez pas le temps.	Du hast keine Zeit.	a1_08
+204	Il n'a pas faim.	Er hat keinen Hunger.	a1_08
+205	Elle n'a pas d'argent.	Sie hat kein Geld.	a1_08
+206	Nous n'avons pas de chat.	Wir haben keine Katze.	a1_08
+207	Vous n'avez pas de café.	Ihr habt keinen Kaffee.	a1_08
+208	Ils n'en ont aucune idée.	Sie haben keine Idee.	a1_08
+209	Ce n'est pas un problème.	Das ist kein Problem.	a1_08
+210	Il ne parle pas fort.	Er spricht nicht laut.	a1_08
+211	Elle n'a pas de livre avec elle.	Sie hat kein Buch dabei.	a1_08
+212	Le restaurant est fermé.	Das Restaurant ist nicht offen.	a1_08
+213	Je ne le connais pas.	Ich kenne ihn nicht.	a1_08
+214	Vous n'avez pas besoin de dictionnaire.	Du brauchst kein Wörterbuch.	a1_08
+215	Il ne conduit pas vite.	Er fährt nicht schnell.	a1_08
+216	Ce n'est pas une bonne idée.	Das ist keine gute Idee.	a1_08
+217	Nous n'avons plus d'eau.	Wir haben kein Wasser mehr.	a1_08
+218	Je ne comprends pas.	Ich verstehe das nicht.	a1_08
+219	Il ne viendra pas, il est malade.	Er kommt nicht, er ist krank.	a1_08
+220	L'enfant ne pleure pas.	Das Kind weint nicht.	a1_08
+221	Elle n'est pas encore endormie.	Sie schläft noch nicht.	a1_08
+222	Tu viens aujourd'hui ?	Kommst du heute?	a1_09
+223	Oui, je viens aujourd'hui.	Ja, ich komme heute.	a1_09
+224	Avez-vous le temps ?	Hast du Zeit?	a1_09
+225	Non, je n'ai pas le temps.	Nein, ich habe keine Zeit.	a1_09
+226	Est-il chez lui ?	Ist er zu Hause?	a1_09
+227	Oui, il est chez lui.	Ja, er ist zu Hause.	a1_09
+228	Parlez-vous allemand ?	Sprichst du Deutsch?	a1_09
+229	Oui, je parle un peu allemand.	Ja, ich spreche ein bisschen Deutsch.	a1_09
+230	Avez-vous faim?	Habt ihr Hunger?	a1_09
+231	Oui, nous avons faim.	Ja, wir haben Hunger.	a1_09
+232	Qui es-tu?	Wer bist du?	a1_09
+233	Je m'appelle Maria.	Ich heiße Maria.	a1_09
+234	Que fais-tu?	Was machst du?	a1_09
+235	J'apprends l'allemand.	Ich lerne Deutsch.	a1_09
+236	Où  habites-tu?	Wo wohnst du?	a1_09
+237	J'habite à Munich.	Ich wohne in München.	a1_09
+238	Quand arrives-tu ?	Wann kommst du?	a1_09
+239	J'arriverai à trois heures.	Ich komme um drei Uhr.	a1_09
+240	Quel est ton nom?	Wie heißt du?	a1_09
+241	Je m'appelle Thomas.	Ich heiße Thomas.	a1_09
+242	Pourquoi apprenez-vous l'allemand ?	Warum lernst du Deutsch?	a1_09
+243	Parce que je veux visiter l'Allemagne.	Weil ich Deutschland besuchen möchte.	a1_09
+244	Combien ça coûte ?	Wie viel kostet das?	a1_09
+245	Cela coûte cinq euros.	Das kostet fünf Euro.	a1_09
+246	D'où viens-tu?	Woher kommst du?	a1_09
+247	Je viens de France.	Ich komme aus Frankreich.	a1_09
+248	Où vas-tu?	Wohin gehst du?	a1_09
+249	Je vais au supermarché.	Ich gehe in den Supermarkt.	a1_09
+250	Quel âge as-tu?	Wie alt bist du?	a1_09
+251	J'ai vingt ans.	Ich bin zwanzig Jahre alt.	a1_09
+252	Quel livre lis-tu ?	Welches Buch liest du?	a1_09
+253	Je vois l'homme.	Ich sehe den Mann.	a1_10
+254	Je vois la femme.	Ich sehe die Frau.	a1_10
+255	Je vois l'enfant.	Ich sehe das Kind.	a1_10
+256	J'achèterai la pomme.	Ich kaufe den Apfel.	a1_10
+257	Il achète le journal.	Er kauft die Zeitung.	a1_10
+258	Elle achète le livre.	Sie kauft das Buch.	a1_10
+259	Nous rendons visite au professeur.	Wir besuchen den Lehrer.	a1_10
+260	Je prends le bus.	Ich nehme den Bus.	a1_10
+261	Il boit le café.	Er trinkt den Kaffee.	a1_10
+262	Elle mange le gâteau.	Sie isst den Kuchen.	a1_10
+263	Nous avons besoin d'un ordinateur.	Wir brauchen einen Computer.	a1_10
+264	Je cherche un appartement.	Ich suche eine Wohnung.	a1_10
+265	Il a un chien.	Er hat einen Hund.	a1_10
+266	Elle achète un billet.	Sie kauft ein Ticket.	a1_10
+267	Je connais quelqu'un ici.	Ich kenne einen Mann hier.	a1_10
+268	Il lit un roman.	Er liest einen Roman.	a1_10
+269	Elle a une sœur.	Sie hat eine Schwester.	a1_10
+270	Nous partons en voyage.	Wir machen einen Ausflug.	a1_10
+271	Je ne vois aucune erreur.	Ich sehe keinen Fehler.	a1_10
+272	Il n'a pas de chat.	Er hat keine Katze.	a1_10
+273	Elle n'a pas besoin de voiture.	Sie braucht kein Auto.	a1_10
+274	Nous n'avons pas faim.	Wir haben keinen Hunger.	a1_10
+275	Je vais demander au professeur.	Ich frage den Lehrer.	a1_10
+276	Il appelle sa mère.	Er ruft die Mutter an.	a1_10
+277	Elle ouvre la fenêtre.	Sie öffnet das Fenster.	a1_10
+278	Je prendrai la route de gauche.	Ich nehme die Straße links.	a1_10
+279	Il observe l'oiseau dans l'arbre.	Er beobachtet den Vogel im Baum.	a1_10
+280	Nous allons visiter le zoo samedi.	Wir besuchen den Zoo am Samstag.	a1_10
+281	Je sais nager.	Ich kann schwimmen.	a1_11
+282	Vous êtes un bon cuisinier.	Du kannst gut kochen.	a1_11
+283	Malheureusement, il ne peut pas venir.	Er kann leider nicht kommen.	a1_11
+284	Nous pouvons nous rencontrer demain.	Wir können uns morgen treffen.	a1_11
+285	Puis-je vous aider?	Kann ich Ihnen helfen?	a1_11
+286	Je dois travailler aujourd'hui.	Ich muss heute arbeiten.	a1_11
+287	Tu dois faire tes devoirs.	Du musst die Hausaufgaben machen.	a1_11
+288	Il doit aller chez le médecin.	Er muss zum Arzt gehen.	a1_11
+289	Nous devons nous lever tôt.	Wir müssen früh aufstehen.	a1_11
+290	Vous devez partir maintenant ?	Musst du jetzt gehen?	a1_11
+291	Je veux apprendre l'allemand.	Ich will Deutsch lernen.	a1_11
+292	Vous souhaitez voyager en Allemagne.	Du willst nach Deutschland reisen.	a1_11
+293	Il veut acheter une voiture.	Er will ein Auto kaufen.	a1_11
+294	Nous voulons manger ensemble.	Wir wollen zusammen essen.	a1_11
+295	Tu veux venir ?	Willst du mitkommen?	a1_11
+296	Je voudrais un café, s'il vous plaît.	Ich möchte einen Kaffee, bitte.	a1_11
+297	Voulez-vous du thé ?	Möchtest du Tee?	a1_11
+298	Il veut dormir.	Er möchte schlafen.	a1_11
+299	Nous aimerions visiter le musée.	Wir möchten das Museum besuchen.	a1_11
+300	Je n'ai pas le droit de fumer ici.	Ich darf hier nicht rauchen.	a1_11
+301	Vous ne devez pas faire ça.	Du darfst das nicht machen.	a1_11
+302	Il est censé être là à huit heures.	Er soll um acht Uhr hier sein.	a1_11
+303	C'est à elle d'écrire la lettre.	Sie soll den Brief schreiben.	a1_11
+304	Je crains que non.	Ich kann leider nicht.	a1_11
+305	Nous devons malheureusement partir maintenant.	Wir müssen jetzt leider gehen.	a1_11
+306	Puis-je vous poser une question ?	Darf ich Sie etwas fragen?	a1_11
+307	Il n'en a pas envie, mais il doit le faire.	Er will nicht, aber er muss.	a1_11
+308	Pourriez-vous répéter, s'il vous plaît?	Können Sie das wiederholen, bitte?	a1_11
+309	Je me promène dans le parc.	Ich gehe durch den Park.	a1_12
+310	Il traverse la ville à pied.	Er läuft durch die Stadt.	a1_12
+311	Nous traversons le tunnel en voiture.	Wir fahren durch den Tunnel.	a1_12
+312	Ceci est un cadeau pour vous.	Das ist ein Geschenk für dich.	a1_12
+313	J'achète quelque chose pour ma mère.	Ich kaufe etwas für meine Mutter.	a1_12
+314	Il travaille pour une grande entreprise.	Er arbeitet für eine große Firma.	a1_12
+315	Ce cadeau est pour le professeur.	Das Geschenk ist für die Lehrerin.	a1_12
+316	J'achète ce livre pour mon frère.	Ich kaufe das Buch für meinen Bruder.	a1_12
+317	Je suis contre le bruit.	Ich bin gegen Lärm.	a1_12
+318	Il percute un mur.	Er fährt gegen die Wand.	a1_12
+319	Nous nous opposons à cette décision.	Wir sind gegen diese Entscheidung.	a1_12
+320	Je suis triste sans toi.	Ohne dich bin ich traurig.	a1_12
+321	Il sort sans son manteau.	Er geht ohne seinen Mantel raus.	a1_12
+322	Elle voyage sans bagages.	Sie reist ohne Gepäck.	a1_12
+323	Nous ne partirons pas sans vous.	Wir gehen nicht ohne dich.	a1_12
+324	La voiture tourne au coin de la rue.	Das Auto fährt um die Ecke.	a1_12
+325	Nous sommes assis autour de la table.	Wir sitzen um den Tisch.	a1_12
+326	Il fait le tour de la maison.	Er läuft um das Haus.	a1_12
+327	Les enfants jouent autour de la fontaine.	Die Kinder spielen um den Brunnen.	a1_12
+328	Elle court autour du lac.	Sie läuft um den See.	a1_12
+329	Il arrivera à quatre heures.	Er kommt um vier Uhr.	a1_12
+330	À quelle heure commence le film ?	Um wie viel Uhr beginnt der Film?	a1_12
+331	Je suis contre cette idée.	Ich bin gegen diese Idee.	a1_12
+332	Nous traversons l'Allemagne en voiture.	Wir fahren durch Deutschland.	a1_12
+333	Elle franchit la porte.	Sie geht durch die Tür.	a1_12
+334	Il achète des fleurs pour sa femme.	Er kauft Blumen für seine Frau.	a1_12
+335	On ne peut pas vivre sans eau.	Ohne Wasser kann man nicht leben.	a1_12
+336	Je prends le bus.	Ich fahre mit dem Bus.	a1_13
+337	Vous venez en train.	Du kommst mit dem Zug.	a1_13
+338	Il y va avec sa petite amie.	Er geht mit seiner Freundin.	a1_13
+339	Nous y allons en voiture.	Wir fahren mit dem Auto.	a1_13
+340	Tu viens avec moi ?	Kommst du mit mir?	a1_13
+341	Après avoir mangé, je vais me promener.	Nach dem Essen gehe ich spazieren.	a1_13
+342	Elle va à Berlin.	Sie fährt nach Berlin.	a1_13
+343	Il rentre à la maison.	Er kommt nach Hause.	a1_13
+344	Nous allons faire les courses après l'école.	Wir gehen nach der Schule einkaufen.	a1_13
+345	Tu vas en Allemagne ?	Fährst du nach Deutschland?	a1_13
+346	Je vis chez mes parents.	Ich wohne bei meinen Eltern.	a1_13
+347	Il travaille pour une grande entreprise.	Er arbeitet bei einer großen Firma.	a1_13
+348	Le café est situé près de la gare.	Das Café ist beim Bahnhof.	a1_13
+349	Elle dort chez une amie ce soir.	Sie schläft heute bei ihrer Freundin.	a1_13
+350	Ça vient de ma mère.	Das kommt von meiner Mutter.	a1_13
+351	Il rentre du travail.	Er kommt von der Arbeit.	a1_13
+352	Le livre est écrit par un auteur allemand.	Das Buch ist von einem deutschen Autor.	a1_13
+353	Nous revenons de l'école.	Wir kommen von der Schule.	a1_13
+354	Je vais chez mon ami.	Ich gehe zu meinem Freund.	a1_13
+355	Elle va au supermarché.	Sie geht zum Supermarkt.	a1_13
+356	Il va travailler.	Er fährt zur Arbeit.	a1_13
+357	Nous allons chez le médecin.	Wir gehen zum Arzt.	a1_13
+358	J'apprends l'allemand depuis un an.	Ich lerne seit einem Jahr Deutsch.	a1_13
+359	Il vit ici depuis trois mois.	Er wohnt seit drei Monaten hier.	a1_13
+360	Elle est malade depuis hier.	Sie ist seit gestern krank.	a1_13
+361	De quel pays êtes-vous originaire ?	Aus welchem Land kommst du?	a1_13
+362	Je viens de France.	Ich komme aus Frankreich.	a1_13
+363	C'est un cadeau de ma sœur.	Das ist ein Geschenk von meiner Schwester.	a1_13
+364	Le livre est posé sur la table.	Das Buch liegt auf dem Tisch.	a1_14
+365	J'ai posé le livre sur la table.	Ich lege das Buch auf den Tisch.	a1_14
+366	Le chat est assis sur la chaise.	Die Katze sitzt auf dem Stuhl.	a1_14
+367	Il pose le chat sur la chaise.	Er setzt die Katze auf den Stuhl.	a1_14
+368	Nous sommes dans la cuisine.	Wir sind in der Küche.	a1_14
+369	Je vais dans la cuisine.	Ich gehe in die Küche.	a1_14
+370	La voiture est dans le garage.	Das Auto steht in der Garage.	a1_14
+371	Il gare la voiture dans le garage.	Er fährt das Auto in die Garage.	a1_14
+372	Le tableau est accroché au mur.	Das Bild hängt an der Wand.	a1_14
+373	J'accroche le tableau au mur.	Ich hänge das Bild an die Wand.	a1_14
+374	Le chien est couché sous la table.	Der Hund liegt unter dem Tisch.	a1_14
+375	Elle place le sac sous la table.	Sie stellt die Tasche unter den Tisch.	a1_14
+376	La lampe est suspendue au-dessus de la table.	Die Lampe hängt über dem Tisch.	a1_14
+377	Il suspend la lampe au-dessus de la table.	Er hängt die Lampe über den Tisch.	a1_14
+378	Les chaussures sont dehors, devant la porte.	Die Schuhe stehen vor der Tür.	a1_14
+379	Je vais mettre les chaussures devant la porte.	Ich stelle die Schuhe vor die Tür.	a1_14
+380	Le canapé est à côté de la fenêtre.	Das Sofa steht neben dem Fenster.	a1_14
+381	Elle place le canapé près de la fenêtre.	Sie stellt das Sofa neben das Fenster.	a1_14
+382	L'enfant est assis derrière la table.	Das Kind sitzt hinter dem Tisch.	a1_14
+383	Il passe derrière la maison.	Er geht hinter das Haus.	a1_14
+384	Où est le livre ? Il est posé sur la table.	Wo ist das Buch? Es liegt auf dem Tisch.	a1_14
+385	Où poses-tu le livre ? Sur la table.	Wohin legst du das Buch? Auf den Tisch.	a1_14
+386	Où est-elle ? Elle est à l'école.	Wo ist sie? Sie ist in der Schule.	a1_14
+387	Où va-t-elle ? À l'école.	Wohin geht sie? In die Schule.	a1_14
+388	Où est la voiture ? Elle est garée à côté de la maison.	Wo ist das Auto? Es steht neben dem Haus.	a1_14
+389	Où pose-t-on le verre ? Sur la table.	Wohin stellst du das Glas? Auf den Tisch.	a1_14
+390	Le sac est accroché à la porte.	Die Tasche hängt an der Tür.	a1_14
+391	La maison est grande.	Das Haus ist groß.	a1_15
+392	La ville est magnifique.	Die Stadt ist schön.	a1_15
+393	L'homme est vieux.	Der Mann ist alt.	a1_15
+394	Il fait beau.	Das Wetter ist gut.	a1_15
+395	La soupe est chaude.	Die Suppe ist heiß.	a1_15
+396	Le café est froid.	Der Kaffee ist kalt.	a1_15
+397	Le livre est intéressant.	Das Buch ist interessant.	a1_15
+398	La tâche est difficile.	Die Aufgabe ist schwer.	a1_15
+399	Le film est ennuyeux.	Der Film ist langweilig.	a1_15
+400	L'enfant est fatigué.	Das Kind ist müde.	a1_15
+401	Le nom de cet homme de grande taille est Pierre.	Der große Mann heißt Peter.	a1_15
+402	Cette magnifique ville s'appelle Heidelberg.	Die schöne Stadt heißt Heidelberg.	a1_15
+403	La vieille maison est située au bord du lac.	Das alte Haus steht am See.	a1_15
+404	Un petit chien joue dans le jardin.	Ein kleiner Hund spielt im Garten.	a1_15
+405	Une jeune femme lit un livre.	Eine junge Frau liest ein Buch.	a1_15
+406	Un livre intéressant est posé sur la table.	Ein interessantes Buch liegt auf dem Tisch.	a1_15
+407	Le nouveau professeur est très gentil.	Der neue Lehrer ist sehr nett.	a1_15
+408	La vieille dame marche lentement.	Die alte Dame geht langsam.	a1_15
+409	La voiture rouge est rapide.	Das rote Auto ist schnell.	a1_15
+410	Une journée froide commence.	Ein kalter Tag beginnt.	a1_15
+411	Je bois du thé chaud.	Ich trinke heißen Tee.	a1_15
+412	Il achète du pain frais.	Er kauft frisches Brot.	a1_15
+413	Elle lit un bon livre.	Sie liest ein gutes Buch.	a1_15
+414	Nous regardons un beau film.	Wir sehen einen schönen Film.	a1_15
+415	C'est encore loin.	Das ist ein langer Weg.	a1_15
+416	Elle porte une robe bleue.	Sie trägt ein blaues Kleid.	a1_15
+417	Le petit enfant dort.	Das kleine Kind schläft.	a1_15
+418	Il a les cheveux courts et les yeux bleus.	Er hat kurze Haare und blaue Augen.	a1_15
+419	Il y a un parc dans ma ville.	Es gibt einen Park in meiner Stadt.	a1_16
+420	Il y a beaucoup de cafés ici.	Es gibt viele Cafés hier.	a1_16
+421	Il n'y a pas d'hôtel dans ce village.	Es gibt kein Hotel in diesem Dorf.	a1_16
+422	Il y a trois écoles dans cette ville.	Es gibt drei Schulen in dieser Stadt.	a1_16
+423	Y a-t-il un restaurant ici ?	Gibt es hier ein Restaurant?	a1_16
+424	J'apprends l'allemand et l'anglais.	Ich lerne Deutsch und Englisch.	a1_16
+425	Il cuisine et elle fait le ménage.	Er kocht und sie putzt.	a1_16
+426	Nous mangeons et buvons ensemble.	Wir essen und trinken zusammen.	a1_16
+427	Je suis fatigué(e), mais je continue d'apprendre.	Ich bin müde, aber ich lerne weiter.	a1_16
+428	Il a faim, mais il ne mange pas.	Er hat Hunger, aber er isst nicht.	a1_16
+429	Elle est jeune, mais elle est très intelligente.	Sie ist jung, aber sie ist sehr klug.	a1_16
+430	Vous venez avec nous ou vous restez ici ?	Kommst du mit oder bleibst du hier?	a1_16
+431	Buvez-vous du café ou du thé ?	Trinken Sie Kaffee oder Tee?	a1_16
+432	Vous voyagez en bus ou en train ?	Fährst du mit dem Bus oder mit dem Zug?	a1_16
+433	J'aime les chats, mais je n'en ai pas.	Ich mag Katzen, aber ich habe keine.	a1_16
+434	Il ne vient pas parce qu'il est malade.	Er kommt nicht, denn er ist krank.	a1_16
+435	Je reste à la maison parce qu'il pleut.	Ich bleibe zu Hause, denn es regnet.	a1_16
+436	Elle étudie beaucoup parce qu'elle a un examen.	Sie lernt viel, denn sie hat eine Prüfung.	a1_16
+437	Il y a ici une gare et un aéroport.	Es gibt hier einen Bahnhof und einen Flughafen.	a1_16
+438	Je bois du café, mais pas de bière.	Ich trinke Kaffee, aber kein Bier.	a1_16
+439	Il n'y a pas école aujourd'hui.	Es gibt heute keine Schule.	a1_16
+440	Il lit et elle écrit.	Er liest und sie schreibt.	a1_16
+441	Il existe de nombreuses possibilités.	Es gibt viele Möglichkeiten.	a1_16
+442	Soit je pars, soit je reste – je ne sais pas encore.	Ich gehe, oder ich bleibe - ich weiß noch nicht.	a1_16
+443	Je suis fatiguée, mais heureuse.	Ich bin müde, aber glücklich.	a1_16
+444	Il y a du pain frais à la boulangerie.	Es gibt frisches Brot beim Bäcker.	a1_16
+445	Il n'a pas d'argent, mais il est content.	Er hat kein Geld, aber er ist zufrieden.	a1_16
+446	Y a t-il une pharmacie ici?	Gibt es hier eine Apotheke?	a1_16
+447	J'ai vingt et un ans.	Ich bin einundzwanzig Jahre alt.	a1_17
+448	Il a deux enfants.	Er hat zwei Kinder.	a1_17
+449	Il y a cinq pommes sur la table.	Es gibt fünf Äpfel auf dem Tisch.	a1_17
+450	Cela coûte dix euros.	Das kostet zehn Euro.	a1_17
+451	J'ai cent euros.	Ich habe hundert Euro.	a1_17
+452	Il est huit heures.	Es ist acht Uhr.	a1_17
+453	Le train arrive à neuf heures et demie.	Der Zug kommt um neun Uhr dreißig.	a1_17
+454	Je me lève à sept heures.	Ich stehe um sieben Uhr auf.	a1_17
+455	Les cours commencent à 8h15.	Die Schule beginnt um acht Uhr fünfzehn.	a1_17
+456	Je déjeune à midi.	Ich esse um zwölf Uhr zu Mittag.	a1_17
+457	C'est lundi aujourd'hui.	Heute ist Montag.	a1_17
+458	Demain, c'est mardi.	Morgen ist Dienstag.	a1_17
+459	Je travaille du lundi au vendredi.	Ich arbeite von Montag bis Freitag.	a1_17
+460	Je fais la grasse matinée le samedi.	Am Samstag schlafe ich lange.	a1_17
+461	Je vais faire une promenade dimanche.	Am Sonntag gehe ich spazieren.	a1_17
+462	Aujourd'hui, nous sommes le 1er janvier.	Heute ist der erste Januar.	a1_17
+463	Mon anniversaire est le 15 mars.	Mein Geburtstag ist am fünfzehnten März.	a1_17
+464	Nous sommes en mai.	Wir haben jetzt Mai.	a1_17
+465	L'année compte douze mois.	Das Jahr hat zwölf Monate.	a1_17
+466	La semaine compte sept jours.	Die Woche hat sieben Tage.	a1_17
+467	Il est trois heures et quart.	Es ist Viertel nach drei.	a1_17
+468	Il est cinq heures et demie.	Es ist halb sechs.	a1_17
+469	Il est vingt heures moins huit.	Es ist zwanzig vor acht.	a1_17
+470	La classe compte trente élèves.	Es sind dreißig Schüler in der Klasse.	a1_17
+471	L'avion décolle à deux heures.	Das Flugzeug startet um vierzehn Uhr.	a1_17
+472	Il me faut cinquante centimes.	Ich brauche fünfzig Cent.	a1_17
+473	Le concert commence à 19h30.	Das Konzert beginnt um neunzehn Uhr dreißig.	a1_17
+474	Nous nous rencontrerons le 3 octobre.	Wir treffen uns am dritten Oktober.	a1_17
+475	Est-ce que tu me connais?	Kennst du mich?	a1_18
+476	Oui, je te connais.	Ja, ich kenne dich.	a1_18
+477	Il me voit tous les jours.	Er sieht mich jeden Tag.	a1_18
+478	Je le vois aussi.	Ich sehe ihn auch.	a1_18
+479	Elle l'aime.	Sie liebt ihn.	a1_18
+480	Il l'aime.	Er liebt sie.	a1_18
+481	Je t'appellerai.	Ich rufe dich an.	a1_18
+482	Tu ne m'appelles pas.	Du rufst mich nicht an.	a1_18
+483	Il vient nous rendre visite demain.	Er besucht uns morgen.	a1_18
+484	Nous viendrons vous voir la semaine prochaine.	Wir besuchen euch nächste Woche.	a1_18
+485	Vous la connaissez ? L'institutrice ?	Kennst du sie? Die Lehrerin?	a1_18
+486	Oui, je la connais bien.	Ja, ich kenne sie gut.	a1_18
+487	Avez-vous le livre ? J'en ai besoin.	Hast du das Buch? Ich brauche es.	a1_18
+488	Je l'ai. Le voici.	Ich habe es. Hier ist es.	a1_18
+489	Pouvez-vous nous voir ?	Siehst du uns?	a1_18
+490	Oui, je te vois.	Ja, ich sehe euch.	a1_18
+491	Il me demande son chemin.	Er fragt mich nach dem Weg.	a1_18
+492	Je lui demande son adresse.	Ich frage ihn nach seiner Adresse.	a1_18
+493	Elle ne nous connaît pas.	Sie kennt uns nicht.	a1_18
+494	Nous ne les connaissons pas non plus.	Wir kennen sie auch nicht.	a1_18
+495	L'enfant l'aime bien.	Das Kind mag ihn.	a1_18
+496	Il aime ça aussi.	Er mag es auch.	a1_18
+497	Pouvez-vous m'aider?	Kannst du mir helfen?	a1_18
+498	Je suis heureux de vous aider.	Ich helfe dir gerne.	a1_18
+499	Tu nous manques.	Wir vermissen euch.	a1_18
+500	Je te verrai demain.	Ich sehe dich morgen.	a1_18
+501	Il ne me comprend pas.	Er versteht mich nicht.	a1_18
+502	Elle nous appelle.	Sie ruft uns an.	a1_18
+503	Voici mon livre.	Das ist mein Buch.	a1_19
+504	Voici votre stylo.	Das ist dein Stift.	a1_19
+505	Voici sa voiture.	Das ist sein Auto.	a1_19
+506	Voici leur maison.	Das ist ihr Haus.	a1_19
+507	Voici notre chien.	Das ist unser Hund.	a1_19
+508	Voici votre professeur.	Das ist euer Lehrer.	a1_19
+509	Voici leur école.	Das ist ihre Schule.	a1_19
+510	J'aime ma famille.	Ich liebe meine Familie.	a1_19
+511	Il rend visite à ses parents.	Er besucht seine Eltern.	a1_19
+512	Elle achète son billet.	Sie kauft ihr Ticket.	a1_19
+513	Nous faisons nos devoirs.	Wir machen unsere Hausaufgaben.	a1_19
+514	Tu manges ton pain.	Ihr esst euer Brot.	a1_19
+515	Ils écrivent leurs noms.	Sie schreiben ihre Namen.	a1_19
+516	Mon frère est grand.	Mein Bruder ist groß.	a1_19
+517	Ta sœur est gentille.	Deine Schwester ist nett.	a1_19
+518	Son père travaille beaucoup.	Sein Vater arbeitet viel.	a1_19
+519	Sa mère est enseignante.	Ihre Mutter ist Lehrerin.	a1_19
+520	Notre maison est petite mais confortable.	Unser Haus ist klein aber gemütlich.	a1_19
+521	Votre voiture est neuve.	Euer Auto ist neu.	a1_19
+522	Votre professeur parle clairement et distinctement.	Ihr Lehrer spricht klar und deutlich.	a1_19
+523	J'oublie souvent mes clés.	Ich vergesse meinen Schlüssel oft.	a1_19
+524	Il cherche son sac à dos.	Er sucht seinen Rucksack.	a1_19
+525	Elle ne trouve pas son sac.	Sie findet ihre Tasche nicht.	a1_19
+526	Nous avons besoin de notre ordinateur.	Wir brauchen unseren Computer.	a1_19
+527	Avez-vous apporté vos livres ?	Habt ihr eure Bücher dabei?	a1_19
+528	Ce n'est pas mon manteau, c'est le sien.	Das ist nicht mein Mantel, das ist seiner.	a1_19
+529	Je prendrai ma veste.	Ich nehme meine Jacke.	a1_19
+530	C'est ton vélo ou le sien ?	Ist das dein Fahrrad oder seins?	a1_19
+531	Je viendrai demain.	Ich werde morgen kommen.	a1_20
+532	Vous comprendrez.	Du wirst es verstehen.	a1_20
+533	Il deviendra médecin.	Er wird Arzt werden.	a1_20
+534	Elle deviendra enseignante.	Sie wird Lehrerin werden.	a1_20
+535	Nous apprendrons ensemble.	Wir werden zusammen lernen.	a1_20
+536	Tu vas y arriver.	Ihr werdet es schaffen.	a1_20
+537	Ils vont gagner.	Sie werden gewinnen.	a1_20
+538	Il pleuvra demain.	Morgen wird es regnen.	a1_20
+539	La semaine prochaine, j'irai à Berlin.	Nächste Woche werde ich nach Berlin fahren.	a1_20
+540	Il sera bientôt de retour à la maison.	Er wird bald nach Hause kommen.	a1_20
+541	Que ferez-vous?	Was wirst du machen?	a1_20
+542	Je vais apprendre l'allemand.	Ich werde Deutsch lernen.	a1_20
+543	Nous allons acheter une maison.	Wir werden ein Haus kaufen.	a1_20
+544	Elle partira en voyage.	Sie wird eine Reise machen.	a1_20
+545	Il va faire froid.	Es wird kalt werden.	a1_20
+546	Vous serez fatigué.	Du wirst müde sein.	a1_20
+547	Il lira le livre.	Er wird das Buch lesen.	a1_20
+548	Nous voyagerons cet été.	Wir werden im Sommer reisen.	a1_20
+549	Je ne l'oublierai pas.	Ich werde es nicht vergessen.	a1_20
+550	Ils seront à l'heure.	Sie werden pünktlich sein.	a1_20
+551	Tu viendras ?	Werdet ihr kommen?	a1_20
+552	Il travaillera dur.	Er wird viel arbeiten.	a1_20
+553	Que feras-tu demain ?	Was werden Sie morgen machen?	a1_20
+554	Je resterai à la maison.	Ich werde zu Hause bleiben.	a1_20
+555	Il va faire beau.	Es wird ein schöner Tag werden.	a1_20
+556	M'écriras-tu ?	Wirst du mir schreiben?	a1_20
+557	Je vais vous expliquer cela.	Das werde ich dir erklären.	a1_20
+558	On verra.	Wir werden sehen.	a1_20
+559	Stationnement interdit ici !	Hier darf man nicht parken!	assimil_23
+560	Tu ne sais pas lire ?	Kannst du nicht lessen?	assimil_23
+561	Le panneau indique : Stationnement interdit.	Hier steht: Parken verboten.	assimil_23
+562	Hahaha ! Très drôle !	Hahaha! Sehr witzig!	assimil_23
+563	Que dois-je faire?	Was soll ich machen?	assimil_23
+564	Tout est complètement rempli de voitures garées.	Alles ist vollgeparkt.	assimil_23
+565	Ou préférez-vous porter les valises jusqu'ici ?	Oder willst du die Koffer bis hierher tragen?	assimil_23
+566	Désolé, vous avez raison.	Sorry, du hast recht.	assimil_23
+567	Déchargeons rapidement la voiture.	Lass uns dans schnell das Auto ausladen.	assimil_23
+568	avant l'arrivée de la police.	bevor die Polizei kommt.	assimil_23
+569	Ce sera assurément génial !	Es wird bestimmt toll	assimil_24
+570	Viens avec moi!	Komm doch mit!	assimil_24
+571	Nous partons le 30 juin.	Wir fahren am dreissigsten Juni los.	assimil_24
+572	Merci, mais je suis trop vieux pour ce genre de choses.	Danke, ich bin aber zu alt fûr sowas.	assimil_24
+573	Oh, allez ! Quel âge as-tu, au fait ?	Ach was! Wie alt bist eigentlich?	assimil_24
+574	Trente-neuf ans, mais plus maintenant.	Neununddreissig, aber nich mehr lage.	assimil_24
+575	J'aurai quarante ans le 2 juillet.	Am zweiten Juli werde ich vierzig	assimil_24
+576	Et alors ? On a l'âge qu'on se sent avoir.	Na, und? Man ist son alt, wie man sich fühlt.	assimil_24
+577	Bonjour ! Je m’appelle Marie.	Hallo! Mein Name ist Marie.	basic_1
+578	J’ai 25 ans et j’habite à Paris, en France.	Ich bin 25 Jahre alt und lebe in Paris, Frankreich.	basic_1
+579	Je suis française.	Ich bin ein Franzose.	basic_1
+580	Je vis dans un petit appartement avec mon chat.	Ich wohne in einer kleinen Wohnung mit meiner Katze.	basic_1
+581	Mon chat s’appelle Minou.	Meine Katze heißt Minou.	basic_1
+582	Il est blanc avec des yeux verts.	Er ist weiß mit grünen Augen.	basic_1
+583	Il est très gentil, mais parfois il est un peu paresseux.	Er ist sehr nett, aber manchmal ein bisschen faul.	basic_1
+584	Il aime dormir toute la journée sur le canapé ou près de la fenêtre.	Er schläft am liebsten den ganzen Tag auf dem Sofa oder in der Nähe des Fensters.	basic_1
+585	Mon appartement est petit mais confortable.	Meine Wohnung ist klein, aber gemütlich.	basic_1
+586	Il y a une chambre, une cuisine, une salle de bain et un salon.	Es gibt ein Schlafzimmer, eine Küche, ein Badezimmer und ein Wohnzimmer.	basic_1
+587	Dans le salon, il y a un canapé, une table et une télévision.	Im Wohnzimmer befinden sich ein Sofa, ein Tisch und ein Fernseher.	basic_1
+588	Dans la cuisine, il y a un frigo, un four et une petite table.	In der Küche befinden sich ein Kühlschrank, ein Backofen und ein kleiner Tisch.	basic_1
+589	J’aime mon appartement parce qu’il est calme et lumineux.	Ich mag meine Wohnung, weil sie ruhig und hell ist.	basic_1
+590	Je travaille dans un café qui s’appelle “Le Bon Café”.	Ich arbeite in einem Café namens „Le Bon Café“.	basic_1
+591	Le café est près de chez moi.	Das Café ist in der Nähe meines Hauses.	basic_1
+592	Je marche environ dix minutes pour aller au travail.	Ich brauche etwa zehn Minuten zu Fuß zur Arbeit.	basic_1
+593	J’aime mon travail parce que j’aime parler avec les gens.	Ich liebe meinen Job, weil ich gerne mit Menschen rede.	basic_1
+594	Je vois beaucoup de clients chaque jour.	Ich sehe jeden Tag viele Kunden.	basic_1
+595	Certains clients viennent tous les jours.	Manche Kunden kommen jeden Tag.	basic_1
+596	Je connais leurs habitudes.	Ich kenne ihre Gewohnheiten.	basic_1
+597	Par exemple, Monsieur Dupont prend toujours un café noir sans sucre.	Herr Dupont trinkt beispielsweise immer schwarzen Kaffee ohne Zucker.	basic_1
+598	Madame Martin aime le thé avec du lait.	Frau Martin trinkt ihren Tee gern mit Milch.	basic_1
+599	Le matin, je me lève à 7 heures.	Morgens stehe ich um 7 Uhr auf.	basic_1
+600	Parfois, je suis fatiguée, mais je me lève vite.	Manchmal bin ich müde, aber ich stehe schnell wieder auf.	basic_1
+601	Je vais dans la salle de bain.	Ich gehe auf die Toilette.	basic_1
+602	Je prends une douche et je me brosse les dents.	Ich dusche und putze mir die Zähne.	basic_1
+603	Ensuite, je m’habille.	Dann ziehe ich mich an.	basic_1
+604	Je choisis des vêtements simples : un jean, un t-shirt et des chaussures confortables.	Ich wähle einfache Kleidung: Jeans, ein T-Shirt und bequeme Schuhe.	basic_1
+605	Après, je prends mon petit déjeuner.	Anschließend frühstücke ich.	basic_1
+606	Je mange du pain avec du beurre et de la confiture.	Ich esse Brot mit Butter und Marmelade.	basic_1
+607	Parfois, je mange un croissant.	Manchmal esse ich ein Croissant.	basic_1
+608	Je bois du café ou du thé.	Ich trinke Kaffee oder Tee.	basic_1
+609	Mon chat est toujours avec moi dans la cuisine.	Meine Katze ist immer bei mir in der Küche.	basic_1
+610	Il regarde ma nourriture, mais je ne lui donne pas de croissant.	Er schaut auf mein Essen, aber ich gebe ihm kein Croissant.	basic_1
+611	À 8 heures, je quitte mon appartement.	Um 8 Uhr verlasse ich meine Wohnung.	basic_1
+612	Je ferme la porte et je descends les escaliers.	Ich schließe die Tür und gehe die Treppe hinunter.	basic_1
+613	Dans la rue, il y a déjà beaucoup de monde.	Es sind bereits viele Menschen auf der Straße.	basic_1
+614	Les gens vont au travail.	Die Menschen gehen zur Arbeit.	basic_1
+615	Il y a des voitures, des bus et des vélos.	Es gibt Autos, Busse und Fahrräder.	basic_1
+616	J’aime marcher le matin parce que l’air est frais.	Ich gehe gerne morgens spazieren, weil die Luft dann frisch ist.	basic_1
+617	J’arrive au café à 8h15.	Ich komme um 8:15 Uhr im Café an.	basic_1
+618	Je dis bonjour à mes collègues.	Ich grüße meine Kollegen.	basic_1
+619	Nous préparons le café pour la journée.	Wir bereiten den Kaffee für heute zu.	basic_1
+620	Nous nettoyons les tables et nous préparons les tasses.	Wir reinigen die Tische und bereiten die Tassen vor.	basic_1
+621	À 8h30, le café ouvre.	Das Café öffnet um 8:30 Uhr.	basic_1
+622	Je travaille avec deux collègues.	Ich arbeite mit zwei Kollegen zusammen.	basic_1
+623	Ils s’appellent Paul et Sophie.	Sie heißen Paul und Sophie.	basic_1
+624	Paul est grand et il a les cheveux bruns.	Paul ist groß und hat braune Haare.	basic_1
+625	Il est très drôle.	Er ist sehr witzig.	basic_1
+626	Il fait souvent des blagues.	Er macht oft Witze.	basic_1
+627	Sophie est petite et elle a les cheveux blonds.	Sophie ist klein und hat blonde Haare.	basic_1
+628	Elle est très gentille et organisée.	Sie ist sehr freundlich und organisiert.	basic_1
+629	Nous travaillons bien ensemble.	Wir arbeiten gut zusammen.	basic_1
+630	Pendant la matinée, il y a beaucoup de clients.	Morgens sind viele Kunden da.	basic_1
+631	Je prends les commandes, je prépare les boissons et je donne les cafés aux clients.	Ich nehme Bestellungen entgegen, bereite Getränke zu und serviere Kaffee an die Kunden.	basic_1
+632	Je dis toujours “bonjour” et “merci”.	Ich sage immer „Hallo“ und „Danke“.	basic_1
+633	J’aime être polie avec les gens.	Ich bin gerne höflich zu anderen Menschen.	basic_1
+634	Parfois, il y a des touristes.	Manchmal sind Touristen da.	basic_1
+635	Ils parlent anglais ou une autre langue.	Sie sprechen Englisch oder eine andere Sprache.	basic_1
+636	Je parle un peu anglais, donc je peux aider.	Ich spreche ein bisschen Englisch, daher kann ich helfen.	basic_1
+637	Les touristes aiment Paris.	Touristen lieben Paris.	basic_1
+638	Ils prennent beaucoup de photos.	Sie machen viele Fotos.	basic_1
+639	À midi, je prends une pause.	Mittags mache ich Pause.	basic_1
+640	Je suis souvent fatiguée, mais contente.	Ich bin oft müde, aber glücklich.	basic_1
+641	Je mange un sandwich ou une salade.	Ich esse ein Sandwich oder einen Salat.	basic_1
+642	Je bois de l’eau ou un jus d’orange.	Ich trinke Wasser oder Orangensaft.	basic_1
+643	Je m’assois avec Paul et Sophie.	Ich setze mich zu Paul und Sophie.	basic_1
+644	Nous parlons de notre journée, de nos amis et de nos plans pour le week-end.	Wir unterhalten uns über unseren Tag, unsere Freunde und unsere Pläne fürs Wochenende.	basic_1
+645	Après la pause, je retourne au travail.	Nach der Pause gehe ich wieder an die Arbeit.	basic_1
+646	L’après-midi est plus calme.	Der Nachmittag ist ruhiger.	basic_1
+647	Il y a moins de clients.	Es gibt weniger Kunden.	basic_1
+648	Je nettoie les tables, je range la cuisine et je prépare des gâteaux.	Ich putze die Tische, ich räume die Küche auf und ich backe Kuchen.	basic_1
+649	J’aime préparer des gâteaux.	Ich backe gerne Kuchen.	basic_1
+650	C’est simple et amusant.	Es ist einfach und macht Spaß.	basic_1
+651	Je finis le travail à 17 heures.	Ich habe um 17 Uhr Feierabend.	basic_1
+652	Je dis au revoir à mes collègues et je quitte le café.	Ich verabschiede mich von meinen Kollegen und verlasse das Café.	basic_1
+653	Je marche jusqu’à mon appartement.	Ich gehe zu meiner Wohnung.	basic_1
+654	Parfois, je passe au supermarché pour acheter de la nourriture.	Manchmal gehe ich in den Supermarkt, um Lebensmittel einzukaufen.	basic_1
+655	Au supermarché, j’achète des légumes, du pain, du lait et des fruits.	Im Supermarkt kaufe ich Gemüse, Brot, Milch und Obst.	basic_1
+656	J’aime les pommes, les bananes et les oranges.	Ich mag Äpfel, Bananen und Orangen.	basic_1
+657	Je n’achète pas beaucoup de choses parce que mon appartement est petit.	Ich kaufe nicht viele Dinge, weil meine Wohnung klein ist.	basic_1
+658	Quand je rentre à la maison, mon chat vient me voir.	Wenn ich nach Hause komme, kommt meine Katze, um mich zu begrüßen.	basic_1
+659	Il est content.	Er ist glücklich.	basic_1
+660	Je joue un peu avec lui.	Ich necke ihn ein bisschen.	basic_1
+661	Ensuite, je me repose sur le canapé.	Dann entspanne ich mich auf dem Sofa.	basic_1
+662	Le soir, je prépare le dîner.	Am Abend bereite ich das Abendessen zu.	basic_1
+663	Je cuisine des choses simples.	Ich koche einfache Gerichte.	basic_1
+664	Je fais des pâtes, du riz ou des légumes.	Ich koche Nudeln, Reis oder Gemüse.	basic_1
+665	Parfois, je cuisine du poulet ou du poisson.	Manchmal koche ich Hähnchen oder Fisch.	basic_1
+666	J’aime manger sainement.	Ich ernähre mich gerne gesund.	basic_1
+667	Après le dîner, je lave la vaisselle.	Nach dem Abendessen spüle ich das Geschirr.	basic_1
+668	Je n’aime pas ça, mais c’est nécessaire.	Ich mag es nicht, aber es ist notwendig.	basic_1
+669	Ensuite, je regarde la télévision.	Dann schaue ich fern.	basic_1
+670	J’aime les films et les séries simples.	Ich mag einfache Filme und Serien.	basic_1
+671	Parfois, je lis un livre.	Manchmal lese ich ein Buch.	basic_1
+672	J’aime les histoires courtes.	Ich mag Kurzgeschichten.	basic_1
+673	J’écoute aussi de la musique.	Ich höre auch Musik.	basic_1
+674	J’aime la musique française.	Ich mag französische Musik.	basic_1
+675	Je chante parfois dans mon salon.	Ich singe manchmal in meinem Wohnzimmer.	basic_1
+676	Mon chat me regarde, mais il ne chante pas avec moi.	Meine Katze schaut mich an, aber sie singt nicht mit.	basic_1
+677	Le week-end, je ne travaille pas.	Ich arbeite nicht am Wochenende.	basic_1
+678	Le samedi, je me lève plus tard.	Samstags stehe ich später auf.	basic_1
+679	Je prends un bon petit déjeuner.	Ich frühstücke gerade ausgiebig.	basic_1
+680	Je bois du café et je mange des croissants.	Ich trinke Kaffee und esse Croissants.	basic_1
+681	Le samedi, je vois mes amis.	Samstags treffe ich meine Freunde.	basic_1
+682	J’ai trois bons amis : Julie, Marc et Anna.	Ich habe drei gute Freunde: Julie, Marc und Anna.	basic_1
+683	Nous aimons passer du temps ensemble.	Wir genießen es, Zeit miteinander zu verbringen.	basic_1
+684	Nous allons au parc quand il fait beau.	Wir gehen in den Park, wenn das Wetter schön ist.	basic_1
+685	Nous marchons, nous parlons et nous rions.	Wir gehen, wir unterhalten uns und wir lachen.	basic_1
+686	Parfois, nous allons au cinéma.	Manchmal gehen wir ins Kino.	basic_1
+687	Nous regardons un film et nous mangeons du popcorn.	Wir schauen einen Film und essen Popcorn.	basic_1
+688	J’aime les films comiques et romantiques.	Ich mag Komödien und romantische Filme.	basic_1
+689	Le soir, nous allons au restaurant.	Am Abend gehen wir in ein Restaurant.	basic_1
+690	Nous mangeons des pizzas, des salades ou des plats français.	Wir essen Pizza, Salate oder französische Gerichte.	basic_1
+691	Nous parlons beaucoup.	Wir reden viel.	basic_1
+692	C’est un moment agréable.	Es ist ein angenehmer Moment.	basic_1
+693	Le dimanche, je reste souvent à la maison.	Sonntags bleibe ich oft zu Hause.	basic_1
+694	Je me repose.	Ich ruhe mich aus.	basic_1
+695	Je nettoie mon appartement.	Ich putze meine Wohnung.	basic_1
+696	Je fais le ménage : je passe l’aspirateur, je nettoie la cuisine et la salle de bain.	Ich erledige die Hausarbeit: Ich sauge Staub, putze die Küche und das Badezimmer.	basic_1
+697	Je fais aussi la lessive.	Ich wasche auch die Wäsche.	basic_1
+698	Je lave mes vêtements et je les sèche.	Ich wasche meine Wäsche und trockne sie.	basic_1
+699	Ce n’est pas amusant, mais c’est important.	Es macht keinen Spaß, aber es ist wichtig.	basic_1
+700	L’après-midi, je prends un café et je lis un livre.	Am Nachmittag trinke ich einen Kaffee und lese ein Buch.	basic_1
+701	Parfois, je téléphone à ma famille.	Manchmal rufe ich meine Familie an.	basic_1
+702	Mes parents habitent dans une autre ville.	Meine Eltern leben in einer anderen Stadt.	basic_1
+703	Je parle avec eux chaque semaine.	Ich spreche jede Woche mit ihnen.	basic_1
+704	J’aime ma vie à Paris.	Ich liebe mein Leben in Paris.	basic_1
+705	C’est une grande ville avec beaucoup de choses à faire.	Es ist eine große Stadt mit vielen Freizeitmöglichkeiten.	basic_1
+706	Il y a des musées, des parcs, des magasins et des restaurants.	Es gibt Museen, Parks, Geschäfte und Restaurants.	basic_1
+707	Parfois, je me promène dans la ville.	Manchmal mache ich einen Spaziergang durch die Stadt.	basic_1
+708	Je marche dans les rues et je regarde les bâtiments.	Ich gehe durch die Straßen und betrachte die Gebäude.	basic_1
+709	J’aime voir les touristes et entendre différentes langues.	Ich freue mich, Touristen zu sehen und verschiedene Sprachen zu hören.	basic_1
+710	Je rêve aussi de voyager.	Ich träume auch vom Reisen.	basic_1
+711	Je veux visiter d’autres pays.	Ich möchte andere Länder besuchen.	basic_1
+712	Par exemple, je veux aller en Espagne, en Italie et en Allemagne.	Ich möchte zum Beispiel nach Spanien, Italien und Deutschland reisen.	basic_1
+713	J’aime découvrir de nouvelles cultures.	Ich genieße es, neue Kulturen zu entdecken.	basic_1
+714	Mais pour le moment, je suis contente de ma vie.	Aber im Moment bin ich zufrieden mit meinem Leben.	basic_1
+715	J’ai un travail, un appartement, des amis et un chat.	Ich habe einen Job, eine Wohnung, Freunde und eine Katze.	basic_1
+716	C’est une vie simple, mais heureuse.	Es ist ein einfaches, aber glückliches Leben.	basic_1
+717	Chaque jour est un peu différent, mais j’aime ma routine.	Jeder Tag ist ein bisschen anders, aber ich mag meine Routine.	basic_1
+718	Je travaille, je mange, je parle avec les gens et je me repose.	Ich arbeite, ich esse, ich unterhalte mich mit Leuten und ich ruhe mich aus.	basic_1
+719	Je pense que la vie est belle quand on apprécie les petites choses : un bon café, un sourire, un moment avec des amis.	Ich finde, das Leben ist schön, wenn man die kleinen Dinge zu schätzen weiß: einen guten Kaffee, ein Lächeln, einen Moment mit Freunden.	basic_1
+720	Et toi, quelle est ta vie ?	Und du, wie sieht dein Leben aus?	basic_1
+721	Lorsque j’avais six ans j’ai vu, une fois, une magnifique image, dans un livre sur la forêt vierge qui s’appelait Histoires vécues.	Als ich sechs Jahre alt war, sah ich einmal ein großartiges Bild in einem Buch über den Regenwald mit dem Titel „Wahre Geschichten“.	le_petit_prince_1
+722	Ça représentait un serpent boa qui avalait un fauve.	Es zeigte eine Boa Constrictor, die ein wildes Tier verschlang.	le_petit_prince_1
+723	Voilà la copie du dessin.	Hier ist eine Kopie der Zeichnung.	le_petit_prince_1
+724	On disait dans le livre :	Im Buch stand:	le_petit_prince_1
+725	Les serpents boas avalent leur proie tout entière, sans la mâcher.	Boas verschlingen ihre Beute im Ganzen, ohne sie zu zerkauen.	le_petit_prince_1
+726	Ensuite ils ne peuvent plus bouger et ils dorment pendant les six mois de leur digestion.	Dann können sie sich nicht mehr bewegen und schlafen die sechs Monate ihrer Verdauung.	le_petit_prince_1
+727	J’ai alors beaucoup réfléchi sur les aventures de la jungle et, à mon tour, j’ai réussi, avec un crayon de couleur, à tracer mon premier dessin.	Ich habe dann viel über die Abenteuer im Dschungel nachgedacht und es ist mir schließlich gelungen, mit einem Buntstift mein erstes Bild zu zeichnen.	le_petit_prince_1
+728	Mon dessin numéro 1.	Meine Zeichnung Nummer 1.	le_petit_prince_1
+729	Il était comme ça :	Er war so:	le_petit_prince_1
+730	J’ai montré mon chef-d’œuvre aux grandes personnes et je leur ai demandé si mon dessin leur faisait peur.	Ich zeigte den Erwachsenen mein Meisterwerk und fragte sie, ob meine Zeichnung ihnen Angst mache.	le_petit_prince_1
+731	Elles m’ont répondu : «Pourquoi un chapeau ferait-il peur?»	Sie antworteten: „Warum sollte ein Hut gruselig sein?“	le_petit_prince_1
+732	Mon dessin ne représentait pas un chapeau.	Meine Zeichnung zeigte keinen Hut.	le_petit_prince_1
+733	Il représentait un serpent boa qui digérait un éléphant.	Es zeigte eine Boa Constrictor, die einen Elefanten verdaute.	le_petit_prince_1
+734	J’ai alors dessiné l’intérieur du serpent boa, afin que les grandes personnes puissent comprendre.	Anschließend zeichnete ich das Innere der Boa Constrictor, damit auch Erwachsene es verstehen konnten.	le_petit_prince_1
+735	Elles ont toujours besoin d’explications.	Sie brauchen immer Erklärungen.	le_petit_prince_1
+736	Mon dessin numéro 2 était comme ça :	Meine zweite Zeichnung sah so aus:	le_petit_prince_1
+737	Les grandes personnes m’ont conseillé de laisser de côté les dessins de serpents boas ouverts ou fermés, et de m’intéresser plutôt à la géographie, à l’histoire, au calcul et à la grammaire.	Die Erwachsenen rieten mir, Zeichnungen von offenen oder geschlossenen Boa Constrictors beiseite zu legen und mich stattdessen auf Geographie, Geschichte, Arithmetik und Grammatik zu konzentrieren.	le_petit_prince_1
+738	C’est ainsi que j’ai abandonné, à l’âge de six ans, une magnifique carrière de peintre.	So gab ich im Alter von sechs Jahren eine großartige Karriere als Malerin auf.	le_petit_prince_1
+739	J’avais été découragé par l’insuccès de mon dessin numéro 1 et de mon dessin numéro 2.	Ich war durch das Scheitern meiner Zeichnung Nummer 1 und meiner Zeichnung Nummer 2 entmutigt.	le_petit_prince_1
+740	Les grandes personnes ne comprennent jamais rien toutes seules, et c’est fatigant, pour les enfants, de toujours et toujours leur donner des explications...	Erwachsene verstehen nie etwas von selbst, und es ist anstrengend für Kinder, ihnen ständig alles erklären zu müssen...	le_petit_prince_1
+741	J’ai donc dû choisir un autre métier et j’ai appris à piloter des avions.	Deshalb musste ich mir einen anderen Beruf suchen und habe gelernt, Flugzeuge zu fliegen.	le_petit_prince_1
+742	J’ai volé un peu partout dans le monde.	Ich bin schon in der ganzen Welt herumgeflogen.	le_petit_prince_1
+743	Et la géographie, c’est exact, m’a beaucoup servi.	Und die Geographie, das stimmt, war mir sehr nützlich.	le_petit_prince_1
+744	Je savais reconnaître, du premier coup d’œil, la Chine de l’Arizona.	Ich konnte auf den ersten Blick das China von Arizona erkennen.	le_petit_prince_1
+745	C’est très utile, si l’on s’est égaré pendant la nuit.	Das ist sehr nützlich, falls man sich nachts verirrt.	le_petit_prince_1
+746	J’ai ainsi eu, au cours de ma vie, des tas de contacts avec des tas de gens sérieux.	Im Laufe meines Lebens hatte ich viele Kontakte zu vielen ernsthaften Menschen.	le_petit_prince_1
+747	J’ai beaucoup vécu chez les grandes personnes.	Ich habe viel Zeit mit Erwachsenen zusammengelebt.	le_petit_prince_1
+748	Je les ai vues de très près.	Ich habe sie ganz genau beobachtet.	le_petit_prince_1
+749	Ça n’a pas trop amélioré mon opinion.	Das hat meine Meinung nicht wesentlich verbessert.	le_petit_prince_1
+750	Quand j’en rencontrais une qui me paraissait un peu lucide, je faisais l’expérience sur elle de mon dessin numéro 1 que j’ai toujours conservé je voulais savoir si elle était vraiment compréhensive.	Wenn ich eine traf, die einen halbwegs klaren Eindruck machte, experimentierte ich an ihr mit meiner Zeichnung Nummer 1, die ich immer aufbewahrt hatte; ich wollte wissen, ob sie wirklich verständnisvoll war.	le_petit_prince_1
+751	Mais toujours elle me répondait : «C’est un chapeau.»	Aber sie antwortete mir immer: „Es ist ein Hut.“	le_petit_prince_1
+752	Alors je ne lui parlais ni de serpents boas, ni de forêts vierges, ni d’étoiles.	Deshalb habe ich mit ihm nicht über Boa Constrictors, Urwälder oder Sterne gesprochen.	le_petit_prince_1
+753	Je me mettais à sa portée.	Ich habe mich auf sein Niveau herabgelassen.	le_petit_prince_1
+754	Je lui parlais de bridge, de golf, de politique et de cravates.	Ich unterhielt mich mit ihm über Bridge, Golf, Politik und Krawatten.	le_petit_prince_1
+755	Et la grande personne était bien contente de connaître un homme aussi raisonnable...	Und der Erwachsene freute sich sehr, einen so vernünftigen Mann kennengelernt zu haben...	le_petit_prince_1
+756	À Léon Werth.	An Leon Werth.	le_petit_prince_intro
+757	Je demande pardon aux enfants d’avoir dédié ce livre à une grande personne.	Ich entschuldige mich bei den Kindern dafür, dass ich dieses Buch einem Erwachsenen widme.	le_petit_prince_intro
+758	J’ai une excuse sérieuse : cette grande personne est le meilleur ami que j’ai au monde.	Ich habe eine triftige Entschuldigung: Diese großartige Person ist mein bester Freund auf der Welt.	le_petit_prince_intro
+759	J’ai une autre excuse : cette grande personne peut tout comprendre, même les livres pour enfants.	Ich habe noch eine andere Ausrede: Dieser Erwachsene kann alles verstehen, sogar Kinderbücher.	le_petit_prince_intro
+760	J’ai une troisième excuse : cette grande personne habite la France où elle a faim et froid.	Ich habe noch eine dritte Ausrede: Diese erwachsene Frau lebt in Frankreich, wo sie Hunger leidet und friert.	le_petit_prince_intro
+761	Elle a bien besoin d’être consolée.	Sie braucht dringend Trost.	le_petit_prince_intro
+762	Si toutes ces excuses ne suffisent pas, je veux bien dédier ce livre à l’enfant qu’a été autrefois cette grande personne.	Sollten all diese Ausreden nicht ausreichen, widme ich dieses Buch gerne dem Kind, das dieser Erwachsene einst war.	le_petit_prince_intro
+763	Toutes les grandes personnes ont d’abord été des enfants. (Mais peu d’entre elles s’en souviennent.).	Alle Erwachsenen waren einmal Kinder. (Aber nur wenige erinnern sich daran.)	le_petit_prince_intro
+764	Je corrige donc ma dédicace :	Ich korrigiere daher meine Widmung:	le_petit_prince_intro
+765	À Léon Werth quand il était petit garçon.	An Léon Werth, als er noch ein kleiner Junge war.	le_petit_prince_intro
