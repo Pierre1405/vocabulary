@@ -13,7 +13,8 @@ object ConjugationCache {
             val map = mutableMapOf<String, Long>()
             for (verb in GERMAN_VERB_LEARNING_LIST) {
                 val lemma = verb.infinitive.removePrefix("sich ")
-                dictionaryRepository.getByLemma(lemma, "de").firstOrNull()
+                val entries = dictionaryRepository.getByLemma(lemma, "de")
+                (entries.firstOrNull { it.pos == "verb" } ?: entries.firstOrNull())
                     ?.let { map[verb.infinitive] = it.id }
             }
             map.also { entryIdByInfinitive = it }

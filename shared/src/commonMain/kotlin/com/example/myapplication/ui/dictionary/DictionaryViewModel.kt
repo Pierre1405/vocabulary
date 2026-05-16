@@ -49,7 +49,12 @@ class DictionaryViewModel(
                 dictionaryRepository.getByLemma(trimmed, "fr") +
                 dictionaryRepository.searchExactByForm(trimmed, "de") +
                 dictionaryRepository.searchExactByForm(trimmed, "fr")
-            ).distinctBy { it.id }.sortedBy { it.lemma.lowercase() }
+            ).distinctBy { it.id }.sortedWith(
+                compareBy(
+                    { if (it.lemma == trimmed) 0 else 1 }, // exact case d'abord
+                    { it.lemma.lowercase() }
+                )
+            )
 
             val exactIds = exact.map { it.id }.toSet()
 
