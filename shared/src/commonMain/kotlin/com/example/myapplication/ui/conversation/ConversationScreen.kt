@@ -50,12 +50,6 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.myapplication.data.AiService
-import com.example.myapplication.data.ConversationStore
-import com.example.myapplication.data.DictionaryRepository
-import com.example.myapplication.data.LearningRepository
-import com.example.myapplication.data.VocabularyRepository
 import com.example.myapplication.ui.LocalStrings
 import com.example.myapplication.ui.localeToFlag
 
@@ -71,18 +65,11 @@ private val TOPICS = listOf(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ConversationScreen(
-    aiService: AiService,
-    conversationStore: ConversationStore,
-    vocabularyRepository: VocabularyRepository,
-    learningRepository: LearningRepository,
-    dictionaryRepository: DictionaryRepository,
+    vm: ConversationViewModel,
     onSettingsClick: () -> Unit,
     onWordClick: (String) -> Unit,
     onBack: () -> Unit
 ) {
-    val vm: ConversationViewModel = viewModel {
-        ConversationViewModel(aiService, conversationStore, vocabularyRepository, learningRepository, dictionaryRepository)
-    }
     val state by vm.uiState.collectAsState()
     val listState = rememberLazyListState()
     var inputText by remember { mutableStateOf("") }

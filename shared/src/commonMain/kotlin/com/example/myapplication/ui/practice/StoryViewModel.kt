@@ -7,6 +7,7 @@ import com.example.myapplication.data.LearningRepository
 import com.example.myapplication.data.UpcomingGroup
 import com.example.myapplication.data.VocabularyRepository
 import com.example.myapplication.data.forms.FormsConfigDe
+import com.example.myapplication.data.provisionNextConjugationBatch
 import com.example.myapplication.ui.review.definiteArticle
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -129,6 +130,9 @@ class StoryViewModel(
             // Advance the virtual clock before querying due counts.
             // See LearningRepository for the anti-overwhelm mechanism.
             learningRepository.updateUsageTime()
+            if (dictionaryRepository != null) {
+                provisionNextConjugationBatch(dictionaryRepository, learningRepository)
+            }
             val nativeLang = _nativeLanguage.value
             val learnedLang = _learnedLanguage.value
             _countNativeToLearned.value = learningRepository.countByDirection(nativeLang, learnedLang)

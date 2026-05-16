@@ -20,6 +20,7 @@ import com.example.myapplication.data.SpeechRecognizer
 import com.example.myapplication.data.VocabularyRepository
 import com.example.myapplication.ui.conjugation.ConjugationScreen
 import com.example.myapplication.ui.conversation.ConversationScreen
+import com.example.myapplication.ui.conversation.ConversationViewModel
 import com.example.myapplication.ui.settings.ApiSettingsScreen
 import com.example.myapplication.ui.review.ConjugationReviewScreen
 import com.example.myapplication.ui.dictionary.DictionaryDetailScreen
@@ -82,6 +83,9 @@ fun AppNavigation(
 ) {
     val appViewModel: StoryViewModel = viewModel { StoryViewModel(repository, learningRepository) }
     val nativeLanguage by appViewModel.nativeLanguage.collectAsState()
+    val conversationViewModel: ConversationViewModel = viewModel {
+        ConversationViewModel(aiService, conversationStore, repository, learningRepository, dictionaryRepository)
+    }
 
     CompositionLocalProvider(LocalStrings provides stringsForLocale(nativeLanguage)) {
     val navController = rememberNavController()
@@ -102,11 +106,7 @@ fun AppNavigation(
         }
         composable<ConversationRoute> {
             ConversationScreen(
-                aiService = aiService,
-                conversationStore = conversationStore,
-                vocabularyRepository = repository,
-                learningRepository = learningRepository,
-                dictionaryRepository = dictionaryRepository,
+                vm = conversationViewModel,
                 onSettingsClick = { navController.navigate(ApiSettingsRoute) },
                 onWordClick = { word -> navController.navigate(DictionaryRoute(word)) },
                 onBack = { navController.popBackStack() }
