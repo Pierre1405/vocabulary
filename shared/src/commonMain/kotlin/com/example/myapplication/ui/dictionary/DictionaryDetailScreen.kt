@@ -10,8 +10,10 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.VolumeUp
@@ -29,6 +31,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -36,12 +39,16 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.myapplication.data.DictEntry
 import com.example.myapplication.data.DictTranslation
 import com.example.myapplication.data.DictionaryRepository
+import com.example.myapplication.data.GERMAN_TENSE_LIST
 import com.example.myapplication.data.LearningRepository
 import com.example.myapplication.data.TtsPlayer
+import com.example.myapplication.data.forms.FormGroup
 import com.example.myapplication.data.forms.FormRow
 import com.example.myapplication.ui.LocalStrings
 import com.example.myapplication.ui.SwipeableGradeCard
+import com.example.myapplication.ui.gradeColor
 import com.example.myapplication.ui.localeToFlag
+import kotlin.math.floor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -102,7 +109,25 @@ fun DictionaryDetailScreen(
             if (displayGroups.isNotEmpty()) {
                 item { SectionHeader(LocalStrings.current.dictionaryForms) }
                 displayGroups.forEach { group ->
-                    item { FormGroupHeader(group.label) }
+                    if (group.key in GERMAN_TENSE_LIST) {
+                        val entryId = state.entry!!.id
+                        val prefix = "$entryId|${group.key}|"
+                        val groupGrades = state.conjugationGrades
+                            .filterKeys { it.startsWith(prefix) }
+                            .values
+                        val avgGrade = if (groupGrades.isEmpty()) null
+                            else floor(groupGrades.average()).toInt().coerceIn(1, 5)
+                        item {
+                            SwipeableGradeCard(
+                                onGradeSelected = { grade -> viewModel.saveConjugationGroupGrade(group.key, grade) },
+                                currentGrade = avgGrade
+                            ) {
+                                LearnableFormGroupHeader(group, avgGrade)
+                            }
+                        }
+                    } else {
+                        item { FormGroupHeader(group.label) }
+                    }
                     items(group.rows) { row -> FormRowItem(row) }
                 }
             }
@@ -171,6 +196,28 @@ private fun TranslationRow(translation: DictTranslation, entry: DictEntry, repos
 @Composable
 private fun FormGroupHeader(label: String) {
     Text(text = label, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold, modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 8.dp))
+}
+
+@Composable
+private fun LearnableFormGroupHeader(group: FormGroup, avgGrade: Int?) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.surface)
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        if (avgGrade != null) {
+            Box(
+                modifier = Modifier
+                    .size(12.dp)
+                    .clip(RoundedCornerShape(2.dp))
+                    .background(gradeColor(avgGrade))
+            )
+        }
+        Text(text = group.label, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
+    }
 }
 
 @Composable

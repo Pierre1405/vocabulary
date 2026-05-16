@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.myapplication.data.DictEntry
 import com.example.myapplication.data.DictTranslation
 import com.example.myapplication.data.DictionaryRepository
+import com.example.myapplication.data.GERMAN_TENSE_LIST
 import com.example.myapplication.data.LearningRepository
 import com.example.myapplication.data.forms.FormGroup
 import com.example.myapplication.data.forms.FormRow
@@ -19,7 +20,9 @@ data class DictionaryDetailState(
     val entry: DictEntry? = null,
     val translations: List<DictTranslation> = emptyList(),
     val formGroups: List<FormGroup> = emptyList(),
-    val wordGrades: Map<Long, Int> = emptyMap()
+    val wordGrades: Map<Long, Int> = emptyMap(),
+    // key: "$entryId|$groupKey|$pronouns" → grade (only for groups in GERMAN_TENSE_LIST)
+    val conjugationGrades: Map<String, Int> = emptyMap()
 )
 
 class DictionaryDetailViewModel(
@@ -42,8 +45,25 @@ class DictionaryDetailViewModel(
                 val sourceLocale = entry?.locale ?: ""
                 val targetLocale = translations.firstOrNull()?.targetLocale ?: ""
                 val wordGrades = learningRepository.getWordGradesForTranslations(translations.map { it.id }, sourceLocale, targetLocale)
-                DictionaryDetailState(entry, translations, formGroups, wordGrades)
+                val allConjGrades = learningRepository.getAllConjugationGrades()
+                val prefix = "$entryId|"
+                val conjugationGrades = allConjGrades.filterKeys { it.startsWith(prefix) }
+                DictionaryDetailState(entry, translations, formGroups, wordGrades, conjugationGrades)
             }
+        }
+    }
+
+    fun saveConjugationGroupGrade(groupKey: String, grade: Int) {
+        viewModelScope.launch {
+            val group = _state.value.formGroups.find { it.key == groupKey } ?: return@launch
+            val newGrades = _state.value.conjugationGrades.toMutableMap()
+            for (row in group.rows) {
+                val pronouns = row.label ?: ""
+                val key = "$entryId|$groupKey|$pronouns"
+                learningRepository.saveConjugationGrade(key, grade)
+                newGrades[key] = grade
+            }
+            _state.value = _state.value.copy(conjugationGrades = newGrades)
         }
     }
 
