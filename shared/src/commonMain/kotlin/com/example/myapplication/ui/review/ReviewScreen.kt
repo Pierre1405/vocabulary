@@ -13,9 +13,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Stop
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -29,6 +31,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -74,6 +77,7 @@ fun ReviewScreen(
     val isCompleted by viewModel.isCompleted.collectAsState()
     val showPreview by viewModel.showPreview.collectAsState()
     val previewItems by viewModel.previewItems.collectAsState()
+    var showDeleteDialog by remember { mutableStateOf(false) }
 
     val scope = rememberCoroutineScope()
     val reviewPlayer = remember { ReviewPlayer(audioPlayer, scope) }
@@ -101,6 +105,11 @@ fun ReviewScreen(
                     }
                 },
                 actions = {
+                    if (sentences.isNotEmpty() && !isCompleted) {
+                        IconButton(onClick = { showDeleteDialog = true }) {
+                            Icon(Icons.Filled.Delete, contentDescription = LocalStrings.current.reviewDelete, tint = MaterialTheme.colorScheme.error)
+                        }
+                    }
                     IconButton(onClick = {
                         reviewPlayer.toggle(
                             sentences = sentences,
@@ -120,6 +129,22 @@ fun ReviewScreen(
         },
         modifier = modifier
     ) { innerPadding ->
+        if (showDeleteDialog) {
+            val strings = LocalStrings.current
+            AlertDialog(
+                onDismissRequest = { showDeleteDialog = false },
+                title = { Text(strings.reviewDeleteConfirmTitle) },
+                text = { Text(strings.reviewDeleteConfirmMessage) },
+                confirmButton = {
+                    TextButton(onClick = { showDeleteDialog = false; viewModel.deleteCurrent() }) {
+                        Text(strings.reviewDeleteConfirm, color = MaterialTheme.colorScheme.error)
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { showDeleteDialog = false }) { Text(strings.reviewDeleteCancel) }
+                }
+            )
+        }
         if (showPreview) {
             ReviewPreviewScreen(
                 items = previewItems,

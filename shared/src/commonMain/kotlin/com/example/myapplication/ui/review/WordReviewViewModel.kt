@@ -149,6 +149,21 @@ class WordReviewViewModel(
         updateCurrentGrade()
     }
 
+    fun deleteCurrent() {
+        viewModelScope.launch {
+            val list = _items.value
+            val index = _currentIndex.value
+            val item = list.getOrNull(index) ?: return@launch
+            learningRepository.deleteWordGrade(item.translationId, sourceLocale, targetLocale)
+            grades.remove(item.translationId)
+            val newList = list.toMutableList().also { it.removeAt(index) }
+            _items.value = newList
+            if (newList.isEmpty()) { _isCompleted.value = true; return@launch }
+            _currentIndex.value = index.coerceAtMost(newList.size - 1)
+            updateCurrentGrade()
+        }
+    }
+
     fun restart(filterLowGrades: Boolean) {
         val list = if (filterLowGrades)
             _items.value.filter { (sessionGrades[it.translationId] ?: Int.MAX_VALUE) < 3 }

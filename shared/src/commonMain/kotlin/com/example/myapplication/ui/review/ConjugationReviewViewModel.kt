@@ -123,6 +123,24 @@ class ConjugationReviewViewModel(
         updateCurrentGrade()
     }
 
+    fun deleteCurrent() {
+        viewModelScope.launch {
+            val list = _items.value
+            val index = _currentIndex.value
+            val item = list.getOrNull(index) ?: return@launch
+            val parts = item.key.split("|")
+            val entryId = parts[0].toLongOrNull() ?: return@launch
+            val groupKey = parts[1]
+            learningRepository.deleteConjugationGroup(entryId, groupKey)
+            val prefix = "$entryId|$groupKey|"
+            val newList = list.filter { !it.key.startsWith(prefix) }
+            _items.value = newList
+            if (newList.isEmpty()) { _isCompleted.value = true; return@launch }
+            _currentIndex.value = index.coerceAtMost(newList.size - 1)
+            updateCurrentGrade()
+        }
+    }
+
     fun restart(filterLowGrades: Boolean) {
         val list = if (filterLowGrades)
             _items.value.filter { (sessionGrades[it.key] ?: Int.MAX_VALUE) < 3 }

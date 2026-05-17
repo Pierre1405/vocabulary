@@ -5,20 +5,26 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Stop
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -52,6 +58,7 @@ fun WordReviewScreen(
     val isCompleted by viewModel.isCompleted.collectAsState()
     val showPreview by viewModel.showPreview.collectAsState()
     val previewItems by viewModel.previewItems.collectAsState()
+    var showDeleteDialog by remember { mutableStateOf(false) }
 
     val scope = rememberCoroutineScope()
     val wordPlayer = remember { WordReviewPlayer(ttsPlayer, scope) }
@@ -79,6 +86,11 @@ fun WordReviewScreen(
                     }
                 },
                 actions = {
+                    if (items.isNotEmpty() && !isCompleted) {
+                        IconButton(onClick = { showDeleteDialog = true }) {
+                            Icon(Icons.Filled.Delete, contentDescription = LocalStrings.current.reviewDelete, tint = MaterialTheme.colorScheme.error)
+                        }
+                    }
                     IconButton(onClick = {
                         wordPlayer.toggle(
                             items = items,
@@ -97,6 +109,22 @@ fun WordReviewScreen(
         },
         modifier = modifier
     ) { innerPadding ->
+        if (showDeleteDialog) {
+            val strings = LocalStrings.current
+            AlertDialog(
+                onDismissRequest = { showDeleteDialog = false },
+                title = { Text(strings.reviewDeleteConfirmTitle) },
+                text = { Text(strings.reviewDeleteConfirmMessage) },
+                confirmButton = {
+                    TextButton(onClick = { showDeleteDialog = false; viewModel.deleteCurrent() }) {
+                        Text(strings.reviewDeleteConfirm, color = MaterialTheme.colorScheme.error)
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { showDeleteDialog = false }) { Text(strings.reviewDeleteCancel) }
+                }
+            )
+        }
         if (showPreview) {
             ReviewPreviewScreen(
                 items = previewItems,

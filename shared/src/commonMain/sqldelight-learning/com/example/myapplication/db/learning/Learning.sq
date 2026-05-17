@@ -56,3 +56,11 @@ getLowGradeItems:
 SELECT key, grade FROM learning
 WHERE source_locale = :sourceLocale AND target_locale = :targetLocale AND type = :type AND grade <= :maxGrade
 ORDER BY grade ASC;
+
+deleteGrade:
+DELETE FROM learning
+WHERE key = :key AND source_locale = :sourceLocale AND target_locale = :targetLocale AND type = :type;
+
+deleteByKeyPrefix:
+DELETE FROM learning
+WHERE key LIKE :keyPrefix AND type = :type;

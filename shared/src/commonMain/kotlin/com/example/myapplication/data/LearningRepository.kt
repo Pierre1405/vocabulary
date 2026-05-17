@@ -240,6 +240,24 @@ class LearningRepository(driver: SqlDriver) {
                 .map { LowGradeRaw(it.key, it.grade.toInt()) }
         }
 
+    // --- Suppression ---------------------------------------------------
+
+    suspend fun deleteSentenceGrade(sentenceKey: String, sourceLocale: String, targetLocale: String) =
+        withContext(Dispatchers.Default) {
+            queries.deleteGrade(sentenceKey, sourceLocale, targetLocale, TYPE_SENTENCE)
+        }
+
+    suspend fun deleteWordGrade(translationId: Long, sourceLocale: String, targetLocale: String) =
+        withContext(Dispatchers.Default) {
+            queries.deleteGrade(translationId.toString(), sourceLocale, targetLocale, TYPE_WORD)
+            queries.deleteGrade(translationId.toString(), targetLocale, sourceLocale, TYPE_WORD)
+        }
+
+    suspend fun deleteConjugationGroup(entryId: Long, groupKey: String) =
+        withContext(Dispatchers.Default) {
+            queries.deleteByKeyPrefix("$entryId|$groupKey|%", TYPE_CONJUGATION)
+        }
+
     // --- Intervalle SRS ------------------------------------------------
 
     private fun computeNextIntervalHours(currentHours: Int, grade: Int): Int = when (grade) {

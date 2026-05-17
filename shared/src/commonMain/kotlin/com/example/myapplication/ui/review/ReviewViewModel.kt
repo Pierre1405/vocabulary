@@ -108,6 +108,21 @@ class ReviewViewModel(
         updateCurrentGrade()
     }
 
+    fun deleteCurrent() {
+        viewModelScope.launch {
+            val list = _sentences.value
+            val index = _currentIndex.value
+            val sentence = list.getOrNull(index) ?: return@launch
+            learningRepository.deleteSentenceGrade(sentence.sentenceKey, sourceLocale, targetLocale)
+            grades.remove(sentence.sentenceKey)
+            val newList = list.toMutableList().also { it.removeAt(index) }
+            _sentences.value = newList
+            if (newList.isEmpty()) { _isCompleted.value = true; return@launch }
+            _currentIndex.value = index.coerceAtMost(newList.size - 1)
+            updateCurrentGrade()
+        }
+    }
+
     fun restart(filterLowGrades: Boolean) {
         val list = if (filterLowGrades)
             _sentences.value.filter { (sessionGrades[it.sentenceKey] ?: Int.MAX_VALUE) < 3 }

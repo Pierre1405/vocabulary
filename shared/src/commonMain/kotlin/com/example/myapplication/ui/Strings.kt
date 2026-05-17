@@ -37,6 +37,11 @@ interface Strings {
     val reviewTabSchedule: String
 
     // Review card
+    val reviewDelete: String
+    val reviewDeleteConfirmTitle: String
+    val reviewDeleteConfirmMessage: String
+    val reviewDeleteConfirm: String
+    val reviewDeleteCancel: String
     val reviewEmpty: String
     val reviewPrevious: String
     val reviewNext: String
@@ -110,6 +115,11 @@ object StringsFr : Strings {
     override val reviewTabLowGrade = "Non maîtrisé"
     override val reviewTabSchedule = "Planifier"
 
+    override val reviewDelete              = "Retirer"
+    override val reviewDeleteConfirmTitle  = "Retirer de la révision ?"
+    override val reviewDeleteConfirmMessage = "Cet élément sera supprimé de vos révisions."
+    override val reviewDeleteConfirm       = "Retirer"
+    override val reviewDeleteCancel        = "Annuler"
     override val reviewEmpty       = "Rien à réviser pour aujourd'hui."
     override val reviewPrevious    = "← Précédent"
     override val reviewNext        = "Suivant →"
@@ -181,6 +191,11 @@ object StringsEn : Strings {
     override val reviewTabLowGrade = "Not mastered"
     override val reviewTabSchedule = "Schedule"
 
+    override val reviewDelete              = "Remove"
+    override val reviewDeleteConfirmTitle  = "Remove from review?"
+    override val reviewDeleteConfirmMessage = "This item will be removed from your reviews."
+    override val reviewDeleteConfirm       = "Remove"
+    override val reviewDeleteCancel        = "Cancel"
     override val reviewEmpty       = "Nothing to review today."
     override val reviewPrevious    = "← Previous"
     override val reviewNext        = "Next →"
