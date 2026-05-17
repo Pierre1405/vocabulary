@@ -84,7 +84,7 @@ fun AppNavigation(
     val appViewModel: StoryViewModel = viewModel { StoryViewModel(repository, learningRepository) }
     val nativeLanguage by appViewModel.nativeLanguage.collectAsState()
     val conversationViewModel: ConversationViewModel = viewModel {
-        ConversationViewModel(aiService, conversationStore, repository, learningRepository, dictionaryRepository)
+        ConversationViewModel(aiService, conversationStore, repository, learningRepository, dictionaryRepository, ttsPlayer, speechRecognizer)
     }
 
     CompositionLocalProvider(LocalStrings provides stringsForLocale(nativeLanguage)) {

@@ -22,6 +22,9 @@ import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.Send
+import androidx.compose.material.icons.filled.Mic
+import androidx.compose.material.icons.filled.MicOff
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -37,6 +40,11 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -46,6 +54,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -88,6 +97,12 @@ fun ConversationScreen(
                     }
                 },
                 actions = {
+                    if (state.started) {
+                        HandsFreeButton(
+                            handsFreeState = state.handsFreeState,
+                            onClick = { vm.toggleHandsFree() }
+                        )
+                    }
                     IconButton(onClick = { onSettingsClick(); vm.refreshApiKey() }) {
                         Icon(Icons.Filled.Settings, contentDescription = LocalStrings.current.settingsTitle)
                     }
@@ -117,7 +132,15 @@ fun ConversationScreen(
                     contentPadding = PaddingValues(12.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    items(state.messages) { msg -> MessageBubble(msg, onWordClick) }
+                    items(state.messages) { msg ->
+                        MessageBubble(
+                            msg = msg,
+                            onWordClick = onWordClick,
+                            onPlay = if (!msg.isUser) {
+                                { vm.ttsPlayer.speak(msg.learnedText, state.learnedLanguage) }
+                            } else null
+                        )
+                    }
                     if (state.isLoading) {
                         item { TypingIndicator() }
                     }
@@ -131,6 +154,8 @@ fun ConversationScreen(
                         modifier = Modifier.padding(horizontal = 16.dp)
                     )
                 }
+
+                HandsFreeStatusBar(state.handsFreeState)
 
                 // Topic chips
                 LazyRow(
@@ -177,7 +202,7 @@ fun ConversationScreen(
 }
 
 @Composable
-private fun MessageBubble(msg: UiMessage, onWordClick: (String) -> Unit) {
+private fun MessageBubble(msg: UiMessage, onWordClick: (String) -> Unit, onPlay: (() -> Unit)? = null) {
     val isUser = msg.isUser
     Box(
         modifier = Modifier.fillMaxWidth(),
@@ -215,6 +240,19 @@ private fun MessageBubble(msg: UiMessage, onWordClick: (String) -> Unit) {
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
+                }
+                if (onPlay != null) {
+                    IconButton(
+                        onClick = onPlay,
+                        modifier = Modifier.size(28.dp).align(Alignment.End)
+                    ) {
+                        Icon(
+                            Icons.Filled.PlayArrow,
+                            contentDescription = null,
+                            modifier = Modifier.size(18.dp),
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
                 }
             }
         }
@@ -284,6 +322,51 @@ private fun NoApiKeyBanner(onSettingsClick: () -> Unit) {
         Spacer(Modifier.size(16.dp))
         Button(onClick = onSettingsClick) {
             Text(LocalStrings.current.settingsTitle)
+        }
+    }
+}
+
+@Composable
+private fun HandsFreeButton(handsFreeState: HandsFreeState, onClick: () -> Unit) {
+    val isActive = handsFreeState != HandsFreeState.OFF
+    val isListening = handsFreeState == HandsFreeState.LISTENING
+
+    val alpha = if (isListening) {
+        val transition = rememberInfiniteTransition(label = "mic_pulse")
+        transition.animateFloat(
+            initialValue = 0.4f,
+            targetValue = 1f,
+            animationSpec = infiniteRepeatable(tween(600), RepeatMode.Reverse),
+            label = "mic_alpha"
+        ).value
+    } else 1f
+
+    IconButton(onClick = onClick) {
+        Icon(
+            imageVector = if (isActive) Icons.Filled.Mic else Icons.Filled.MicOff,
+            contentDescription = null,
+            tint = if (isActive) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
+            modifier = Modifier.alpha(alpha)
+        )
+    }
+}
+
+@Composable
+private fun HandsFreeStatusBar(handsFreeState: HandsFreeState) {
+    val label = when (handsFreeState) {
+        HandsFreeState.AI_SPEAKING -> "🤖 Répond…"
+        HandsFreeState.LISTENING -> "🎙 En écoute…"
+        HandsFreeState.SENDING -> "⏳ Envoi…"
+        HandsFreeState.OFF -> null
+    }
+    if (label != null) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 2.dp),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(label, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.primary)
         }
     }
 }

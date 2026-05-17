@@ -2,23 +2,28 @@ package com.example.myapplication.ui.conversation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.myapplication.data.AiProviderType
 import com.example.myapplication.data.AiService
 import com.example.myapplication.data.ChatMessage
 import com.example.myapplication.data.ConversationProgress
 import com.example.myapplication.data.ConversationStore
 import com.example.myapplication.data.DictionaryRepository
 import com.example.myapplication.data.LearningRepository
+import com.example.myapplication.data.SpeechRecognizer
+import com.example.myapplication.data.TtsPlayer
 import com.example.myapplication.data.VocabularyRepository
 import com.example.myapplication.data.forms.FormsConfigDe
 import com.example.myapplication.ui.localeToFlag
 import com.example.myapplication.ui.localeToName
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
+enum class HandsFreeState { OFF, AI_SPEAKING, LISTENING, SENDING }
 
 data class UiMessage(
     val isUser: Boolean,
@@ -33,15 +38,20 @@ data class ConversationUiState(
     val learnedLanguage: String = "de",
     val nativeLanguage: String = "fr",
     val hasApiKey: Boolean = false,
-    val started: Boolean = false
+    val started: Boolean = false,
+    val handsFreeState: HandsFreeState = HandsFreeState.OFF
 )
+
+private const val INACTIVITY_TIMEOUT_MS = 2 * 60 * 1000L
 
 class ConversationViewModel(
     private val aiService: AiService,
     private val conversationStore: ConversationStore,
     private val vocabularyRepository: VocabularyRepository,
     private val learningRepository: LearningRepository,
-    private val dictionaryRepository: DictionaryRepository
+    private val dictionaryRepository: DictionaryRepository,
+    val ttsPlayer: TtsPlayer,
+    val speechRecognizer: SpeechRecognizer
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ConversationUiState())
@@ -49,10 +59,9 @@ class ConversationViewModel(
 
     private val history = mutableListOf<ChatMessage>()
     private var progress = ConversationProgress()
-
-    // Contexte d'apprentissage chargé une fois au démarrage
-    private var weakWords: List<Pair<String, String>> = emptyList()    // lemma → traduction
-    private var activeTenses: List<String> = emptyList()               // labels humains
+    private var weakWords: List<Pair<String, String>> = emptyList()
+    private var activeTenses: List<String> = emptyList()
+    private var inactivityJob: Job? = null
 
     init {
         viewModelScope.launch {
@@ -74,7 +83,6 @@ class ConversationViewModel(
 
     private suspend fun loadLearningContext(learnedLang: String, nativeLang: String) {
         withContext(Dispatchers.Default) {
-            // Mots peu maîtrisés (grade < 4)
             val lowRaws = learningRepository.getLowGradeRaws("word", learnedLang, nativeLang, maxGrade = 3)
             weakWords = lowRaws.take(20).mapNotNull { raw ->
                 val translation = dictionaryRepository.getTranslationById(raw.key.toLong()) ?: return@mapNotNull null
@@ -82,7 +90,6 @@ class ConversationViewModel(
                 entry.lemma to translation.text
             }
 
-            // Temps de conjugaison en cours (grade < 4)
             val tenseLabels = FormsConfigDe.groups.associate { it.key to it.label }
             val conjGrades = learningRepository.getAllConjugationGrades()
             activeTenses = conjGrades.entries
@@ -118,6 +125,82 @@ class ConversationViewModel(
         viewModelScope.launch { sendToAi(text, alreadyInHistory = true) }
     }
 
+    // --- Hands-free mode ---
+
+    fun toggleHandsFree() {
+        val current = _uiState.value.handsFreeState
+        if (current != HandsFreeState.OFF) {
+            stopHandsFree()
+        } else {
+            val lastAiMsg = _uiState.value.messages.lastOrNull { !it.isUser }
+            if (lastAiMsg != null) {
+                speakAndThenListen(lastAiMsg.learnedText)
+            } else {
+                _uiState.value = _uiState.value.copy(handsFreeState = HandsFreeState.LISTENING)
+                startListeningInternal()
+            }
+        }
+    }
+
+    private fun stopHandsFree() {
+        inactivityJob?.cancel()
+        ttsPlayer.stop()
+        speechRecognizer.stopListening()
+        _uiState.value = _uiState.value.copy(handsFreeState = HandsFreeState.OFF)
+    }
+
+    private fun speakAndThenListen(text: String) {
+        _uiState.value = _uiState.value.copy(handsFreeState = HandsFreeState.AI_SPEAKING)
+        resetInactivityTimer()
+        ttsPlayer.speak(text, _uiState.value.learnedLanguage) {
+            // onDone fires on TTS synthesis thread — dispatch to main before touching SpeechRecognizer
+            viewModelScope.launch {
+                if (_uiState.value.handsFreeState == HandsFreeState.AI_SPEAKING) {
+                    _uiState.value = _uiState.value.copy(handsFreeState = HandsFreeState.LISTENING)
+                    startListeningInternal()
+                }
+            }
+        }
+    }
+
+    private fun startListeningInternal() {
+        resetInactivityTimer()
+        speechRecognizer.startListening(
+            locale = _uiState.value.learnedLanguage,
+            onResult = { text ->
+                if (_uiState.value.handsFreeState == HandsFreeState.LISTENING) {
+                    if (text.isNotBlank()) {
+                        _uiState.value = _uiState.value.copy(handsFreeState = HandsFreeState.SENDING)
+                        inactivityJob?.cancel()
+                        sendMessage(text)
+                    } else {
+                        startListeningInternal()
+                    }
+                }
+            },
+            onError = {
+                if (_uiState.value.handsFreeState == HandsFreeState.LISTENING) {
+                    startListeningInternal()
+                }
+            }
+        )
+    }
+
+    private fun resetInactivityTimer() {
+        inactivityJob?.cancel()
+        inactivityJob = viewModelScope.launch {
+            delay(INACTIVITY_TIMEOUT_MS)
+            if (_uiState.value.handsFreeState != HandsFreeState.OFF) stopHandsFree()
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        stopHandsFree()
+    }
+
+    // --- AI interaction ---
+
     private suspend fun sendToAi(userText: String, alreadyInHistory: Boolean = false) {
         _uiState.value = _uiState.value.copy(isLoading = true, error = null)
         if (!alreadyInHistory) history.add(ChatMessage("user", userText))
@@ -144,7 +227,15 @@ class ConversationViewModel(
                 messages = _uiState.value.messages + UiMessage(false, learnedText, nativeText),
                 isLoading = false
             )
+
+            if (_uiState.value.handsFreeState == HandsFreeState.SENDING) {
+                speakAndThenListen(learnedText)
+            } else {
+                ttsPlayer.speak(learnedText, state.learnedLanguage)
+            }
         } catch (e: Exception) {
+            val wasHandsFree = _uiState.value.handsFreeState != HandsFreeState.OFF
+            if (wasHandsFree) stopHandsFree()
             _uiState.value = _uiState.value.copy(
                 isLoading = false,
                 error = e.message ?: "Erreur inconnue"
@@ -197,6 +288,7 @@ class ConversationViewModel(
             appendLine("2. After each student response, give a brief correction or encouragement")
             appendLine("3. Always ask a simple question to continue the conversation")
             appendLine("4. End with a short $nativeName translation")
+            appendLine("5. If the student's message seems to contain a speech recognition error (phonetically similar word confusion), interpret the most likely intent before responding.")
             appendLine()
             appendLine("STRICT format — ALWAYS these 3 blocks:")
             appendLine("$learnedFlag [Your message in $learnedName]")

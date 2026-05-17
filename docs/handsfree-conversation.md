@@ -34,6 +34,21 @@ Transitions d'erreur :
 
 ## Modifications requises
 
+### 0. Prérequis — TTS sur les réponses de l'IA
+
+`TtsPlayer` n'est pas encore branché sur l'écran de conversation.
+C'est un prérequis indispensable au mode mains-libres.
+
+Modifications nécessaires :
+- Passer `ttsPlayer` à `ConversationViewModel` (et donc à `AppNavigation`)
+- Appeler `ttsPlayer.speak(learnedText, learnedLanguage)` à la fin de
+  `sendToAi()`, après avoir mis à jour `_uiState`
+- Ajouter un bouton ▶ sur chaque bulle IA pour la lecture manuelle
+
+Sans cette étape, l'état `AI_SPEAKING` de la state machine n'a rien à jouer.
+
+---
+
 ### 1. `TtsPlayer` — callback fin de parole
 
 ```kotlin
@@ -178,6 +193,7 @@ Implémenter dans cet ordre :
 
 | Étape | Fichiers | Complexité |
 |-------|----------|------------|
+| 0. Brancher TTS sur les réponses IA | `ConversationViewModel.kt`, `ConversationScreen.kt`, `AppNavigation.kt` | Faible |
 | 1. Ajouter `onDone` à `TtsPlayer` | `TtsPlayer.kt`, `androidMain/TtsPlayer.kt` | Faible |
 | 2. State machine dans le VM | `ConversationViewModel.kt` | Moyenne |
 | 3. UI toggle + indicateur + fenêtre confirmation (Option C) | `ConversationScreen.kt` | Faible |

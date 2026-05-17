@@ -26,7 +26,8 @@ actual class SpeechRecognizer {
 }
 
 actual class TtsPlayer {
-    actual fun speak(text: String, locale: String) = Unit
+    actual fun speak(text: String, locale: String, onDone: (() -> Unit)?) = Unit
+    actual fun stop() = Unit
     actual fun release() = Unit
 }
 
