@@ -125,10 +125,11 @@ fun ConjugationReviewScreen(
                     append(item.tenseLabel)
                     if (item.pronouns != null) append(" · ${item.pronouns}")
                 }
+                val targetText = if (item.pronouns != null) "${item.pronouns} ${item.expectedForm}" else item.expectedForm
                 ReviewCard(
                     itemKey = item.key,
                     sourceText = sourceText,
-                    targetText = item.expectedForm,
+                    targetText = targetText,
                     targetLocale = "de",
                     currentGrade = currentGrade,
                     onPlayTarget = { ttsPlayer.speak(item.expectedForm, "de") },
