@@ -17,8 +17,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.myapplication.data.AudioPlayer
 import com.example.myapplication.data.LearningRepository
+import com.example.myapplication.data.TtsPlayer
 import com.example.myapplication.data.VocabularyRepository
 import com.example.myapplication.ui.LocalStrings
 
@@ -28,7 +28,7 @@ enum class SentenceTab { ALL, DETAIL }
 fun SentenceScreen(
     repository: VocabularyRepository,
     learningRepository: LearningRepository,
-    audioPlayer: AudioPlayer,
+    ttsPlayer: TtsPlayer,
     storyId: Long,
     onWordClick: (String) -> Unit,
     onBack: () -> Unit,
@@ -64,7 +64,7 @@ fun SentenceScreen(
         when (currentTab) {
             SentenceTab.ALL -> SentenceListScreen(
                 viewModel = viewModel,
-                audioPlayer = audioPlayer,
+                ttsPlayer = ttsPlayer,
                 onWordClick = onWordClick,
                 onBack = onBack,
                 modifier = Modifier.padding(innerPadding)

@@ -46,9 +46,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.myapplication.data.AudioPlayer
 import com.example.myapplication.data.LearningRepository
 import com.example.myapplication.data.SpeechRecognizer
+import com.example.myapplication.data.TtsPlayer
 import com.example.myapplication.data.VocabularyRepository
 import com.example.myapplication.ui.LocalStrings
 import com.example.myapplication.ui.gradeColor
@@ -59,7 +59,7 @@ import com.example.myapplication.ui.localeToFlag
 fun ReviewScreen(
     repository: VocabularyRepository,
     learningRepository: LearningRepository,
-    audioPlayer: AudioPlayer,
+    ttsPlayer: TtsPlayer,
     speechRecognizer: SpeechRecognizer,
     sourceLocale: String,
     targetLocale: String,
@@ -80,8 +80,9 @@ fun ReviewScreen(
     var showDeleteDialog by remember { mutableStateOf(false) }
 
     val scope = rememberCoroutineScope()
-    val reviewPlayer = remember { ReviewPlayer(audioPlayer, scope) }
+    val reviewPlayer = remember { ReviewPlayer(ttsPlayer, scope) }
     val isPlayingAll by reviewPlayer.isPlaying.collectAsState()
+    val repeatCount by reviewPlayer.repeatCount.collectAsState()
 
     DisposableEffect(Unit) {
         onDispose {
@@ -109,6 +110,9 @@ fun ReviewScreen(
                         IconButton(onClick = { showDeleteDialog = true }) {
                             Icon(Icons.Filled.Delete, contentDescription = LocalStrings.current.reviewDelete, tint = MaterialTheme.colorScheme.error)
                         }
+                    }
+                    IconButton(onClick = { reviewPlayer.cycleRepeat() }) {
+                        Text("×$repeatCount", style = MaterialTheme.typography.labelLarge, color = if (repeatCount > 1) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface)
                     }
                     IconButton(onClick = {
                         reviewPlayer.toggle(
@@ -172,8 +176,8 @@ fun ReviewScreen(
                 currentGrade = currentGrade,
                 sourceBlurred = sourceBlurred,
                 forceShowTarget = isPlayingAll,
-                onPlaySource = { audioPlayer.play(sentence.sentenceKey, sourceLocale) },
-                onPlayTarget = { audioPlayer.play(sentence.sentenceKey, targetLocale) },
+                onPlaySource = { ttsPlayer.speak(sentence.getTranslation(sourceLocale), sourceLocale) },
+                onPlayTarget = { ttsPlayer.speak(sentence.getTranslation(targetLocale), targetLocale) },
                 speechRecognizer = speechRecognizer,
                 onGradeSelected = { grade -> viewModel.saveGrade(sentence.sentenceKey, grade) },
                 onNext = { viewModel.moveToNext() },

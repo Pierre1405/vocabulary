@@ -29,19 +29,17 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.unit.dp
-import com.example.myapplication.data.AudioPlayer
+import com.example.myapplication.data.TtsPlayer
 import com.example.myapplication.ui.ClickableWordText
 import com.example.myapplication.ui.LocalStrings
 import com.example.myapplication.ui.SwipeableGradeCard
@@ -51,7 +49,7 @@ import com.example.myapplication.ui.localeToFlag
 @Composable
 fun SentenceListScreen(
     viewModel: SentenceViewModel,
-    audioPlayer: AudioPlayer,
+    ttsPlayer: TtsPlayer,
     onWordClick: (String) -> Unit,
     onBack: () -> Unit,
     modifier: Modifier = Modifier
@@ -62,6 +60,7 @@ fun SentenceListScreen(
     val learnedLanguage by viewModel.learnedLanguage.collectAsState()
     val isPlayingAll by viewModel.isPlayingAll.collectAsState()
     val isLooping by viewModel.isLooping.collectAsState()
+    val repeatCount by viewModel.repeatCount.collectAsState()
     val currentPlayingIndex by viewModel.currentPlayingIndex.collectAsState()
     val grades by viewModel.grades.collectAsState()
 
@@ -72,10 +71,6 @@ fun SentenceListScreen(
 
     LaunchedEffect(currentPlayingIndex) {
         if (currentPlayingIndex >= 0) listState.animateScrollToItem(currentPlayingIndex)
-    }
-
-    DisposableEffect(Unit) {
-        onDispose { audioPlayer.release() }
     }
 
     Scaffold(
@@ -93,12 +88,15 @@ fun SentenceListScreen(
                     }
                 },
                 actions = {
+                    IconButton(onClick = { viewModel.cycleRepeat() }) {
+                        Text("×$repeatCount", style = MaterialTheme.typography.labelLarge, color = if (repeatCount > 1) MaterialTheme.colorScheme.primary else LocalContentColor.current)
+                    }
                     IconButton(onClick = { viewModel.toggleLoop() }) {
                         Icon(imageVector = Icons.Filled.Loop, contentDescription = LocalStrings.current.loop, tint = if (isLooping) MaterialTheme.colorScheme.primary else LocalContentColor.current)
                     }
                     IconButton(onClick = {
-                        if (isPlayingAll) viewModel.stopPlayAll(audioPlayer)
-                        else viewModel.playAll(audioPlayer)
+                        if (isPlayingAll) viewModel.stopPlayAll(ttsPlayer)
+                        else viewModel.playAll(ttsPlayer)
                     }) {
                         Icon(imageVector = if (isPlayingAll) Icons.Filled.Stop else Icons.Filled.PlayArrow, contentDescription = if (isPlayingAll) LocalStrings.current.stop else LocalStrings.current.playAll)
                     }
@@ -124,7 +122,7 @@ fun SentenceListScreen(
                     ) {
                         SentenceCard(
                             sentence = sentence,
-                            audioPlayer = audioPlayer,
+                            ttsPlayer = ttsPlayer,
                             nativeLanguage = nativeLanguage,
                             learnedLanguage = learnedLanguage,
                             showNative = showNative,
@@ -144,7 +142,7 @@ fun SentenceListScreen(
 @Composable
 fun SentenceCard(
     sentence: SentenceWithTranslations,
-    audioPlayer: AudioPlayer,
+    ttsPlayer: TtsPlayer,
     nativeLanguage: String,
     learnedLanguage: String,
     showNative: Boolean,
@@ -173,7 +171,7 @@ fun SentenceCard(
                     Text(text = sentence.getTranslation(learnedLanguage), style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.primary)
                 }
             }
-            IconButton(onClick = { audioPlayer.play(sentence.sentenceKey, learnedLanguage) }) {
+            IconButton(onClick = { ttsPlayer.speak(sentence.getTranslation(learnedLanguage), learnedLanguage) }) {
                 Text(LocalStrings.current.play, color = MaterialTheme.colorScheme.primary, style = MaterialTheme.typography.bodyLarge)
             }
         }

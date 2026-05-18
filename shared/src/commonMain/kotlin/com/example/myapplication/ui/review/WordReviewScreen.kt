@@ -63,6 +63,7 @@ fun WordReviewScreen(
     val scope = rememberCoroutineScope()
     val wordPlayer = remember { WordReviewPlayer(ttsPlayer, scope) }
     val isPlayingAll by wordPlayer.isPlaying.collectAsState()
+    val repeatCount by wordPlayer.repeatCount.collectAsState()
 
     DisposableEffect(Unit) {
         onDispose {
@@ -90,6 +91,9 @@ fun WordReviewScreen(
                         IconButton(onClick = { showDeleteDialog = true }) {
                             Icon(Icons.Filled.Delete, contentDescription = LocalStrings.current.reviewDelete, tint = MaterialTheme.colorScheme.error)
                         }
+                    }
+                    IconButton(onClick = { wordPlayer.cycleRepeat() }) {
+                        Text("×$repeatCount", style = MaterialTheme.typography.labelLarge, color = if (repeatCount > 1) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface)
                     }
                     IconButton(onClick = {
                         wordPlayer.toggle(

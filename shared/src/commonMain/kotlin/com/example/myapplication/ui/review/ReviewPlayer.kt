@@ -1,6 +1,6 @@
 package com.example.myapplication.ui.review
 
-import com.example.myapplication.data.AudioPlayer
+import com.example.myapplication.data.TtsPlayer
 import com.example.myapplication.ui.practice.SentenceWithTranslations
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
@@ -12,13 +12,20 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
 class ReviewPlayer(
-    private val audioPlayer: AudioPlayer,
+    private val ttsPlayer: TtsPlayer,
     private val scope: CoroutineScope
 ) {
     private val _isPlaying = MutableStateFlow(false)
     val isPlaying: StateFlow<Boolean> = _isPlaying
 
+    private val _repeatCount = MutableStateFlow(1)
+    val repeatCount: StateFlow<Int> = _repeatCount
+
     private var job: Job? = null
+
+    fun cycleRepeat() {
+        _repeatCount.value = if (_repeatCount.value >= 3) 1 else _repeatCount.value + 1
+    }
 
     fun toggle(
         sentences: List<SentenceWithTranslations>,
@@ -47,26 +54,26 @@ class ReviewPlayer(
     ) {
         if (sentences.isEmpty()) return
         var index = startIndex
-        while (_isPlaying.value) {
+        outer@ while (_isPlaying.value) {
             val sentence = sentences.getOrNull(index) ?: break
             onIndexChanged(index)
+            for (r in 0 until _repeatCount.value) {
+                suspendCancellableCoroutine { cont ->
+                    ttsPlayer.speak(sentence.getTranslation(sourceLocale), sourceLocale) { cont.resume(Unit) }
+                    cont.invokeOnCancellation { ttsPlayer.stop() }
+                }
+                if (!_isPlaying.value) break@outer
+                delay(5_000)
+                if (!_isPlaying.value) break@outer
 
-            suspendCancellableCoroutine { cont ->
-                audioPlayer.play(sentence.sentenceKey, sourceLocale) { cont.resume(Unit) }
-                cont.invokeOnCancellation { audioPlayer.release() }
+                suspendCancellableCoroutine { cont ->
+                    ttsPlayer.speak(sentence.getTranslation(targetLocale), targetLocale) { cont.resume(Unit) }
+                    cont.invokeOnCancellation { ttsPlayer.stop() }
+                }
+                if (!_isPlaying.value) break@outer
+                delay(3_000)
+                if (!_isPlaying.value) break@outer
             }
-            if (!_isPlaying.value) break
-            delay(5_000)
-            if (!_isPlaying.value) break
-
-            suspendCancellableCoroutine { cont ->
-                audioPlayer.play(sentence.sentenceKey, targetLocale) { cont.resume(Unit) }
-                cont.invokeOnCancellation { audioPlayer.release() }
-            }
-            if (!_isPlaying.value) break
-            delay(3_000)
-            if (!_isPlaying.value) break
-
             index = (index + 1) % sentences.size
         }
     }
@@ -74,7 +81,7 @@ class ReviewPlayer(
     fun stop() {
         job?.cancel()
         _isPlaying.value = false
-        audioPlayer.release()
+        ttsPlayer.stop()
     }
 
     fun release() {

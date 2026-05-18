@@ -15,7 +15,14 @@ class WordReviewPlayer(
     private val _isPlaying = MutableStateFlow(false)
     val isPlaying: StateFlow<Boolean> = _isPlaying
 
+    private val _repeatCount = MutableStateFlow(1)
+    val repeatCount: StateFlow<Int> = _repeatCount
+
     private var job: Job? = null
+
+    fun cycleRepeat() {
+        _repeatCount.value = if (_repeatCount.value >= 3) 1 else _repeatCount.value + 1
+    }
 
     fun toggle(
         items: List<WordReviewItem>,
@@ -42,7 +49,7 @@ class WordReviewPlayer(
     ) {
         if (items.isEmpty()) return
         var index = startIndex
-        while (_isPlaying.value) {
+        outer@ while (_isPlaying.value) {
             val item = items.getOrNull(index) ?: break
             onIndexChanged(index)
             val reversed = sourceLocale != item.wordLocale
@@ -51,14 +58,14 @@ class WordReviewPlayer(
             val tgtText = if (reversed) item.lemmaWithArticle else item.translationWithArticle
             val tgtLocale = if (reversed) item.wordLocale else item.translationLocale
 
-            ttsPlayer.speak(srcText, srcLocale)
-            delay(3_000)
-            if (!_isPlaying.value) break
-
-            ttsPlayer.speak(tgtText, tgtLocale)
-            delay(3_000)
-            if (!_isPlaying.value) break
-
+            for (r in 0 until _repeatCount.value) {
+                ttsPlayer.speak(srcText, srcLocale)
+                delay(3_000)
+                if (!_isPlaying.value) break@outer
+                ttsPlayer.speak(tgtText, tgtLocale)
+                delay(3_000)
+                if (!_isPlaying.value) break@outer
+            }
             index = (index + 1) % items.size
         }
     }

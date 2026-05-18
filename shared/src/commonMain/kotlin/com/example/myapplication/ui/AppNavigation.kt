@@ -11,7 +11,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.myapplication.data.AiService
-import com.example.myapplication.data.AudioPlayer
 import com.example.myapplication.data.TtsPlayer
 import com.example.myapplication.data.ConversationStore
 import com.example.myapplication.data.DictionaryRepository
@@ -74,7 +73,6 @@ fun AppNavigation(
     repository: VocabularyRepository,
     learningRepository: LearningRepository,
     dictionaryRepository: DictionaryRepository,
-    audioPlayer: AudioPlayer,
     ttsPlayer: TtsPlayer,
     speechRecognizer: SpeechRecognizer,
     aiService: AiService,
@@ -192,7 +190,7 @@ fun AppNavigation(
             SentenceScreen(
                 repository = repository,
                 learningRepository = learningRepository,
-                audioPlayer = audioPlayer,
+                ttsPlayer = ttsPlayer,
                 storyId = route.storyId,
                 onWordClick = { word -> navController.navigate(DictionaryRoute(word)) },
                 onBack = { navController.popBackStack() }
@@ -203,7 +201,7 @@ fun AppNavigation(
             ReviewScreen(
                 repository = repository,
                 learningRepository = learningRepository,
-                audioPlayer = audioPlayer,
+                ttsPlayer = ttsPlayer,
                 speechRecognizer = speechRecognizer,
                 sourceLocale = route.sourceLocale,
                 targetLocale = route.targetLocale,
