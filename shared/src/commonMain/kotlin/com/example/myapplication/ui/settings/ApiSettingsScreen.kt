@@ -81,6 +81,19 @@ fun ApiSettingsScreen(
             }
 
             Spacer(Modifier.height(4.dp))
+            Text(LocalStrings.current.settingsLevel, style = MaterialTheme.typography.titleMedium)
+
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                CONVERSATION_LEVELS.forEach { level ->
+                    FilterChip(
+                        selected = state.level == level,
+                        onClick = { vm.setLevel(level) },
+                        label = { Text(level) }
+                    )
+                }
+            }
+
+            Spacer(Modifier.height(4.dp))
             Text(LocalStrings.current.settingsApiKey, style = MaterialTheme.typography.titleMedium)
 
             OutlinedTextField(

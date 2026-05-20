@@ -82,6 +82,7 @@ interface Strings {
     // Settings
     val settingsTitle: String
     val settingsProvider: String
+    val settingsLevel: String
     val settingsApiKey: String
     val settingsSave: String
 }
@@ -158,6 +159,7 @@ object StringsFr : Strings {
 
     override val settingsTitle    = "Paramètres IA"
     override val settingsProvider = "Fournisseur"
+    override val settingsLevel    = "Niveau"
     override val settingsApiKey   = "Clé API"
     override val settingsSave     = "Enregistrer"
 }
@@ -234,6 +236,7 @@ object StringsEn : Strings {
 
     override val settingsTitle    = "AI Settings"
     override val settingsProvider = "Provider"
+    override val settingsLevel    = "Level"
     override val settingsApiKey   = "API Key"
     override val settingsSave     = "Save"
 }

@@ -27,6 +27,12 @@ class ConversationStoreImpl(context: Context) : ConversationStore {
             .apply()
     }
 
+    override fun getLevel(): String = prefs.getString("conversation_level", "A1") ?: "A1"
+
+    override fun saveLevel(level: String) {
+        prefs.edit().putString("conversation_level", level).apply()
+    }
+
     override fun getProgress(): ConversationProgress {
         val raw = prefs.getString("progress", null) ?: return ConversationProgress()
         return runCatching { json.decodeFromString<ConversationProgress>(raw) }

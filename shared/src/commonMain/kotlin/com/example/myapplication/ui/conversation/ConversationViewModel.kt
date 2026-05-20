@@ -62,6 +62,7 @@ class ConversationViewModel(
     private var weakWords: List<Pair<String, String>> = emptyList()
     private var activeTenses: List<String> = emptyList()
     private var inactivityJob: Job? = null
+    private var conversationLevel: String = "A1"
 
     init {
         viewModelScope.launch {
@@ -72,6 +73,7 @@ class ConversationViewModel(
                 vocabularyRepository.getConfiguration("learned_language") ?: "de"
             }
             progress = withContext(Dispatchers.Default) { conversationStore.getProgress() }
+            conversationLevel = withContext(Dispatchers.Default) { conversationStore.getLevel() }
             loadLearningContext(learnedLang, nativeLang)
             _uiState.value = ConversationUiState(
                 learnedLanguage = learnedLang,
@@ -102,6 +104,7 @@ class ConversationViewModel(
     }
 
     fun refreshApiKey() {
+        conversationLevel = conversationStore.getLevel()
         _uiState.value = _uiState.value.copy(hasApiKey = conversationStore.hasApiKey())
     }
 
@@ -281,14 +284,16 @@ class ConversationViewModel(
         val learnedFlag = localeToFlag(learnedLang)
         val nativeFlag = localeToFlag(nativeLang)
         return buildString {
-            appendLine("You are a friendly A1-level $learnedName teacher. The student's native language is $nativeName.")
+            appendLine("You are a friendly $conversationLevel-level $learnedName teacher. The student's native language is $nativeName.")
+            appendLine("You can imagine a personal background story that you will reuse to make deeper conversation and bring personal point.")
             appendLine()
             appendLine("Rules:")
-            appendLine("1. Use only simple A1 $learnedName (short sentences, common words)")
-            appendLine("2. After each student response, give a brief correction or encouragement")
-            appendLine("3. Always ask a simple question to continue the conversation")
-            appendLine("4. End with a short $nativeName translation")
-            appendLine("5. If the student's message seems to contain a speech recognition error (phonetically similar word confusion), interpret the most likely intent before responding.")
+            appendLine("1. Use only $conversationLevel-level $learnedName (vocabulary and grammar appropriate for $conversationLevel)")
+            appendLine("2. After each student response, give a brief correction if necessary")
+            appendLine("4. Try to reuse what the student say to tell a personal story or point of view. The idea is to train the student understanding skills.")
+            appendLine("3. Always ask a simple question at the end of answers to continue the conversation")
+            appendLine("5. End with a short $nativeName translation")
+            appendLine("6. If the student's message seems to contain a speech recognition error (phonetically similar word confusion), interpret the most likely intent before responding.")
             appendLine()
             appendLine("STRICT format — ALWAYS these 3 blocks:")
             appendLine("$learnedFlag [Your message in $learnedName]")
