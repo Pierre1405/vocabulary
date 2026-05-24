@@ -262,9 +262,9 @@ class LearningRepository(driver: SqlDriver) {
 
     private fun computeNextIntervalHours(currentHours: Int, grade: Int): Int = when (grade) {
         1 -> 0
-        2 -> 0
-        3 -> if (currentHours > 0) (currentHours * 1.5).roundToInt() else 24
-        4 -> if (currentHours > 0) (currentHours * 2.0).roundToInt() else 24
-        else -> if (currentHours > 0) (currentHours * 2.5).roundToInt() else 24
+        2 -> 1
+        3 -> if (currentHours >= 24) (currentHours * 1.5).roundToInt() else 24
+        4 -> if (currentHours >= 24) (currentHours * 2.0).roundToInt() else 24
+        else -> if (currentHours >= 24) (currentHours * 2.5).roundToInt() else 24
     }
 }
