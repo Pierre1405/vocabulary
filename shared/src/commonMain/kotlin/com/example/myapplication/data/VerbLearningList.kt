@@ -12,7 +12,7 @@ package com.example.myapplication.data
 //
 // VerbEntry          — (infinitif, phase, catégorie)
 //
-// GERMAN_VERB_LEARNING_LIST — 93 verbes, 19 phases :
+// GERMAN_VERB_LEARNING_LIST — 96 verbes, 19 phases :
 //   1  – Réguliers — patron de base
 //   2  – Auxiliaires (sein, haben, werden)
 //   3  – Modaux (können, müssen, dürfen, sollen, wollen, mögen)
@@ -92,6 +92,9 @@ val GERMAN_VERB_LEARNING_LIST: List<VerbEntry> = listOf(
     VerbEntry("können",  3, VerbCategory.MODAL),
     VerbEntry("müssen",  3, VerbCategory.MODAL),
     VerbEntry("dürfen",  3, VerbCategory.MODAL),
+    VerbEntry("sollen",  3, VerbCategory.MODAL),
+    VerbEntry("wollen",  3, VerbCategory.MODAL),
+    VerbEntry("mögen",   3, VerbCategory.MODAL),
 
     // ── Phase 4 : Réguliers — insertion -e- ──────────────────────────────────
     VerbEntry("arbeiten", 4, VerbCategory.REGULAR_E_INSERT),
